@@ -18,7 +18,29 @@ class HomeDeliveryView: UIView {
     
     private lazy var headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var headerIcon: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "AddressIcon")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    private lazy var headerTitleAddressLabel: UILabel = {
+        let view = UILabel()
+        view.font = Typography.label2Xs
+        view.textColor = Color.gray200
+        view.text = "home.header.addressTitle".localized
+        return view
+    }()
+    
+    private lazy var headerAddressLabel: UILabel = {
+        let view = UILabel()
+        view.font = Typography.bodySm
+        view.textColor = Color.gray200
+        view.text = "Av. das Estrelas, 567 - Canela, RS"
         return view
     }()
     
@@ -42,12 +64,34 @@ extension HomeDeliveryView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(headerView)
         addSubview(backgroundView)
+        headerView.addSubview(headerIcon)
+        headerView.addSubview(headerTitleAddressLabel)
+        headerView.addSubview(headerAddressLabel)
     }
     
     func setViewConstraints() {
         headerView.snp.makeConstraints { make in
             make.height.equalTo(Constants.headerHeight)
-            make.top.leading.trailing.equalToSuperview().inset(Constants.margin)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Metrics.medium)
+            make.leading.trailing.equalToSuperview().inset(Constants.margin)
+        }
+        
+        headerIcon.snp.makeConstraints { make in
+            make.size.equalTo(36)
+            make.centerY.equalTo(headerView.snp.centerY)
+            make.leading.equalToSuperview()
+        }
+        
+        headerTitleAddressLabel.snp.makeConstraints { make in
+            make.top.equalTo(headerIcon.snp.top).offset(Metrics.little)
+            make.leading.equalTo(headerIcon.snp.trailing).offset(12)
+            make.trailing.equalToSuperview()
+        }
+        
+        headerAddressLabel.snp.makeConstraints { make in
+            make.leading.equalTo(headerIcon.snp.trailing).offset(12)
+            make.top.equalTo(headerTitleAddressLabel.snp.bottom).offset(Metrics.nano)
+            make.trailing.equalToSuperview()
         }
         
         backgroundView.snp.makeConstraints { make in
