@@ -12,6 +12,11 @@ struct Constants {
     static let headerHeight = 36.0
     static let cornerRadius = 20.0
     static let margin = 20.0
+    static let addressIcon = "AddressIcon"
+    static let addressTitle = "home.header.addressTitle"
+    static let userAddressKey = "userAddress"
+    static let iconSize = 36.0
+    static let marginSize = 12.0
 }
 
 class HomeDeliveryView: UIView {
@@ -23,7 +28,7 @@ class HomeDeliveryView: UIView {
     
     private lazy var headerIcon: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "AddressIcon")
+        view.image = UIImage(named: Constants.addressIcon)
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -32,7 +37,7 @@ class HomeDeliveryView: UIView {
         let view = UILabel()
         view.font = Typography.label2Xs
         view.textColor = Color.gray200
-        view.text = "home.header.addressTitle".localized
+        view.text = Constants.addressTitle.localized
         return view
     }()
     
@@ -40,7 +45,7 @@ class HomeDeliveryView: UIView {
         let view = UILabel()
         view.font = Typography.bodySm
         view.textColor = Color.gray200
-        view.text = "Av. das Estrelas, 567 - Canela, RS"
+        view.text = StorageManager.shared.get(forKey: Constants.userAddressKey)
         return view
     }()
     
@@ -77,19 +82,19 @@ extension HomeDeliveryView: ViewCodeProtocol {
         }
         
         headerIcon.snp.makeConstraints { make in
-            make.size.equalTo(36)
+            make.size.equalTo(Constants.iconSize)
             make.centerY.equalTo(headerView.snp.centerY)
             make.leading.equalToSuperview()
         }
         
         headerTitleAddressLabel.snp.makeConstraints { make in
             make.top.equalTo(headerIcon.snp.top).offset(Metrics.little)
-            make.leading.equalTo(headerIcon.snp.trailing).offset(12)
+            make.leading.equalTo(headerIcon.snp.trailing).offset(Constants.marginSize)
             make.trailing.equalToSuperview()
         }
         
         headerAddressLabel.snp.makeConstraints { make in
-            make.leading.equalTo(headerIcon.snp.trailing).offset(12)
+            make.leading.equalTo(headerIcon.snp.trailing).offset(Constants.marginSize)
             make.top.equalTo(headerTitleAddressLabel.snp.bottom).offset(Metrics.nano)
             make.trailing.equalToSuperview()
         }
