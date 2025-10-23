@@ -49,9 +49,27 @@ class HomeDeliveryView: UIView {
         return view
     }()
     
-    private lazy var backgroundView: UIView = {
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.backgroundColor = Color.gray100
+        return view
+    }()
+    
+    private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = Color.gray100
+        return view
+    }()
+    
+    private lazy var listView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blue
+        return view
+    }()
+    
+    private lazy var mapView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .orange
         return view
     }()
     
@@ -68,7 +86,10 @@ class HomeDeliveryView: UIView {
 extension HomeDeliveryView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(headerView)
-        addSubview(backgroundView)
+        addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(listView)
+        contentView.addSubview(mapView)
         headerView.addSubview(headerIcon)
         headerView.addSubview(headerTitleAddressLabel)
         headerView.addSubview(headerAddressLabel)
@@ -99,16 +120,31 @@ extension HomeDeliveryView: ViewCodeProtocol {
             make.trailing.equalToSuperview()
         }
         
-        backgroundView.snp.makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.height.equalToSuperview()
+        }
+        
+        listView.snp.makeConstraints { make in
+            make.top.leading.bottom.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        mapView.snp.makeConstraints { make in
+            make.leading.equalTo(listView.snp.trailing)
+            make.top.bottom.trailing.equalToSuperview()
+            make.width.equalTo(scrollView)
         }
     }
     
     func setViewConfigs() {
         backgroundColor = Color.redDark
-        backgroundView.layer.cornerRadius = Constants.cornerRadius
-        backgroundView.layer.masksToBounds = true
-        backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        scrollView.layer.cornerRadius = Constants.cornerRadius
+        scrollView.layer.masksToBounds = true
+        scrollView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 }
