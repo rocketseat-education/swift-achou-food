@@ -61,6 +61,31 @@ class HomeDeliveryView: UIView {
         return view
     }()
     
+    private lazy var searchTextField: UITextField = {
+        let view = UITextField()
+        view.placeholder = "Busque por restaurantes"
+        view.font = Typography.bodyMd
+        view.textColor = Color.gray400
+        view.backgroundColor = Color.grayTransparent20p
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.white.cgColor
+        
+        let icon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        icon.tintColor = Color.gray400
+        icon.contentMode = .scaleAspectFit
+        
+        let iconContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        iconContainer.addSubview(icon)
+        icon.frame = CGRect(x: 12, y: 0, width: 20, height: 20)
+        
+        view.leftView = iconContainer
+        view.leftViewMode = .always
+        view.clearButtonMode = .whileEditing
+        view.delegate = self
+        
+        return view
+    }()
+    
     private lazy var listView: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
@@ -87,6 +112,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(headerView)
         addSubview(scrollView)
+        addSubview(searchTextField)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
         contentView.addSubview(mapView)
@@ -146,5 +172,19 @@ extension HomeDeliveryView: ViewCodeProtocol {
         scrollView.layer.cornerRadius = Constants.cornerRadius
         scrollView.layer.masksToBounds = true
         scrollView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    }
+}
+
+extension HomeDeliveryView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersInRanges ranges: [NSValue], replacementString string: String) -> Bool {
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
     }
 }

@@ -20,4 +20,8 @@ struct Color {
     static let gray400: UIColor = UIColor(red: 92 / 255, green: 101 / 255, blue: 102 / 255, alpha: 1.0)
     static let gray500: UIColor = UIColor(red: 66 / 255, green: 58 / 255, blue: 58 / 255, alpha: 1.0)
     static let gray600: UIColor = UIColor(red: 31 / 255, green: 24 / 255, blue: 24 / 255, alpha: 1.0)
+    
+    static let grayTransparent20p: UIColor = UIColor(red: 219 / 255, green: 219 / 255, blue: 219 / 255, alpha: 0.2)
+    static let grayTransparent40p: UIColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 0.4)
+    static let grayTransparent80p: UIColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 0.8)
 }
