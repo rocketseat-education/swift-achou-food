@@ -14,6 +14,7 @@ class ListPlacesView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 80
+        tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
     
