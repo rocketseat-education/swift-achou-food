@@ -40,6 +40,20 @@ class HomeDeliveryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        loadPlaces()
+    }
+}
+
+extension HomeDeliveryViewController {
+    func loadPlaces() {
+        viewModel.fetchPlaces { [weak self] result in
+            switch result {
+            case .success(let places):
+                self?.homeView.setup(with: places)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
