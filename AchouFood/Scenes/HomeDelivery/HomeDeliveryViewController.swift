@@ -6,23 +6,25 @@
 //
 
 import UIKit
+import SnapKit
 
 class HomeDeliveryViewController: UIViewController {
     
-    private var homeDeliveryView: HomeDeliveryView?
+    private var homeView: HomeDeliveryView
+    private var viewModel: HomeDeliveryViewModel
+    private var coordinator: DeliveryScenesCoordinator
     
-    override func loadView() {
-        self.homeDeliveryView = HomeDeliveryView()
-        self.view = self.homeDeliveryView
-        let service = HomeDeliveryServiceMock()
-        service.fetchPlaces { result in
-            switch (result) {
-            case let .success(places):
-                print(places)
-            case let .failure(error):
-                print(error)
-            }
-        }
+    public init(viewModel: HomeDeliveryViewModel,
+                homeView: HomeDeliveryView,
+                coordinator: DeliveryScenesCoordinator) {
+        self.viewModel = viewModel
+        self.homeView = homeView
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,5 +39,22 @@ class HomeDeliveryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        buildLayout()
+    }
+}
+
+extension HomeDeliveryViewController: ViewCodeProtocol {
+    func setViewHierarchy() {
+        self.view.addSubview(homeView)
+    }
+    
+    func setViewConstraints() {
+        homeView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func setViewConfigs() {
+        self.view.backgroundColor = Color.redDark
     }
 }

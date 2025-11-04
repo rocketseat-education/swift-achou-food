@@ -7,11 +7,12 @@
 
 import UIKit
 
-class DeliveryScenesCoordinator {
+public class DeliveryScenesCoordinator {
     private var navigationController: UINavigationController?
     
     func start() -> UINavigationController? {
-        self.navigationController = UINavigationController(rootViewController: HomeDeliveryViewController())
+        let homeDeliveryViewController = HomeDeliveryFactory.make(coordinator: self)
+        self.navigationController = homeDeliveryViewController
         
         return self.navigationController
     }
