@@ -67,7 +67,7 @@ class HomeDeliveryView: UIView {
         view.font = Typography.bodyMd
         view.textColor = Color.gray400
         view.backgroundColor = Color.grayTransparent20p
-        view.layer.borderWidth = 1.5
+        view.layer.borderWidth = 2.0
         view.layer.borderColor = UIColor.white.cgColor
         
         let icon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
@@ -86,15 +86,30 @@ class HomeDeliveryView: UIView {
         return view
     }()
     
+    private lazy var toggleView: UISegmentedControl = {
+        let listImage = UIImage(named: "listIcon")
+        let mapImage = UIImage(named: "mapIcon")
+        
+       let view = UISegmentedControl(items: [listImage as Any, mapImage as Any])
+        view.selectedSegmentIndex = .zero
+        view.backgroundColor = Color.redDark
+        view.selectedSegmentTintColor = Color.gray100
+        view.tintColor = Color.gray100
+        view.layer.borderWidth = 2.0
+        view.layer.borderColor = UIColor.white.cgColor
+        view.addTarget(self, action: #selector(handleToggle), for: .valueChanged)
+        return view
+    }()
+    
     private lazy var listView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
+        view.backgroundColor = Color.gray100
         return view
     }()
     
     private lazy var mapView: UIView = {
         let view = UIView()
-        view.backgroundColor = .orange
+        view.backgroundColor = Color.gray300
         return view
     }()
     
@@ -106,6 +121,18 @@ class HomeDeliveryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        searchTextField.layer.cornerRadius = searchTextField.bounds.height / 2
+        toggleView.layer.cornerRadius = toggleView.bounds.height / 2
+        toggleView.layer.masksToBounds = true
+    }
+    
+    @objc
+    func handleToggle() {
+        
+    }
 }
 
 extension HomeDeliveryView: ViewCodeProtocol {
@@ -113,6 +140,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
         addSubview(headerView)
         addSubview(scrollView)
         addSubview(searchTextField)
+        addSubview(toggleView)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
         contentView.addSubview(mapView)
@@ -125,12 +153,12 @@ extension HomeDeliveryView: ViewCodeProtocol {
         headerView.snp.makeConstraints { make in
             make.height.equalTo(Constants.headerHeight)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Metrics.medium)
-            make.leading.trailing.equalToSuperview().inset(Constants.margin)
+            make.leading.trailing.equalToSuperview().inset(Metrics.medium)
         }
         
         headerIcon.snp.makeConstraints { make in
             make.size.equalTo(Constants.iconSize)
-            make.centerY.equalTo(headerView.snp.centerY)
+            make.centerY.equalTo(headerView)
             make.leading.equalToSuperview()
         }
         
@@ -153,6 +181,19 @@ extension HomeDeliveryView: ViewCodeProtocol {
         
         contentView.snp.makeConstraints { make in
             make.edges.height.equalToSuperview()
+        }
+        
+        toggleView.snp.makeConstraints { make in
+            make.top.equalTo(scrollView.snp.top).offset(Metrics.medium)
+            make.trailing.equalTo(scrollView.snp.trailing).offset(-Metrics.medium)
+            make.height.equalTo(40)
+        }
+        
+        searchTextField.snp.makeConstraints { make in
+            make.top.equalTo(scrollView.snp.top).offset(Metrics.medium)
+            make.leading.equalTo(scrollView.snp.leading).offset(Metrics.medium)
+            make.trailing.equalTo(toggleView.snp.leading).offset(-Metrics.tiny)
+            make.height.equalTo(40)
         }
         
         listView.snp.makeConstraints { make in
