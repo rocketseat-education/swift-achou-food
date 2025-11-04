@@ -9,6 +9,14 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+struct CellConstants {
+    static let iconSize = 48.0
+    static let topMarginPlaceName = 19.5
+    static let topMarginAddress = 2.0
+    static let leftMargin = 14.0
+    static let cellMargin = 20.0
+}
+
 class PlaceCell: UITableViewCell {
     
     static let reuseIdentifier: String = "PlaceCell"
@@ -17,6 +25,10 @@ class PlaceCell: UITableViewCell {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 10.0
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = Color.gray200.cgColor
         view.tintColor = Color.gray100
         return view
     }()
@@ -66,11 +78,33 @@ extension PlaceCell {
 
 extension PlaceCell: ViewCodeProtocol {
     func setViewHierarchy() {
+        contentView.addSubview(placeImageView)
+        contentView.addSubview(placeNameLabel)
+        contentView.addSubview(addressLabel)
     }
     
     func setViewConstraints() {
+        placeImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(CellConstants.cellMargin)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CellConstants.iconSize)
+        }
+        
+        placeNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(CellConstants.topMarginPlaceName)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(CellConstants.leftMargin)
+            make.trailing.equalToSuperview().offset(-CellConstants.cellMargin)
+        }
+        
+        addressLabel.snp.makeConstraints { make in
+            make.top.equalTo(placeNameLabel.snp.bottom).offset(CellConstants.topMarginAddress)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(CellConstants.leftMargin)
+            make.trailing.equalToSuperview().offset(-CellConstants.cellMargin)
+        }
     }
     
     func setViewConfigs() {
+        backgroundColor = Color.gray100
+        selectionStyle = .none
     }
 }
