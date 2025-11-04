@@ -13,9 +13,18 @@ class ListPlacesView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.reuseIdentifier)
         tableView.rowHeight = 80
         tableView.showsVerticalScrollIndicator = false
         return tableView
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.font = Typography.labelXs
+        view.textColor = Color.redDark
+        view.text = "RESTAURANTES PERTO DE VOCÊ"
+        return view
     }()
     
     public init() {
@@ -30,12 +39,19 @@ class ListPlacesView: UIView {
 
 extension ListPlacesView: ViewCodeProtocol {
     func setViewHierarchy() {
+        addSubview(titleLabel)
         addSubview(tableView)
     }
     
     func setViewConstraints() {
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview().offset(20.0)
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(titleLabel.snp.bottom).offset(4.0)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -59,7 +75,9 @@ extension ListPlacesView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.reuseIdentifier, for: indexPath) as! PlaceCell
+        cell.setup(allPlaces[indexPath.row])
+        return cell
     }
 }
 

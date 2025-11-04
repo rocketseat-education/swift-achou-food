@@ -227,7 +227,8 @@ extension HomeDeliveryView: ViewCodeProtocol {
         }
         
         listView.snp.makeConstraints { make in
-            make.top.leading.bottom.equalToSuperview()
+            make.top.equalTo(searchTextField.snp.bottom).offset(32.0)
+            make.leading.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
         

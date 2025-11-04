@@ -44,7 +44,7 @@ class PlaceCell: UITableViewCell {
     private lazy var addressLabel: UILabel = {
         let view = UILabel()
         view.font = Typography.bodyXs
-        view.textColor = .black
+        view.textColor = Color.gray400
         view.numberOfLines = 1
         return view
     }()
