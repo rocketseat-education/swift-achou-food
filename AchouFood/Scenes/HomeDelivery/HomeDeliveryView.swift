@@ -8,18 +8,30 @@
 import UIKit
 import SnapKit
 
+enum DisplayStyle: Int {
+    case list = 0
+    case map = 1
+}
+
 struct Constants {
     static let headerHeight = 36.0
     static let cornerRadius = 20.0
     static let margin = 20.0
     static let addressIcon = "AddressIcon"
     static let addressTitle = "home.header.addressTitle"
+    static let findPlacesKey = "home.find.places"
     static let userAddressKey = "userAddress"
+    static let searchIcon = "magnifyingglass"
+    static let listIconName = "listIcon"
+    static let mapIconName = "mapIcon"
     static let iconSize = 36.0
     static let marginSize = 12.0
+    static let borderWidth = 2.0
 }
 
 class HomeDeliveryView: UIView {
+    
+    private var selectViewMode: DisplayStyle = .list
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -63,14 +75,14 @@ class HomeDeliveryView: UIView {
     
     private lazy var searchTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = "Busque por restaurantes"
+        view.placeholder = Constants.findPlacesKey.localized
         view.font = Typography.bodyMd
         view.textColor = Color.gray400
         view.backgroundColor = Color.grayTransparent20p
-        view.layer.borderWidth = 2.0
+        view.layer.borderWidth = Constants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         
-        let icon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        let icon = UIImageView(image: UIImage(systemName: Constants.searchIcon))
         icon.tintColor = Color.gray400
         icon.contentMode = .scaleAspectFit
         
@@ -87,15 +99,15 @@ class HomeDeliveryView: UIView {
     }()
     
     private lazy var toggleView: UISegmentedControl = {
-        let listImage = UIImage(named: "listIcon")
-        let mapImage = UIImage(named: "mapIcon")
+        let listImage = UIImage(named: Constants.listIconName)
+        let mapImage = UIImage(named: Constants.mapIconName)
         
        let view = UISegmentedControl(items: [listImage as Any, mapImage as Any])
         view.selectedSegmentIndex = .zero
         view.backgroundColor = Color.redDark
         view.selectedSegmentTintColor = Color.gray100
         view.tintColor = Color.gray100
-        view.layer.borderWidth = 2.0
+        view.layer.borderWidth = Constants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         view.addTarget(self, action: #selector(handleToggle), for: .valueChanged)
         return view
@@ -131,7 +143,10 @@ class HomeDeliveryView: UIView {
     
     @objc
     func handleToggle() {
-        
+        let pageIndex = toggleView.selectedSegmentIndex
+        selectViewMode = pageIndex == 0 ? .list : .map
+        let offsetX = CGFloat(pageIndex) * scrollView.bounds.width
+        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
     }
 }
 
@@ -210,6 +225,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
     
     func setViewConfigs() {
         backgroundColor = Color.redDark
+        scrollView.isUserInteractionEnabled = false
         scrollView.layer.cornerRadius = Constants.cornerRadius
         scrollView.layer.masksToBounds = true
         scrollView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
