@@ -14,6 +14,15 @@ class HomeDeliveryViewController: UIViewController {
     override func loadView() {
         self.homeDeliveryView = HomeDeliveryView()
         self.view = self.homeDeliveryView
+        let service = HomeDeliveryServiceMock()
+        service.fetchPlaces { result in
+            switch (result) {
+            case let .success(places):
+                print(places)
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

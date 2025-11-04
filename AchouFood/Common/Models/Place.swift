@@ -8,14 +8,14 @@
 import Foundation
 
 public struct Place: Decodable {
-    let restaurantId: Int
+    let restaurantID: Int
     let restaurantName: String
     let address: String
     let type: String
     let parkingLot: Bool
     let latitude: Double
     let longitude: Double
-    let imgUrl: String
+    let imageUrl: String
     let description: String
     let menu: [MenuCategory]?
 }
@@ -28,5 +28,5 @@ struct MenuCategory: Decodable {
 struct MenuItem: Decodable {
     let name: String
     let price: Double
-    let imgUrl: String
+    let imageUrl: String
 }
