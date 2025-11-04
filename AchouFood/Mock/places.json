@@ -1,0 +1,1365 @@
+[
+  {
+    "restaurantID": 1,
+    "restaurantName": "Cantinho da Serra",
+    "address": "Av. das Estrelas, 550 - Canela/RS",
+    "type": "Comida Caseira",
+    "parkingLot": true,
+    "latitude": -29.3613,
+    "longitude": -50.8121,
+    "imageUrl": "https://picsum.photos/seed/rest1/400/300",
+    "description": "Servimos pratos caseiros preparados com temperos regionais e ingredientes frescos. Ideal para quem busca o sabor da comida feita em casa.",
+    "menu": [
+      {
+        "category": "Pratos do Dia",
+        "items": [
+          {
+            "name": "Bife acebolado com arroz e feijão",
+            "price": 28.9,
+            "imageUrl": "https://picsum.photos/seed/rest1-prato1/400/300"
+          },
+          {
+            "name": "Frango grelhado com legumes",
+            "price": 27.5,
+            "imageUrl": "https://picsum.photos/seed/rest1-prato2/400/300"
+          },
+          {
+            "name": "Panela de carne com mandioca",
+            "price": 32.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Acompanhamentos",
+        "items": [
+          {
+            "name": "Farofa de manteiga",
+            "price": 8.5,
+            "imageUrl": "https://picsum.photos/seed/rest1-acomp1/400/300"
+          },
+          {
+            "name": "Salada mista",
+            "price": 10.9,
+            "imageUrl": "https://picsum.photos/seed/rest1-acomp2/400/300"
+          },
+          {
+            "name": "Batata soutê",
+            "price": 9.9,
+            "imageUrl": "https://picsum.photos/seed/rest1-acomp3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Suco natural de laranja",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-beb2/400/300"
+          },
+          {
+            "name": "Água mineral sem gás",
+            "price": 5.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-beb3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Pudim de leite",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-sob1/400/300"
+          },
+          {
+            "name": "Doce de abóbora com coco",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest1-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 2,
+    "restaurantName": "Estação do Churrasco",
+    "address": "Rua Borges de Medeiros, 45 - Canela/RS",
+    "type": "Churrascaria",
+    "parkingLot": true,
+    "latitude": -29.3616,
+    "longitude": -50.8124,
+    "imageUrl": "https://picsum.photos/seed/rest2/400/300",
+    "description": "Churrascaria tradicional com carnes nobres assadas na brasa e acompanhamentos típicos gaúchos em ambiente acolhedor.",
+    "menu": [
+      {
+        "category": "Pratos Salgados",
+        "items": [
+          {
+            "name": "Picanha na brasa (300g)",
+            "price": 69.9,
+            "imageUrl": "https://picsum.photos/seed/rest2-sal1/400/300"
+          },
+          {
+            "name": "Costela bovina fogo de chão (porção)",
+            "price": 64.9,
+            "imageUrl": "https://picsum.photos/seed/rest2-sal2/400/300"
+          },
+          {
+            "name": "Fraldinha grelhada (300g)",
+            "price": 58.9,
+            "imageUrl": "https://picsum.photos/seed/rest2-sal3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas com Álcool",
+        "items": [
+          {
+            "name": "Chope pilsen 350ml",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-alc1/400/300"
+          },
+          {
+            "name": "Vinho tinto da casa (taça)",
+            "price": 22.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-alc2/400/300"
+          },
+          {
+            "name": "Caipirinha de limão",
+            "price": 21.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-alc3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas sem Álcool",
+        "items": [
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-semalc1/400/300"
+          },
+          {
+            "name": "Suco de uva integral 300ml",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-semalc2/400/300"
+          },
+          {
+            "name": "Água com gás 500ml",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-semalc3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Quindim",
+            "price": 11.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-sob1/400/300"
+          },
+          {
+            "name": "Mousse de maracujá",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-sob2/400/300"
+          },
+          {
+            "name": "Abacaxi caramelizado",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest2-sob3/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 3,
+    "restaurantName": "Sabor da Colônia",
+    "address": "Rua Felisberto Soares, 210 - Canela/RS",
+    "type": "Culinária Alemã",
+    "parkingLot": false,
+    "latitude": -29.3609,
+    "longitude": -50.8118,
+    "imageUrl": "https://picsum.photos/seed/rest3/400/300",
+    "description": "Pratos inspirados na culinária alemã, com receitas tradicionais, salsichas artesanais e sobremesas típicas da região.",
+    "menu": [
+      {
+        "category": "Pratos Principais",
+        "items": [
+          {
+            "name": "Eisbein com chucrute",
+            "price": 55.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-prato1/400/300"
+          },
+          {
+            "name": "Salsichão alemão com batatas",
+            "price": 42.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-prato2/400/300"
+          },
+          {
+            "name": "Schnitzel de porco",
+            "price": 48.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Cerveja lager alemã 500ml",
+            "price": 22.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Apfelstrudel com sorvete",
+            "price": 18.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-sob1/400/300"
+          },
+          {
+            "name": "Torta alemã",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest3-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 4,
+    "restaurantName": "Doce Canela",
+    "address": "Av. das Hortênsias, 670 - Canela/RS",
+    "type": "Confeitaria",
+    "parkingLot": true,
+    "latitude": -29.3618,
+    "longitude": -50.813,
+    "imageUrl": "https://picsum.photos/seed/rest4/400/300",
+    "description": "Oferecemos uma variedade de doces, incluindo bolos personalizados, cupcakes e doces artesanais. Cada produto é feito com ingredientes frescos, garantindo sabor e apresentação excepcionais.",
+    "menu": [
+      {
+        "category": "Bolos",
+        "items": [
+          {
+            "name": "Bolo de red velvet (fatia)",
+            "price": 15.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-bolo1/400/300"
+          },
+          {
+            "name": "Bolo de chocolate belga (fatia)",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-bolo2/400/300"
+          },
+          {
+            "name": "Bolo de limão siciliano (fatia)",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-bolo3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Cupcakes",
+        "items": [
+          {
+            "name": "Cupcake de baunilha com ganache",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-cup1/400/300"
+          },
+          {
+            "name": "Cupcake de brigadeiro",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-cup2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Café expresso",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-beb1/400/300"
+          },
+          {
+            "name": "Cappuccino",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest4-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 5,
+    "restaurantName": "Tradição Gaúcha",
+    "address": "Rua João Pessoa, 120 - Canela/RS",
+    "type": "Pratos Típicos Gaúchos",
+    "parkingLot": true,
+    "latitude": -29.362,
+    "longitude": -50.8117,
+    "imageUrl": "https://picsum.photos/seed/rest5/400/300",
+    "description": "Comida campeira servida em porções generosas. Experimente o autêntico sabor do churrasco e das delícias da culinária gaúcha.",
+    "menu": [
+      {
+        "category": "Pratos Campeiros",
+        "items": [
+          {
+            "name": "Arroz de carreteiro",
+            "price": 35.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-prato1/400/300"
+          },
+          {
+            "name": "Vaca atolada",
+            "price": 38.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-prato2/400/300"
+          },
+          {
+            "name": "Galeto al primo canto",
+            "price": 36.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Suco de uva da serra 300ml",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Sagu com creme",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-sob1/400/300"
+          },
+          {
+            "name": "Ambrosia",
+            "price": 11.0,
+            "imageUrl": "https://picsum.photos/seed/rest5-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 6,
+    "restaurantName": "Sabores da Serra",
+    "address": "Rua Dona Carlinda, 98 - Canela/RS",
+    "type": "Comida Brasileira",
+    "parkingLot": true,
+    "latitude": -29.3607,
+    "longitude": -50.8129,
+    "imageUrl": "https://picsum.photos/seed/rest6/400/300",
+    "description": "Restaurante familiar que serve pratos típicos brasileiros, preparados com amor e tradição, em um ambiente rústico e acolhedor.",
+    "menu": [
+      {
+        "category": "Pratos Brasileiros",
+        "items": [
+          {
+            "name": "Feijoada completa (individual)",
+            "price": 39.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-prato1/400/300"
+          },
+          {
+            "name": "Moqueca capixaba (peixe)",
+            "price": 49.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-prato2/400/300"
+          },
+          {
+            "name": "Bobó de camarão",
+            "price": 56.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Acompanhamentos",
+        "items": [
+          {
+            "name": "Arroz branco",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-acomp1/400/300"
+          },
+          {
+            "name": "Vinagrete",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-acomp2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Guaraná lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-beb1/400/300"
+          },
+          {
+            "name": "Suco natural de abacaxi",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest6-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 7,
+    "restaurantName": "Casa das Massas",
+    "address": "Rua Osvaldo Aranha, 200 - Canela/RS",
+    "type": "Culinária Italiana",
+    "parkingLot": false,
+    "latitude": -29.3611,
+    "longitude": -50.8115,
+    "imageUrl": "https://picsum.photos/seed/rest7/400/300",
+    "description": "Massas frescas artesanais preparadas diariamente, acompanhadas de molhos tradicionais e vinhos selecionados.",
+    "menu": [
+      {
+        "category": "Massas",
+        "items": [
+          {
+            "name": "Tagliatelle ao sugo",
+            "price": 34.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-massa1/400/300"
+          },
+          {
+            "name": "Ravioli de ricota e espinafre ao quatro queijos",
+            "price": 42.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-massa2/400/300"
+          },
+          {
+            "name": "Lasagna à bolonhesa",
+            "price": 39.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-massa3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Vinhos",
+        "items": [
+          {
+            "name": "Taça de vinho tinto seco",
+            "price": 24.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-vinho1/400/300"
+          },
+          {
+            "name": "Taça de vinho branco",
+            "price": 22.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-vinho2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Tiramisù",
+            "price": 18.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-sob1/400/300"
+          },
+          {
+            "name": "Panna cotta com calda de frutas vermelhas",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest7-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 8,
+    "restaurantName": "Bier Garten Canela",
+    "address": "Rua Paul Harris, 55 - Canela/RS",
+    "type": "Cervejaria",
+    "parkingLot": true,
+    "latitude": -29.3619,
+    "longitude": -50.8126,
+    "imageUrl": "https://picsum.photos/seed/rest8/400/300",
+    "description": "Cervejaria artesanal com produção local, oferecendo chopes exclusivos e pratos que harmonizam com cada tipo de cerveja.",
+    "menu": [
+      {
+        "category": "Chopes",
+        "items": [
+          {
+            "name": "Pilsen 400ml",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-chope1/400/300"
+          },
+          {
+            "name": "IPA 400ml",
+            "price": 18.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-chope2/400/300"
+          },
+          {
+            "name": "Weiss 400ml",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-chope3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Petiscos",
+        "items": [
+          {
+            "name": "Batata rústica com aioli",
+            "price": 24.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-pet1/400/300"
+          },
+          {
+            "name": "Linguiça artesanal acebolada",
+            "price": 32.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-pet2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sem Álcool",
+        "items": [
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-semalc1/400/300"
+          },
+          {
+            "name": "Água com gás 500ml",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest8-semalc2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 9,
+    "restaurantName": "Fogão de Pedra",
+    "address": "Rua Felisberto Soares, 310 - Canela/RS",
+    "type": "Comida no Fogão a Lenha",
+    "parkingLot": true,
+    "latitude": -29.3608,
+    "longitude": -50.8122,
+    "imageUrl": "https://picsum.photos/seed/rest9/400/300",
+    "description": "Buffet servido em fogão a lenha com pratos quentes, saladas e sobremesas caseiras. O sabor e o aroma da roça em cada refeição.",
+    "menu": [
+      {
+        "category": "Buffet Quente",
+        "items": [
+          {
+            "name": "Feijão tropeiro",
+            "price": 35.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-quente1/400/300"
+          },
+          {
+            "name": "Carne ensopada",
+            "price": 38.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-quente2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Saladas",
+        "items": [
+          {
+            "name": "Salada de maionese",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-salada1/400/300"
+          },
+          {
+            "name": "Mix de folhas",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-salada2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Suco natural de laranja",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest9-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 10,
+    "restaurantName": "Raízes da Serra",
+    "address": "Av. das Estrelas, 590 - Canela/RS",
+    "type": "Vegetariano",
+    "parkingLot": false,
+    "latitude": -29.3614,
+    "longitude": -50.8133,
+    "imageUrl": "https://picsum.photos/seed/rest10/400/300",
+    "description": "Pratos vegetarianos e veganos criativos, com ingredientes orgânicos e opções sem glúten. Saúde e sabor em perfeita harmonia.",
+    "menu": [
+      {
+        "category": "Bowls",
+        "items": [
+          {
+            "name": "Bowl de quinoa, legumes assados e tahine",
+            "price": 36.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-bowl1/400/300"
+          },
+          {
+            "name": "Bowl de grão-de-bico com abóbora",
+            "price": 34.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-bowl2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sanduíches",
+        "items": [
+          {
+            "name": "Sanduíche caprese no ciabatta",
+            "price": 28.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-sand1/400/300"
+          },
+          {
+            "name": "Burger de falafel",
+            "price": 31.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-sand2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Kombucha 300ml",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-beb1/400/300"
+          },
+          {
+            "name": "Suco verde",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest10-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 11,
+    "restaurantName": "Brasa & Lenha",
+    "address": "Rua Sete de Setembro, 75 - Canela/RS",
+    "type": "Grelhados",
+    "parkingLot": true,
+    "latitude": -29.3622,
+    "longitude": -50.812,
+    "imageUrl": "https://picsum.photos/seed/rest11/400/300",
+    "description": "Especializado em grelhados e cortes premium, preparados na hora. Ideal para quem aprecia carne de qualidade e bom atendimento.",
+    "menu": [
+      {
+        "category": "Grelhados",
+        "items": [
+          {
+            "name": "Bife de chorizo (300g)",
+            "price": 62.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-grel1/400/300"
+          },
+          {
+            "name": "Salmão grelhado (200g)",
+            "price": 54.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-grel2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Acompanhamentos",
+        "items": [
+          {
+            "name": "Arroz biro-biro",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-acomp1/400/300"
+          },
+          {
+            "name": "Legumes grelhados",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-acomp2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Vinho tinto (taça)",
+            "price": 24.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest11-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 12,
+    "restaurantName": "Cantina Toscana",
+    "address": "Rua Augusto Pestana, 65 - Canela/RS",
+    "type": "Culinária Italiana",
+    "parkingLot": true,
+    "latitude": -29.3617,
+    "longitude": -50.8127,
+    "imageUrl": "https://picsum.photos/seed/rest12/400/300",
+    "description": "Uma autêntica cantina italiana com massas, risotos e sobremesas típicas. Ambiente romântico e acolhedor.",
+    "menu": [
+      {
+        "category": "Massas e Risotos",
+        "items": [
+          {
+            "name": "Spaghetti à carbonara",
+            "price": 39.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-massa1/400/300"
+          },
+          {
+            "name": "Risoto de funghi",
+            "price": 44.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-massa2/400/300"
+          },
+          {
+            "name": "Gnocchi ao sugo",
+            "price": 36.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-massa3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Vinhos",
+        "items": [
+          {
+            "name": "Taça de Chianti",
+            "price": 28.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-vinho1/400/300"
+          },
+          {
+            "name": "Taça de Pinot Grigio",
+            "price": 26.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-vinho2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Dolci",
+        "items": [
+          {
+            "name": "Cannoli",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-dolce1/400/300"
+          },
+          {
+            "name": "Gelato (2 bolas)",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest12-dolce2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 13,
+    "restaurantName": "Panorama Café",
+    "address": "Av. Júlio de Castilhos, 150 - Canela/RS",
+    "type": "Cafeteria",
+    "parkingLot": false,
+    "latitude": -29.3606,
+    "longitude": -50.8125,
+    "imageUrl": "https://picsum.photos/seed/rest13/400/300",
+    "description": "Cafés especiais, tortas e sanduíches artesanais com uma vista panorâmica da cidade. O ponto ideal para relaxar e apreciar.",
+    "menu": [
+      {
+        "category": "Cafés Especiais",
+        "items": [
+          {
+            "name": "Espresso",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-cafe1/400/300"
+          },
+          {
+            "name": "Cappuccino",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-cafe2/400/300"
+          },
+          {
+            "name": "Latte",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-cafe3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Lanches",
+        "items": [
+          {
+            "name": "Misto quente artesanal",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-lanche1/400/300"
+          },
+          {
+            "name": "Tostex de queijo e tomate",
+            "price": 15.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-lanche2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Doces",
+        "items": [
+          {
+            "name": "Torta de maçã (fatia)",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-doce1/400/300"
+          },
+          {
+            "name": "Cheesecake de frutas vermelhas (fatia)",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest13-doce2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 14,
+    "restaurantName": "Aroma da Serra",
+    "address": "Rua Paul Harris, 200 - Canela/RS",
+    "type": "Padaria e Lanchonete",
+    "parkingLot": true,
+    "latitude": -29.3615,
+    "longitude": -50.8134,
+    "imageUrl": "https://picsum.photos/seed/rest14/400/300",
+    "description": "Pães, salgados e doces frescos feitos diariamente. Perfeito para um café da manhã reforçado ou lanche da tarde.",
+    "menu": [
+      {
+        "category": "Pães e Salgados",
+        "items": [
+          {
+            "name": "Pão na chapa",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-salg1/400/300"
+          },
+          {
+            "name": "Coxinha de frango",
+            "price": 8.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-salg2/400/300"
+          },
+          {
+            "name": "Empada de palmito",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-salg3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Café com leite",
+            "price": 8.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-beb1/400/300"
+          },
+          {
+            "name": "Suco de laranja",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Doces",
+        "items": [
+          {
+            "name": "Palmier",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-doce1/400/300"
+          },
+          {
+            "name": "Trufa de chocolate",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest14-doce2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 15,
+    "restaurantName": "Cantinho Mineiro",
+    "address": "Rua Dona Carlinda, 250 - Canela/RS",
+    "type": "Culinária Mineira",
+    "parkingLot": true,
+    "latitude": -29.3624,
+    "longitude": -50.8119,
+    "imageUrl": "https://picsum.photos/seed/rest15/400/300",
+    "description": "Pratos típicos de Minas Gerais preparados com temperos regionais, como feijão tropeiro e torresmo crocante.",
+    "menu": [
+      {
+        "category": "Pratos Típicos",
+        "items": [
+          {
+            "name": "Feijão tropeiro com torresmo",
+            "price": 38.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-prato1/400/300"
+          },
+          {
+            "name": "Frango com quiabo",
+            "price": 36.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-prato2/400/300"
+          },
+          {
+            "name": "Tutu à mineira",
+            "price": 34.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Cachaça artesanal (dose)",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-beb1/400/300"
+          },
+          {
+            "name": "Suco de maracujá",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Doces",
+        "items": [
+          {
+            "name": "Doce de leite mineiro",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-doce1/400/300"
+          },
+          {
+            "name": "Goiabada cascão com queijo",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest15-doce2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 16,
+    "restaurantName": "Sabores do Mar",
+    "address": "Av. das Hortênsias, 720 - Canela/RS",
+    "type": "Frutos do Mar",
+    "parkingLot": true,
+    "latitude": -29.3612,
+    "longitude": -50.8131,
+    "imageUrl": "https://picsum.photos/seed/rest16/400/300",
+    "description": "Cardápio especializado em peixes e frutos do mar frescos, com destaque para moquecas e camarões grelhados.",
+    "menu": [
+      {
+        "category": "Pratos de Mar",
+        "items": [
+          {
+            "name": "Moqueca de peixe (individual)",
+            "price": 52.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-mar1/400/300"
+          },
+          {
+            "name": "Camarão grelhado (porção)",
+            "price": 59.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-mar2/400/300"
+          },
+          {
+            "name": "Risoto de frutos do mar",
+            "price": 54.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-mar3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Vinho branco (taça)",
+            "price": 26.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-beb1/400/300"
+          },
+          {
+            "name": "Água sem gás 500ml",
+            "price": 5.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Mousse de limão",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-sob1/400/300"
+          },
+          {
+            "name": "Sorvete artesanal (2 bolas)",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest16-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 17,
+    "restaurantName": "Café Colonial Bela Vista",
+    "address": "Rua Borges de Medeiros, 310 - Canela/RS",
+    "type": "Café Colonial",
+    "parkingLot": true,
+    "latitude": -29.3621,
+    "longitude": -50.8118,
+    "imageUrl": "https://picsum.photos/seed/rest17/400/300",
+    "description": "Tradicional café colonial com mais de 80 opções entre pães, tortas, frios e bebidas quentes. Um clássico da serra gaúcha.",
+    "menu": [
+      {
+        "category": "Lanches",
+        "items": [
+          {
+            "name": "Sanduíche de queijo e presunto",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-lanche1/400/300"
+          },
+          {
+            "name": "Croissant de manteiga",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-lanche2/400/300"
+          },
+          {
+            "name": "Torrada com geleia",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-lanche3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Cafés",
+        "items": [
+          {
+            "name": "Café expresso",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cafe1/400/300"
+          },
+          {
+            "name": "Cappuccino",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cafe2/400/300"
+          },
+          {
+            "name": "Chá",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cafe3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Doces",
+        "items": [
+          {
+            "name": "Cupcake de morango",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cup1/400/300"
+          },
+          {
+            "name": "Cupcake de brigadeiro",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cup2/400/300"
+          },
+          {
+            "name": "Cupcake de nozes",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-cup3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bolos",
+        "items": [
+          {
+            "name": "Bolo de laranja (fatia)",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-bolo1/400/300"
+          },
+          {
+            "name": "Bolo de cenoura (fatia)",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-bolo2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas Quentes",
+        "items": [
+          {
+            "name": "Café expresso",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-quente1/400/300"
+          },
+          {
+            "name": "Capuccino",
+            "price": 10.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-quente2/400/300"
+          },
+          {
+            "name": "Chá",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-quente3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas Frias",
+        "items": [
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-fria1/400/300"
+          },
+          {
+            "name": "Água mineral sem gás",
+            "price": 5.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-fria2/400/300"
+          },
+          {
+            "name": "Suco natural (copão)",
+            "price": 11.0,
+            "imageUrl": "https://picsum.photos/seed/rest17-fria3/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 18,
+    "restaurantName": "Empório da Serra",
+    "address": "Av. das Estrelas, 600 - Canela/RS",
+    "type": "Empório Gastronômico",
+    "parkingLot": true,
+    "latitude": -29.361,
+    "longitude": -50.8128,
+    "imageUrl": "https://picsum.photos/seed/rest18/400/300",
+    "description": "Espaço gourmet com produtos regionais, vinhos, queijos e delícias artesanais. O melhor da gastronomia local em um só lugar.",
+    "menu": [
+      {
+        "category": "Tábuas e Porções",
+        "items": [
+          {
+            "name": "Tábua de queijos e embutidos",
+            "price": 59.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-tab1/400/300"
+          },
+          {
+            "name": "Bruschettas variadas (4un)",
+            "price": 28.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-tab2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Vinhos e Espumantes",
+        "items": [
+          {
+            "name": "Taça de espumante brut",
+            "price": 22.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-vinho1/400/300"
+          },
+          {
+            "name": "Taça de vinho tinto reserva",
+            "price": 29.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-vinho2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sem Álcool",
+        "items": [
+          {
+            "name": "Suco de uva integral 300ml",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-semalc1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest18-semalc2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 19,
+    "restaurantName": "Sabor Nordestino",
+    "address": "Rua João Pessoa, 300 - Canela/RS",
+    "type": "Culinária Nordestina",
+    "parkingLot": false,
+    "latitude": -29.3607,
+    "longitude": -50.8116,
+    "imageUrl": "https://picsum.photos/seed/rest19/400/300",
+    "description": "Comidas típicas do Nordeste com tempero forte e autêntico. Destaque para a carne de sol com macaxeira e o baião de dois.",
+    "menu": [
+      {
+        "category": "Pratos Nordestinos",
+        "items": [
+          {
+            "name": "Carne de sol com macaxeira",
+            "price": 42.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-prato1/400/300"
+          },
+          {
+            "name": "Baião de dois com queijo coalho",
+            "price": 36.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-prato2/400/300"
+          },
+          {
+            "name": "Moqueca de siri",
+            "price": 45.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-prato3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Caldo de cana (300ml)",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-beb1/400/300"
+          },
+          {
+            "name": "Refrigerante lata",
+            "price": 7.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-beb2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Sobremesas",
+        "items": [
+          {
+            "name": "Cartola (banana, queijo e canela)",
+            "price": 14.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-sob1/400/300"
+          },
+          {
+            "name": "Cocada cremosa",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest19-sob2/400/300"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "restaurantID": 20,
+    "restaurantName": "Doce Encanto",
+    "address": "Rua Felisberto Soares, 420 - Canela/RS",
+    "type": "Doceria",
+    "parkingLot": true,
+    "latitude": -29.3616,
+    "longitude": -50.8123,
+    "imageUrl": "https://picsum.photos/seed/rest20/400/300",
+    "description": "Oferecemos uma variedade de doces finos, bolos e sobremesas. Cada produto é feito com ingredientes frescos e muito carinho.",
+    "menu": [
+      {
+        "category": "Doces Finos",
+        "items": [
+          {
+            "name": "Bombom de nozes",
+            "price": 5.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-doce1/400/300"
+          },
+          {
+            "name": "Trufa de chocolate meio amargo",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-doce2/400/300"
+          },
+          {
+            "name": "Camafeu",
+            "price": 6.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-doce3/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bolos e Tortas",
+        "items": [
+          {
+            "name": "Torta holandesa (fatia)",
+            "price": 16.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-torta1/400/300"
+          },
+          {
+            "name": "Bolo de coco (fatia)",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-torta2/400/300"
+          }
+        ]
+      },
+      {
+        "category": "Bebidas",
+        "items": [
+          {
+            "name": "Chocolate quente",
+            "price": 12.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-beb1/400/300"
+          },
+          {
+            "name": "Chá gelado",
+            "price": 9.0,
+            "imageUrl": "https://picsum.photos/seed/rest20-beb2/400/300"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+
+
