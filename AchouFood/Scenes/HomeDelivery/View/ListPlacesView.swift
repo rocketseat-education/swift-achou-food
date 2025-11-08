@@ -8,13 +8,22 @@
 import UIKit
 import SnapKit
 
+struct ListViewConstants {
+    static let rowHeight = 80.0
+    static let marginSize = 20.0
+    static let topTableView = 4.0
+    static let nearestPlaces = "home.nearest.places"
+}
+
 class ListPlacesView: UIView {
     private var allPlaces: [Place] = []
+    private var filteredPlaces: [Place] = []
+    public var onCellTouched: ((Place) -> Void)?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.reuseIdentifier)
-        tableView.rowHeight = 80
+        tableView.rowHeight = ListViewConstants.rowHeight
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
@@ -23,7 +32,7 @@ class ListPlacesView: UIView {
         let view = UILabel()
         view.font = Typography.labelXs
         view.textColor = Color.redDark
-        view.text = "RESTAURANTES PERTO DE VOCÊ"
+        view.text = ListViewConstants.nearestPlaces.localized
         return view
     }()
     
@@ -46,11 +55,11 @@ extension ListPlacesView: ViewCodeProtocol {
     func setViewConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().offset(20.0)
+            make.leading.trailing.equalToSuperview().offset(ListViewConstants.marginSize)
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4.0)
+            make.top.equalTo(titleLabel.snp.bottom).offset(ListViewConstants.topTableView)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -65,24 +74,37 @@ extension ListPlacesView: ViewCodeProtocol {
 extension ListPlacesView {
     public func showList(with placeList: [Place]) {
         self.allPlaces = placeList
+        self.filteredPlaces = placeList
+        tableView.reloadData()
+    }
+    
+    public func filter(by text: String) {
+        if text.isEmpty {
+            filteredPlaces = allPlaces
+        } else {
+            filteredPlaces = allPlaces.filter { place in
+                place.restaurantName.lowercased().contains(text.lowercased())
+            }
+        }
         tableView.reloadData()
     }
 }
 
 extension ListPlacesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allPlaces.count
+        return filteredPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.reuseIdentifier, for: indexPath) as! PlaceCell
-        cell.setup(allPlaces[indexPath.row])
+        cell.setup(filteredPlaces[indexPath.row])
         return cell
     }
 }
 
 extension ListPlacesView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        onCellTouched?(filteredPlaces[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

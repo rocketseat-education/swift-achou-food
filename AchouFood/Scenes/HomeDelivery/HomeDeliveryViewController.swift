@@ -46,7 +46,9 @@ class HomeDeliveryViewController: UIViewController {
 
 extension HomeDeliveryViewController {
     func loadPlaces() {
+        homeView.startLoading()
         viewModel.fetchPlaces { [weak self] result in
+            self?.homeView.stopLoading()
             switch result {
             case .success(let places):
                 self?.homeView.setup(with: places)
