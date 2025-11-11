@@ -24,6 +24,7 @@ class ListPlacesView: UIView {
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.reuseIdentifier)
         tableView.rowHeight = ListViewConstants.rowHeight
         tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = Color.gray100
         return tableView
     }()
     
