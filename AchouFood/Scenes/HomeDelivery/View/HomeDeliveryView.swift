@@ -124,9 +124,9 @@ class HomeDeliveryView: UIView {
         return view
     }()
     
-    private lazy var mapView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.gray300
+    private lazy var mapView: MapPlacesView = {
+        let view = MapPlacesView()
+        view.backgroundColor = Color.gray100
         return view
     }()
     
@@ -172,7 +172,7 @@ class HomeDeliveryView: UIView {
         if (selectViewMode == .list) {
             listView.showList(with: places)
         } else {
-            //Apresentacao dos locais no map
+            mapView.showPlaces(with: places)
         }
         filter(by: searchText)
     }
@@ -181,7 +181,7 @@ class HomeDeliveryView: UIView {
         if selectViewMode == .list {
             listView.filter(by: searchText)
         } else {
-            //mapView.filter(by: searchText)
+            mapView.filter(by: searchText)
         }
     }
 }
