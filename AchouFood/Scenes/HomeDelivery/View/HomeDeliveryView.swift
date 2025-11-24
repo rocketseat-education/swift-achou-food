@@ -13,7 +13,7 @@ enum DisplayStyle: Int {
     case map = 1
 }
 
-struct Constants {
+struct HomeViewConstants {
     static let headerHeight = 36.0
     static let cornerRadius = 20.0
     static let margin = 20.0
@@ -27,6 +27,9 @@ struct Constants {
     static let iconSize = 36.0
     static let marginSize = 12.0
     static let borderWidth = 2.0
+    static let headerControlsHeight = 40.0
+    static let topListView = 32.0
+    static let loadinHeight = 80.0
 }
 
 class HomeDeliveryView: UIView {
@@ -42,7 +45,7 @@ class HomeDeliveryView: UIView {
     
     private lazy var headerIcon: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: Constants.addressIcon)
+        view.image = UIImage(named: HomeViewConstants.addressIcon)
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -51,7 +54,7 @@ class HomeDeliveryView: UIView {
         let view = UILabel()
         view.font = Typography.label2Xs
         view.textColor = Color.gray200
-        view.text = Constants.addressTitle.localized
+        view.text = HomeViewConstants.addressTitle.localized
         return view
     }()
     
@@ -59,7 +62,7 @@ class HomeDeliveryView: UIView {
         let view = UILabel()
         view.font = Typography.bodySm
         view.textColor = Color.gray200
-        view.text = StorageManager.shared.get(forKey: Constants.userAddressKey)
+        view.text = StorageManager.shared.get(forKey: HomeViewConstants.userAddressKey)
         return view
     }()
     
@@ -77,14 +80,14 @@ class HomeDeliveryView: UIView {
     
     private lazy var searchTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = Constants.findPlacesKey.localized
+        view.placeholder = HomeViewConstants.findPlacesKey.localized
         view.font = Typography.bodyMd
         view.textColor = Color.gray400
         view.backgroundColor = Color.grayTransparent20p
-        view.layer.borderWidth = Constants.borderWidth
+        view.layer.borderWidth = HomeViewConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         
-        let icon = UIImageView(image: UIImage(systemName: Constants.searchIcon))
+        let icon = UIImageView(image: UIImage(systemName: HomeViewConstants.searchIcon))
         icon.tintColor = Color.gray400
         icon.contentMode = .scaleAspectFit
         
@@ -95,21 +98,21 @@ class HomeDeliveryView: UIView {
         view.leftView = iconContainer
         view.leftViewMode = .always
         view.clearButtonMode = .whileEditing
-        view.delegate = self
+        view.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
         
         return view
     }()
     
     private lazy var toggleView: UISegmentedControl = {
-        let listImage = UIImage(named: Constants.listIconName)
-        let mapImage = UIImage(named: Constants.mapIconName)
+        let listImage = UIImage(named: HomeViewConstants.listIconName)
+        let mapImage = UIImage(named: HomeViewConstants.mapIconName)
         
         let view = UISegmentedControl(items: [listImage as Any, mapImage as Any])
         view.selectedSegmentIndex = .zero
         view.backgroundColor = Color.redDark
         view.selectedSegmentTintColor = Color.gray100
         view.tintColor = Color.gray100
-        view.layer.borderWidth = Constants.borderWidth
+        view.layer.borderWidth = HomeViewConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         view.addTarget(self, action: #selector(handleToggle), for: .valueChanged)
         return view
@@ -155,6 +158,13 @@ class HomeDeliveryView: UIView {
         selectViewMode = pageIndex == 0 ? .list : .map
         let offsetX = CGFloat(pageIndex) * scrollView.bounds.width
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
+        showPlaces()
+    }
+    
+    @objc
+    func textDidChange(_ textField: UITextField) {
+        searchText = textField.text ?? ""
+        filter(by: searchText)
     }
     
     private func showPlaces() {
@@ -163,6 +173,15 @@ class HomeDeliveryView: UIView {
             listView.showList(with: places)
         } else {
             //Apresentacao dos locais no map
+        }
+        filter(by: searchText)
+    }
+    
+    private func filter(by searchText: String) {
+        if (selectViewMode == .list) {
+            listView.filter(by: searchText)
+        } else {
+            //mapView.filter(by: searchText)
         }
     }
 }
@@ -202,25 +221,25 @@ extension HomeDeliveryView: ViewCodeProtocol {
     
     func setViewConstraints() {
         headerView.snp.makeConstraints { make in
-            make.height.equalTo(Constants.headerHeight)
+            make.height.equalTo(HomeViewConstants.headerHeight)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Metrics.medium)
             make.leading.trailing.equalToSuperview().inset(Metrics.medium)
         }
         
         headerIcon.snp.makeConstraints { make in
-            make.size.equalTo(Constants.iconSize)
+            make.size.equalTo(HomeViewConstants.iconSize)
             make.centerY.equalTo(headerView)
             make.leading.equalToSuperview()
         }
         
         headerTitleAddressLabel.snp.makeConstraints { make in
             make.top.equalTo(headerIcon.snp.top).offset(Metrics.little)
-            make.leading.equalTo(headerIcon.snp.trailing).offset(Constants.marginSize)
+            make.leading.equalTo(headerIcon.snp.trailing).offset(HomeViewConstants.marginSize)
             make.trailing.equalToSuperview()
         }
         
         headerAddressLabel.snp.makeConstraints { make in
-            make.leading.equalTo(headerIcon.snp.trailing).offset(Constants.marginSize)
+            make.leading.equalTo(headerIcon.snp.trailing).offset(HomeViewConstants.marginSize)
             make.top.equalTo(headerTitleAddressLabel.snp.bottom).offset(Metrics.nano)
             make.trailing.equalToSuperview()
         }
@@ -237,18 +256,18 @@ extension HomeDeliveryView: ViewCodeProtocol {
         toggleView.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top).offset(Metrics.medium)
             make.trailing.equalTo(scrollView.snp.trailing).offset(-Metrics.medium)
-            make.height.equalTo(40)
+            make.height.equalTo(HomeViewConstants.headerControlsHeight)
         }
         
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top).offset(Metrics.medium)
             make.leading.equalTo(scrollView.snp.leading).offset(Metrics.medium)
             make.trailing.equalTo(toggleView.snp.leading).offset(-Metrics.tiny)
-            make.height.equalTo(40)
+            make.height.equalTo(HomeViewConstants.headerControlsHeight)
         }
         
         listView.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom).offset(32.0)
+            make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.topListView)
             make.leading.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
@@ -261,29 +280,15 @@ extension HomeDeliveryView: ViewCodeProtocol {
         
         loadingView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.equalTo(80.0)
+            make.height.equalTo(HomeViewConstants.loadinHeight)
         }
     }
     
     func setViewConfigs() {
         backgroundColor = Color.redDark
         scrollView.isScrollEnabled = false
-        scrollView.layer.cornerRadius = Constants.cornerRadius
+        scrollView.layer.cornerRadius = HomeViewConstants.cornerRadius
         scrollView.layer.masksToBounds = true
         scrollView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-}
-
-extension HomeDeliveryView: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersInRanges ranges: [NSValue], replacementString string: String) -> Bool {
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        return true
     }
 }

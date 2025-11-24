@@ -9,6 +9,9 @@ import UIKit
 import SnapKit
 
 struct ListPlacesConstants {
+    static let rowHeight = 80.0
+    static let marginSize = 20.0
+    static let topTableView = 4.0
     static let placesKey = "home.nearest.places"
 }
 
@@ -19,7 +22,7 @@ class ListPlacesView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.reuseIdentifier)
-        tableView.rowHeight = 80
+        tableView.rowHeight = ListPlacesConstants.rowHeight
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
@@ -51,11 +54,11 @@ extension ListPlacesView: ViewCodeProtocol {
     func setViewConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().offset(20.0)
+            make.leading.trailing.equalToSuperview().offset(ListPlacesConstants.marginSize)
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4.0)
+            make.top.equalTo(titleLabel.snp.bottom).offset(ListPlacesConstants.topTableView)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
