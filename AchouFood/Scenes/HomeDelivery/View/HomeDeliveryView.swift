@@ -83,7 +83,7 @@ class HomeDeliveryView: UIView {
         view.placeholder = HomeViewConstants.findPlacesKey.localized
         view.font = Typography.bodyMd
         view.textColor = Color.gray400
-        view.backgroundColor = Color.grayTransparent20p
+        view.backgroundColor = Color.grayTransparent80p
         view.layer.borderWidth = HomeViewConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         
@@ -124,9 +124,8 @@ class HomeDeliveryView: UIView {
         return view
     }()
     
-    private lazy var mapView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.gray300
+    private lazy var mapView: MapPlacesView = {
+        let view = MapPlacesView()
         return view
     }()
     
@@ -172,7 +171,7 @@ class HomeDeliveryView: UIView {
         if (selectViewMode == .list) {
             listView.showList(with: places)
         } else {
-            //Apresentacao dos locais no map
+            mapView.showPlaces(with: places)
         }
         filter(by: searchText)
     }
@@ -181,7 +180,7 @@ class HomeDeliveryView: UIView {
         if (selectViewMode == .list) {
             listView.filter(by: searchText)
         } else {
-            //mapView.filter(by: searchText)
+            mapView.filter(by: searchText)
         }
     }
 }
