@@ -8,8 +8,13 @@
 import UIKit
 import SnapKit
 
+struct ListPlacesConstants {
+    static let placesKey = "home.nearest.places"
+}
+
 class ListPlacesView: UIView {
     private var allPlaces: [Place] = []
+    private var filteredPlaces: [Place] = []
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -23,7 +28,7 @@ class ListPlacesView: UIView {
         let view = UILabel()
         view.font = Typography.labelXs
         view.textColor = Color.redDark
-        view.text = "RESTAURANTES PERTO DE VOCÊ"
+        view.text = ListPlacesConstants.placesKey.localized
         return view
     }()
     
@@ -65,18 +70,30 @@ extension ListPlacesView: ViewCodeProtocol {
 extension ListPlacesView {
     public func showList(with placeList: [Place]) {
         self.allPlaces = placeList
+        self.filteredPlaces = placeList
+        tableView.reloadData()
+    }
+    
+    public func filter(by text: String) {
+        if text.isEmpty {
+            filteredPlaces = allPlaces
+        } else {
+            filteredPlaces = allPlaces.filter { place in
+                place.restaurantName.lowercased().contains(text.lowercased())
+            }
+        }
         tableView.reloadData()
     }
 }
 
 extension ListPlacesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allPlaces.count
+        return filteredPlaces.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PlaceCell.reuseIdentifier, for: indexPath) as! PlaceCell
-        cell.setup(allPlaces[indexPath.row])
+        cell.setup(filteredPlaces[indexPath.row])
         return cell
     }
 }
