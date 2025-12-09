@@ -17,3 +17,22 @@ public class DeliveryScenesCoordinator {
         return self.navigationController
     }
 }
+
+//MARK: - Place Detail
+extension DeliveryScenesCoordinator: PlaceDetailCoordinatorProtocol {
+    public func navigateToPlaceDetail(place: Place) {
+        let placeDetailViewController = PlaceDetailFactory.make(place: place, coordinator: self)
+        navigationController?.pushViewController(placeDetailViewController,
+                                                 animated: true)
+    }
+}
+
+//MARK: - Place Menu
+extension DeliveryScenesCoordinator: PlaceMenuCoordinatorProtocol {
+    public func navigateToPlaceMenu(place: Place) {
+    }
+    
+    public func back() {
+        navigationController?.popViewController(animated: true)
+    }
+}

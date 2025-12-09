@@ -37,6 +37,7 @@ class HomeDeliveryView: UIView {
     private var selectViewMode: DisplayStyle = .list
     private var searchText: String = String()
     private var places: [Place]?
+    var onSelectedPlace: ((Place) -> Void)?
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -120,17 +121,38 @@ class HomeDeliveryView: UIView {
     
     private lazy var listView: ListPlacesView = {
         let view = ListPlacesView()
+        view.onCellTouched = { [weak self] place in
+            self?.onSelectedPlace?(place)
+        }
         view.backgroundColor = Color.gray100
         return view
     }()
     
     private lazy var mapView: MapPlacesView = {
         let view = MapPlacesView()
+        view.onPinSelected = { [weak self] place in
+            self?.placeDetailMap.isHidden = false
+            self?.setPlaceMapDetails(with: place)
+        }
+        
+        view.onPinDeSelected = { [weak self] in
+            self?.placeDetailMap.isHidden = true
+        }
         return view
     }()
     
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var placeDetailMap: PlaceDetailMapView = {
+        let view = PlaceDetailMapView()
+        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.layer.borderWidth = 1.5
         view.isHidden = true
         return view
     }()
@@ -153,6 +175,7 @@ class HomeDeliveryView: UIView {
     
     @objc
     func handleToggle() {
+        placeDetailMap.isHidden = true
         let pageIndex = toggleView.selectedSegmentIndex
         selectViewMode = pageIndex == 0 ? .list : .map
         let offsetX = CGFloat(pageIndex) * scrollView.bounds.width
@@ -183,6 +206,10 @@ class HomeDeliveryView: UIView {
             mapView.filter(by: searchText)
         }
     }
+    
+    private func setPlaceMapDetails(with place: Place) {
+        placeDetailMap.setup(place: place)
+    }
 }
 
 extension HomeDeliveryView {
@@ -209,6 +236,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(searchTextField)
         addSubview(toggleView)
+        addSubview(placeDetailMap)
         addSubview(loadingView)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
@@ -275,6 +303,12 @@ extension HomeDeliveryView: ViewCodeProtocol {
             make.leading.equalTo(listView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView)
+        }
+        
+        placeDetailMap.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(24.0)
+            make.leading.trailing.equalToSuperview().inset(24.0)
+            make.height.equalTo(96.0)
         }
         
         loadingView.snp.makeConstraints { make in
