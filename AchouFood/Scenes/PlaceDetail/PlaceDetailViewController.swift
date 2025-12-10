@@ -19,6 +19,7 @@ class PlaceDetailViewController: UIViewController {
                 coordinator: PlaceMenuCoordinatorProtocol) {
         self.placeModel = placeModel
         self.placeDetailView = placeDetailView
+        self.placeDetailView.setup(place: placeModel)
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,6 +33,16 @@ class PlaceDetailViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         buildLayout()
         bindActions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func bindActions() {

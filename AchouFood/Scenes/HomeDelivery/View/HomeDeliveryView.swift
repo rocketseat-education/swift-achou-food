@@ -30,6 +30,7 @@ struct HomeViewConstants {
     static let headerControlsHeight = 40.0
     static let topListView = 32.0
     static let loadinHeight = 80.0
+    static let placeDetailMapHeight = 96.0
 }
 
 class HomeDeliveryView: UIView {
@@ -38,6 +39,7 @@ class HomeDeliveryView: UIView {
     private var searchText: String = String()
     private var places: [Place]?
     var onSelectedPlace: ((Place) -> Void)?
+    var selectedPlace: Place?
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -134,7 +136,6 @@ class HomeDeliveryView: UIView {
             self?.placeDetailMap.isHidden = false
             self?.setPlaceMapDetails(with: place)
         }
-        
         view.onPinDeSelected = { [weak self] in
             self?.placeDetailMap.isHidden = true
         }
@@ -149,11 +150,14 @@ class HomeDeliveryView: UIView {
     
     private lazy var placeDetailMap: PlaceDetailMapView = {
         let view = PlaceDetailMapView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTapped))
         view.layer.borderColor = UIColor.white.cgColor
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view.layer.borderWidth = 1.5
         view.isHidden = true
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesture)
         return view
     }()
     
@@ -189,6 +193,12 @@ class HomeDeliveryView: UIView {
         filter(by: searchText)
     }
     
+    @objc
+    func handleMapTapped() {
+        guard let place = selectedPlace else { return }
+        onSelectedPlace?(place)
+    }
+    
     private func showPlaces() {
         guard let places = places else { return }
         if (selectViewMode == .list) {
@@ -208,6 +218,7 @@ class HomeDeliveryView: UIView {
     }
     
     private func setPlaceMapDetails(with place: Place) {
+        selectedPlace = place
         placeDetailMap.setup(place: place)
     }
 }
@@ -306,9 +317,9 @@ extension HomeDeliveryView: ViewCodeProtocol {
         }
         
         placeDetailMap.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom).offset(24.0)
-            make.leading.trailing.equalToSuperview().inset(24.0)
-            make.height.equalTo(96.0)
+            make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.margin)
+            make.leading.trailing.equalToSuperview().inset(HomeViewConstants.margin)
+            make.height.equalTo(HomeViewConstants.placeDetailMapHeight)
         }
         
         loadingView.snp.makeConstraints { make in
