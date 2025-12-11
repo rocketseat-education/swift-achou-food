@@ -16,7 +16,7 @@ public protocol HomeDeliveryService {
 final class HomeDeliveryServiceMock: HomeDeliveryService {
     func fetchPlaces(completion: @escaping FetchPlacesCompletion) {
         let places = self.loadMockPlaces()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             if let places = places {
                 completion(.success(places))
             } else {

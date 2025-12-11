@@ -10,6 +10,10 @@ import SnapKit
 import Kingfisher
 
 struct PlaceDetailMapViewConstants {
+    static let iconSize = 72.0
+    static let padding = 20.0
+    static let topPlaceIcon = 12.0
+    static let topAddressLabel = 4.0
 }
 
 class PlaceDetailMapView: UIView {
@@ -19,7 +23,7 @@ class PlaceDetailMapView: UIView {
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 12.0
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 2.0
         view.layer.borderColor = Color.gray100.cgColor
         return view
     }()
@@ -74,19 +78,19 @@ extension PlaceDetailMapView: ViewCodeProtocol {
     
     func setViewConstraints() {
         placeImageView.snp.makeConstraints { make in
-            make.size.equalTo(72.0)
-            make.top.leading.equalToSuperview().inset(12)
+            make.size.equalTo(PlaceDetailMapViewConstants.iconSize)
+            make.top.leading.equalToSuperview().inset(PlaceDetailMapViewConstants.topPlaceIcon)
         }
         
         placeNameLabel.snp.makeConstraints { make in
-            make.leading.equalTo(placeImageView.snp.trailing).offset(24.0)
-            make.top.trailing.equalToSuperview().offset(24.0)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(PlaceDetailMapViewConstants.padding)
+            make.top.trailing.equalToSuperview().offset(PlaceDetailMapViewConstants.padding)
         }
         
         placeAddressLabel.snp.makeConstraints { make in
-            make.leading.equalTo(placeImageView.snp.trailing).offset(24.0)
-            make.top.equalTo(placeNameLabel.snp.bottom).offset(4.0)
-            make.trailing.equalToSuperview().inset(24.0)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(PlaceDetailMapViewConstants.padding)
+            make.top.equalTo(placeNameLabel.snp.bottom).offset(PlaceDetailMapViewConstants.topAddressLabel)
+            make.trailing.equalToSuperview().inset(PlaceDetailMapViewConstants.padding)
         }
     }
     
