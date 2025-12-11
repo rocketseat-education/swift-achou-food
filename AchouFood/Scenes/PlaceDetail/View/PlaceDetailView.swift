@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import MapKit
 import Kingfisher
+import CoreLocation
 
 struct PlaceDetailConstants {
     static let backButtonSize = 36.0
@@ -22,11 +23,19 @@ struct PlaceDetailConstants {
     static let placeImageRadius = 16.0
     static let placeImageBorderWidth = 4.0
     static let buttonsViewHeight = 162.0
+    static let alertTitle = "alertTitle.permission".localized
+    static let alertMessage = "alertMessage".localized
+    static let buttonCancel = "alertButton.cancel".localized
+    static let buttonSettings = "alertButton.settings".localized
 }
 
 class PlaceDetailView: UIView {
     
     var onBackButtonClicked: (() -> Void)?
+    var onMenuButtonClicked: (() -> Void)?
+    var presentAlert: (() -> Void)?
+    var place: Place?
+    private let locationManager = CLLocationManager()
     
     private lazy var backButton: UIImageView  = {
         let view = UIImageView()
@@ -95,11 +104,21 @@ class PlaceDetailView: UIView {
         fatalError("init decoder has not been implemented")
     }
     
+    private func destinationCoordinate(from place: Place) -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(
+            latitude: place.latitude,
+            longitude: place.longitude
+        )
+    }
+    
     private func bindActions() {
         buttonsView.onTraceRouteTapped = { [weak self] in
-            let origem = CLLocationCoordinate2D(latitude: -23.561732, longitude: -46.655981)
-            let destino = CLLocationCoordinate2D(latitude: -23.550520, longitude: -46.633308)
-            self?.openRouteInAppleMaps(from: origem, to: destino)
+            guard let self, let place = self.place else { return }
+            let destiny = destinationCoordinate(from: place)
+            self.openRouteInAppleMaps(to: destiny)
+        }
+        buttonsView.onMenuTapped = { [weak self] in
+            self?.onMenuButtonClicked?()
         }
     }
     
@@ -130,16 +149,41 @@ class PlaceDetailView: UIView {
         pin.coordinate = coord
         pin.title = place.restaurantName
         mapView.addAnnotation(pin)
-        let region = MKCoordinateRegion(center: coord, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        let region = MKCoordinateRegion(center: coord, latitudinalMeters: 1500, longitudinalMeters: 1500)
         mapView.setRegion(region, animated: true)
         mapView.selectAnnotation(pin, animated: true)
     }
     
+    private func openRouteInAppleMaps(to destinationCoordinate: CLLocationCoordinate2D) {
+        handleLocationAccess {
+            guard let sourceCoordinate = self.locationManager.location?.coordinate else { return }
+            openLocationScreen(sourceCoordinate, destinationCoordinate)
+        }
+    }
+    
+    private func handleLocationAccess(onAuthorized: () -> Void) {
+        guard CLLocationManager.locationServicesEnabled() else {
+            presentAlert?()
+            return
+        }
+        let status = locationManager.authorizationStatus
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            
+        case .authorizedWhenInUse, .authorizedAlways:
+            onAuthorized()
+            
+        case .denied, .restricted:
+            presentAlert?()
+        @unknown default:
+            break
+        }
+    }
+        
     @available(iOS, deprecated: 1.0, message: "API antiga, mas necessária para compatibilidade")
-    private func openRouteInAppleMaps(
-        from sourceCoordinate: CLLocationCoordinate2D,
-        to destinationCoordinate: CLLocationCoordinate2D
-    ) {
+    private func openLocationScreen(_ sourceCoordinate: CLLocationCoordinate2D,
+                                    _ destinationCoordinate: CLLocationCoordinate2D) {
         let sourcePlacemark = MKPlacemark(coordinate: sourceCoordinate)
         let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
         
@@ -160,6 +204,7 @@ class PlaceDetailView: UIView {
 
 extension PlaceDetailView {
     public func setup(place: Place) {
+        self.place = place
         buttonsView.setup(place: place)
         placeNameLabel.text = place.restaurantName
         placeDescriptionLabel.text = place.description

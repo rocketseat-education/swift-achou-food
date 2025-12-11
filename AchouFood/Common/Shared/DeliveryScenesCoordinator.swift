@@ -31,6 +31,7 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinatorProtocol {
 //MARK: - Place Menu
 extension DeliveryScenesCoordinator: PlaceMenuCoordinatorProtocol {
     public func navigateToPlaceMenu(place: Place) {
+        print("Chama a tela de Menu")
     }
     
     public func back() {

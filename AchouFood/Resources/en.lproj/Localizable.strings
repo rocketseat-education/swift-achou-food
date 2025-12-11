@@ -11,3 +11,8 @@
 "home.nearest.places" = "RESTAURANTES PERTO DE VOCÊ";
 "placeDetail.button.route" = "Traçar Rota";
 "placeDetail.button.menu" = "Ver Cardápio";
+"alertTitle.permission" = "Permissão necessária";
+"alertMessage" = "Para usar este recurso, é necessário permitir o acesso à sua localização. Você pode ativar isso em Ajustes.";
+"alertButton.cancel" = "Cancelar";
+"alertButton.settings" = "Abrir Ajustes";
+

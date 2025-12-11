@@ -10,14 +10,14 @@ import SnapKit
 
 class PlaceDetailViewController: UIViewController {
     
-    private var placeModel: Place
+    private var place: Place
     private var placeDetailView: PlaceDetailView
     private var coordinator: PlaceMenuCoordinatorProtocol
 
     public init(placeModel: Place,
                 placeDetailView: PlaceDetailView,
                 coordinator: PlaceMenuCoordinatorProtocol) {
-        self.placeModel = placeModel
+        self.place = placeModel
         self.placeDetailView = placeDetailView
         self.placeDetailView.setup(place: placeModel)
         self.coordinator = coordinator
@@ -45,9 +45,35 @@ class PlaceDetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    private func createAlert() -> UIAlertController {
+        let alert = UIAlertController(title: PlaceDetailConstants.alertTitle,
+                                      message: PlaceDetailConstants.alertMessage,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: PlaceDetailConstants.buttonCancel, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: PlaceDetailConstants.buttonSettings,
+                                      style: .default,
+        handler: { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }))
+        return alert
+    }
+    
     private func bindActions() {
         placeDetailView.onBackButtonClicked = { [weak self] in
             self?.coordinator.back()
+        }
+        
+        placeDetailView.onMenuButtonClicked = { [weak self] in
+            if let place = self?.place {
+                self?.coordinator.navigateToPlaceMenu(place: place)
+            }
+        }
+        
+        placeDetailView.presentAlert = { [weak self] in
+            guard let self = self else { return }
+            self.present(self.createAlert(), animated: true, completion: nil)
         }
     }
 }
