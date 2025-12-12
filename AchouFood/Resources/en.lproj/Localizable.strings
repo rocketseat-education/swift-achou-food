@@ -15,4 +15,6 @@
 "alertMessage" = "Para usar este recurso, é necessário permitir o acesso à sua localização. Você pode ativar isso em Ajustes.";
 "alertButton.cancel" = "Cancelar";
 "alertButton.settings" = "Abrir Ajustes";
+"map.source" = "Origem";
+"map.destiny" = "Destino";
 

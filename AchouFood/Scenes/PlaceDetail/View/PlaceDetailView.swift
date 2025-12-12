@@ -27,6 +27,9 @@ struct PlaceDetailConstants {
     static let alertMessage = "alertMessage".localized
     static let buttonCancel = "alertButton.cancel".localized
     static let buttonSettings = "alertButton.settings".localized
+    static let mapSource = "map.source".localized
+    static let mapDestiny = "map.destiny".localized
+    static let backButton = "backButton"
 }
 
 class PlaceDetailView: UIView {
@@ -36,10 +39,11 @@ class PlaceDetailView: UIView {
     var presentAlert: (() -> Void)?
     var place: Place?
     private let locationManager = CLLocationManager()
+    private var onAuthorized: (() -> Void)?
     
     private lazy var backButton: UIImageView  = {
         let view = UIImageView()
-        view.image = UIImage(named: "backButton")
+        view.image = UIImage(named: PlaceDetailConstants.backButton)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector (handleBack))
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(tapGesture)
@@ -157,41 +161,38 @@ class PlaceDetailView: UIView {
     private func openRouteInAppleMaps(to destinationCoordinate: CLLocationCoordinate2D) {
         handleLocationAccess {
             guard let sourceCoordinate = self.locationManager.location?.coordinate else { return }
-            openLocationScreen(sourceCoordinate, destinationCoordinate)
+            self.openLocationScreen(sourceCoordinate, destinationCoordinate)
         }
     }
     
-    private func handleLocationAccess(onAuthorized: () -> Void) {
-        guard CLLocationManager.locationServicesEnabled() else {
-            presentAlert?()
-            return
-        }
+    private func handleLocationAccess(onAuthorized: @escaping () -> Void) {
         let status = locationManager.authorizationStatus
+
         switch status {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            
+
         case .authorizedWhenInUse, .authorizedAlways:
             onAuthorized()
-            
+
         case .denied, .restricted:
             presentAlert?()
+
         @unknown default:
             break
         }
     }
         
-    @available(iOS, deprecated: 1.0, message: "API antiga, mas necessária para compatibilidade")
     private func openLocationScreen(_ sourceCoordinate: CLLocationCoordinate2D,
                                     _ destinationCoordinate: CLLocationCoordinate2D) {
         let sourcePlacemark = MKPlacemark(coordinate: sourceCoordinate)
         let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate)
         
         let sourceItem = MKMapItem(placemark: sourcePlacemark)
-        sourceItem.name = "Origem"
+        sourceItem.name = PlaceDetailConstants.mapSource
         
         let destinationItem = MKMapItem(placemark: destinationPlacemark)
-        destinationItem.name = "Destino"
+        destinationItem.name = PlaceDetailConstants.mapDestiny
         
         let options = [
             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
