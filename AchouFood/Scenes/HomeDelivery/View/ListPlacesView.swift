@@ -18,6 +18,7 @@ struct ListViewConstants {
 class ListPlacesView: UIView {
     private var allPlaces: [Place] = []
     private var filteredPlaces: [Place] = []
+    public var onCellTouched: ((Place) -> Void)?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -104,6 +105,7 @@ extension ListPlacesView: UITableViewDataSource {
 
 extension ListPlacesView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        onCellTouched?(filteredPlaces[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -20,6 +20,9 @@ class MapPlacesView: UIView {
     private var allPlaces: [Place] = []
     private var filteredPlaces: [Place] = []
     
+    var onPinSelected: ((Place) -> Void)?
+    var onPinDeselected: (() -> Void)?
+    
     // MARK: - Views
     private lazy var mapView: MKMapView = {
         let view = MKMapView()
@@ -49,7 +52,7 @@ extension MapPlacesView {
             let region = MKCoordinateRegion(center: annotation.coordinate,
                                             latitudinalMeters: 1500,
                                             longitudinalMeters: 1500)
-            mapView.setRegion(region, animated: false)
+            mapView.setRegion(region, animated: true)
             return
         }
         var totalArea = MKMapRect.null
@@ -59,7 +62,7 @@ extension MapPlacesView {
         }
         mapView.setVisibleMapRect(totalArea,
                                   edgePadding: UIEdgeInsets(top: 60, left: 40, bottom: 60, right: 40),
-                                  animated: false)
+                                  animated: true)
     }
 }
 
@@ -84,7 +87,6 @@ extension MapPlacesView {
 
 extension MapPlacesView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !(annotation is MKUserLocation) else { return nil }
         let view = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId)
         ?? MKAnnotationView(annotation: annotation, reuseIdentifier: MapViewConstants.placeId)
         view.annotation = annotation
@@ -94,13 +96,14 @@ extension MapPlacesView: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard !(view is MKMarkerAnnotationView) else { return }
         view.image = UIImage(named: MapViewConstants.redPin)
+        guard let annotation = view.annotation as? PlaceAnnotation else { return }
+        onPinSelected?(annotation.place)
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        guard !(view is MKMarkerAnnotationView) else { return }
         view.image = UIImage(named: MapViewConstants.blackPin)
+        onPinDeselected?()
     }
 }
 

@@ -19,5 +19,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Utilizaremos a sua localização para traçar uma rota até o estabelecimento.</string>
 </dict>
 </plist>
