@@ -30,6 +30,7 @@ struct HomeViewConstants {
     static let headerControlsHeight = 40.0
     static let topListView = 32.0
     static let loadingHeight = 80.0
+    static let placeDetaiMapHeight = 96.0
 }
 
 class HomeDeliveryView: UIView {
@@ -37,6 +38,8 @@ class HomeDeliveryView: UIView {
     private var selectViewMode: DisplayStyle = .list
     private var searchText: String = String()
     private var places: [Place]?
+    var onSelectedPlace: ((Place) -> Void)?
+    var selectedPlace: Place?
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -120,13 +123,35 @@ class HomeDeliveryView: UIView {
     
     private lazy var listView: ListPlacesView = {
         let view = ListPlacesView()
+        view.onCellTouched = { [weak self] place in
+            self?.onSelectedPlace?(place)
+        }
         view.backgroundColor = Color.gray100
         return view
     }()
     
     private lazy var mapView: MapPlacesView = {
         let view = MapPlacesView()
-        view.backgroundColor = Color.gray100
+        view.onPinSelected = { [weak self] place in
+            self?.placeDetailMap.isHidden = false
+            self?.setPlaceDetails(with: place)
+        }
+        view.onPinDeselected = { [weak self] in
+            self?.placeDetailMap.isHidden = true
+        }
+        return view
+    }()
+    
+    private lazy var placeDetailMap: PlaceDetailMapView = {
+        let view = PlaceDetailMapView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTapped))
+        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.layer.borderWidth = 2.0
+        view.isHidden = true
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesture)
         return view
     }()
     
@@ -154,6 +179,7 @@ class HomeDeliveryView: UIView {
     
     @objc
     func handleToggle() {
+        placeDetailMap.isHidden = true
         let pageIndex = toggleView.selectedSegmentIndex
         selectViewMode = pageIndex == 0 ? .list : .map
         let offsetX = CGFloat(pageIndex) * scrollView.bounds.width
@@ -165,6 +191,12 @@ class HomeDeliveryView: UIView {
     private func textDidChange(_ textField: UITextField) {
         searchText = textField.text ?? ""
         filter(by: searchText)
+    }
+    
+    @objc
+    private func handleMapTapped() {
+        guard let place = selectedPlace else { return }
+        onSelectedPlace?(place)
     }
     
     private func showPlaces() {
@@ -183,6 +215,11 @@ class HomeDeliveryView: UIView {
         } else {
             mapView.filter(by: searchText)
         }
+    }
+    
+    private func setPlaceDetails(with place: Place) {
+        self.selectedPlace = place
+        self.placeDetailMap.setup(place: place)
     }
 }
 
@@ -209,6 +246,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(searchTextField)
         addSubview(toggleView)
+        addSubview(placeDetailMap)
         addSubview(loadingView)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
@@ -275,6 +313,12 @@ extension HomeDeliveryView: ViewCodeProtocol {
             make.leading.equalTo(listView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView)
+        }
+        
+        placeDetailMap.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.margin)
+            make.leading.trailing.equalToSuperview().inset(HomeViewConstants.margin)
+            make.height.equalTo(HomeViewConstants.placeDetaiMapHeight)
         }
         
         loadingView.snp.makeConstraints { make in

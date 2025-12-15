@@ -20,6 +20,9 @@ class MapPlacesView: UIView {
     private var allPlaces: [Place] = []
     private var filteredPlaces: [Place] = []
     
+    var onPinSelected: ((Place) -> Void)?
+    var onPinDeselected: (() -> Void)?
+    
     // MARK: - Views
     private lazy var mapView: MKMapView = {
         let view = MKMapView()
@@ -93,13 +96,14 @@ extension MapPlacesView: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard !(view is MKMarkerAnnotationView) else { return }
         view.image = UIImage(named: MapViewConstants.redPin)
+        guard let annotation = view.annotation as? PlaceAnnotation else { return }
+        onPinSelected?(annotation.place)
     }
 
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        guard !(view is MKMarkerAnnotationView) else { return }
         view.image = UIImage(named: MapViewConstants.blackPin)
+        onPinDeselected?()
     }
 }
 
