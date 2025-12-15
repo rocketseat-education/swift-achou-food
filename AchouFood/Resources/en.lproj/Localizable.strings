@@ -9,7 +9,10 @@
 "home.header.addressTitle" = "ENTREGAR EM";
 "home.find.places" = "Busque por restaurantes";
 "home.nearest.places" = "RESTAURANTES PERTO DE VOCÊ";
+<<<<<<< HEAD
 "alert.title" = "Permissão necessária";
 "alert.message" = "Para usar esse recurso é necessário permitir o acessao à sua localização. Você pode ativar este recurso em ajustes";
 "alert.cancel" = "Cancelar";
 "alert.settings" = "Abrir configurações";
+=======
+>>>>>>> main

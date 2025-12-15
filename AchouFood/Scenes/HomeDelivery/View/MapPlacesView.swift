@@ -1,4 +1,5 @@
 //
+<<<<<<< HEAD
 //  MapPlaces.swift
 //  AchouFood
 //
@@ -8,6 +9,17 @@
 import UIKit
 import SnapKit
 import MapKit
+=======
+//  MapPlacesView.swift
+//  AchouFood
+//
+//  Created by Arthur Rios on 24/11/25.
+//
+
+import UIKit
+import MapKit
+import SnapKit
+>>>>>>> main
 
 struct MapViewConstants {
     static let placeId = "placeId"
@@ -20,6 +32,7 @@ class MapPlacesView: UIView {
     private var allPlaces: [Place] = []
     private var filteredPlaces: [Place] = []
     
+<<<<<<< HEAD
     var onPinSelected: ((Place) -> Void)?
     var onPinDeselected: (() -> Void)?
     
@@ -29,6 +42,13 @@ class MapPlacesView: UIView {
         view.delegate = self
         view.showsCompass = true
         view.showsScale = false
+=======
+    private lazy var mapView: MKMapView = {
+        let view = MKMapView()
+        view.showsCompass = false
+        view.showsScale = false
+        view.delegate = self
+>>>>>>> main
         return view
     }()
     
@@ -40,6 +60,7 @@ class MapPlacesView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+<<<<<<< HEAD
 }
 
 extension MapPlacesView {
@@ -63,6 +84,33 @@ extension MapPlacesView {
         mapView.setVisibleMapRect(totalArea,
                                   edgePadding: UIEdgeInsets(top: 60, left: 40, bottom: 60, right: 40),
                                   animated: true)
+=======
+    
+    private func renderAnnotations(from places: [Place]) {
+        mapView.removeAnnotations(mapView.annotations)
+        guard !places.isEmpty else { return }
+        let annotationList = places.map { place in
+            PlaceAnnotation(place: place)
+        }
+        mapView.addAnnotations(annotationList)
+        
+        if annotationList.count == 1, let annotation = annotationList.first {
+            let region = MKCoordinateRegion(
+                center: annotation.coordinate,
+                latitudinalMeters: 1500,
+                longitudinalMeters: 1500
+            )
+            mapView.setRegion(region, animated: true)
+            return
+        }
+        
+        var totalArea = MKMapRect.null
+        for annotation in annotationList {
+            let point = MKMapPoint(annotation.coordinate)
+            totalArea = totalArea.union(MKMapRect(x: point.x, y: point.y, width: 0.01, height: 0.01))
+        }
+        mapView.setVisibleMapRect(totalArea, edgePadding: UIEdgeInsets(top: 60, left: 40, bottom: 60, right: 40), animated: true)
+>>>>>>> main
     }
 }
 
@@ -85,6 +133,7 @@ extension MapPlacesView {
     }
 }
 
+<<<<<<< HEAD
 extension MapPlacesView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let view = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId)
@@ -107,6 +156,8 @@ extension MapPlacesView: MKMapViewDelegate {
     }
 }
 
+=======
+>>>>>>> main
 extension MapPlacesView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(mapView)
@@ -122,3 +173,25 @@ extension MapPlacesView: ViewCodeProtocol {
         backgroundColor = .clear
     }
 }
+<<<<<<< HEAD
+=======
+
+extension MapPlacesView: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
+        let view = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId) ??
+            MKAnnotationView(annotation: annotation, reuseIdentifier: MapViewConstants.placeId)
+        view.annotation = annotation
+        view.canShowCallout = false
+        view.image = UIImage(named: MapViewConstants.blackPin)
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        view.image = UIImage(named: MapViewConstants.redPin)
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        view.image = UIImage(named: MapViewConstants.blackPin)
+    }
+}
+>>>>>>> main

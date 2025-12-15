@@ -29,8 +29,12 @@ struct HomeViewConstants {
     static let borderWidth = 2.0
     static let headerControlsHeight = 40.0
     static let topListView = 32.0
+<<<<<<< HEAD
     static let loadingHeight = 80.0
     static let placeDetaiMapHeight = 96.0
+=======
+    static let loadinHeight = 80.0
+>>>>>>> main
 }
 
 class HomeDeliveryView: UIView {
@@ -38,8 +42,11 @@ class HomeDeliveryView: UIView {
     private var selectViewMode: DisplayStyle = .list
     private var searchText: String = String()
     private var places: [Place]?
+<<<<<<< HEAD
     var onSelectedPlace: ((Place) -> Void)?
     var selectedPlace: Place?
+=======
+>>>>>>> main
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -132,6 +139,7 @@ class HomeDeliveryView: UIView {
     
     private lazy var mapView: MapPlacesView = {
         let view = MapPlacesView()
+<<<<<<< HEAD
         view.onPinSelected = { [weak self] place in
             self?.placeDetailMap.isHidden = false
             self?.setPlaceDetails(with: place)
@@ -152,6 +160,8 @@ class HomeDeliveryView: UIView {
         view.isHidden = true
         view.isUserInteractionEnabled = true
         view.addGestureRecognizer(gesture)
+=======
+>>>>>>> main
         return view
     }()
     
@@ -188,23 +198,42 @@ class HomeDeliveryView: UIView {
     }
     
     @objc
+<<<<<<< HEAD
     private func textDidChange(_ textField: UITextField) {
+=======
+    func textDidChange(_ textField: UITextField) {
+>>>>>>> main
         searchText = textField.text ?? ""
         filter(by: searchText)
     }
     
+<<<<<<< HEAD
     @objc
     private func handleMapTapped() {
         guard let place = selectedPlace else { return }
         onSelectedPlace?(place)
     }
     
+=======
+>>>>>>> main
     private func showPlaces() {
         guard let places = places else { return }
         if (selectViewMode == .list) {
             listView.showList(with: places)
         } else {
             mapView.showPlaces(with: places)
+<<<<<<< HEAD
+=======
+        }
+        filter(by: searchText)
+    }
+    
+    private func filter(by searchText: String) {
+        if (selectViewMode == .list) {
+            listView.filter(by: searchText)
+        } else {
+            mapView.filter(by: searchText)
+>>>>>>> main
         }
         filter(by: searchText)
     }
@@ -225,6 +254,10 @@ class HomeDeliveryView: UIView {
 
 extension HomeDeliveryView {
     public func setup(with places: [Place]?) {
+<<<<<<< HEAD
+=======
+        guard let places = places else { return }
+>>>>>>> main
         self.places = places
         showPlaces()
     }
@@ -246,7 +279,10 @@ extension HomeDeliveryView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(searchTextField)
         addSubview(toggleView)
+<<<<<<< HEAD
         addSubview(placeDetailMap)
+=======
+>>>>>>> main
         addSubview(loadingView)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
@@ -304,7 +340,11 @@ extension HomeDeliveryView: ViewCodeProtocol {
         }
         
         listView.snp.makeConstraints { make in
+<<<<<<< HEAD
             make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.headerControlsHeight)
+=======
+            make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.topListView)
+>>>>>>> main
             make.leading.bottom.equalToSuperview()
             make.width.equalTo(scrollView)
         }
@@ -315,6 +355,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
             make.width.equalTo(scrollView)
         }
         
+<<<<<<< HEAD
         placeDetailMap.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.margin)
             make.leading.trailing.equalToSuperview().inset(HomeViewConstants.margin)
@@ -324,6 +365,11 @@ extension HomeDeliveryView: ViewCodeProtocol {
         loadingView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.equalTo(HomeViewConstants.loadingHeight)
+=======
+        loadingView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.equalTo(HomeViewConstants.loadinHeight)
+>>>>>>> main
         }
     }
     
