@@ -41,6 +41,13 @@ class HomeDeliveryViewController: UIViewController {
         super.viewDidLoad()
         buildLayout()
         loadPlaces()
+        bindActions()
+    }
+    
+    private func bindActions() {
+        homeView.onSelectedPlace = { [weak self] place in
+            self?.coordinator.navigateToPlaceDetail(place: place)
+        }
     }
 }
 

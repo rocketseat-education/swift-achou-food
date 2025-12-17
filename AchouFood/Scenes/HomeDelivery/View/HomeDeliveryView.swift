@@ -38,6 +38,7 @@ class HomeDeliveryView: UIView {
     private var selectViewMode: DisplayStyle = .list
     private var searchText: String = String()
     private var places: [Place]?
+    var onSelectedPlace: ((Place) -> Void)?
     var selectedPlace: Place?
     
     private lazy var headerView: UIView = {
@@ -122,6 +123,9 @@ class HomeDeliveryView: UIView {
     
     private lazy var listView: ListPlacesView = {
         let view = ListPlacesView()
+        view.onCellTouched = { [weak self] place in
+            self?.onSelectedPlace?(place)
+        }
         view.backgroundColor = Color.gray100
         return view
     }()
