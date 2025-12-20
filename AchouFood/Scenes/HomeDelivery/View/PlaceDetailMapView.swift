@@ -49,6 +49,23 @@ class PlaceDetailMapView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func loadImage(with urlString: String) {
+        if let url = URL(string: urlString) {
+            placeImageView.kf.setImage(with: url,
+                                       placeholder: UIImage(systemName: "photo"),
+                                       options: [.transition(.fade(0.3))]
+            )
+        }
+    }
+}
+
+extension PlaceDetailMapView {
+    func setup(place: Place) {
+        placeNameLabel.text = place.restaurantName
+        placeAddressLabel.text = place.address
+        loadImage(with: place.imageUrl)
+    }
 }
 
 extension PlaceDetailMapView: ViewCodeProtocol {
@@ -70,7 +87,7 @@ extension PlaceDetailMapView: ViewCodeProtocol {
         }
         
         placeAddressLabel.snp.makeConstraints { make in
-            make.top.equalTo(placeNameLabel.snp.bottom).offset(PlaceDetailMapViewConstants.namePadding)
+            make.top.equalTo(placeNameLabel.snp.bottom).offset(4.0)
             make.leading.equalTo(placeImageView.snp.trailing).offset(PlaceDetailMapViewConstants.namePadding)
             make.trailing.equalToSuperview().inset(PlaceDetailMapViewConstants.namePadding)
         }

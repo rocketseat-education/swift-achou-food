@@ -30,6 +30,7 @@ struct HomeViewConstants {
     static let headerControlsHeight = 40.0
     static let topListView = 32.0
     static let loadinHeight = 80.0
+    static let placeDetailMapHeight = 96.0
 }
 
 class HomeDeliveryView: UIView {
@@ -37,6 +38,7 @@ class HomeDeliveryView: UIView {
     private var selectViewMode: DisplayStyle = .list
     private var searchText: String = String()
     private var places: [Place]?
+    var selectedPlace: Place?
     
     private lazy var headerView: UIView = {
         let view = UIView()
@@ -126,6 +128,24 @@ class HomeDeliveryView: UIView {
     
     private lazy var mapView: MapPlacesView = {
         let view = MapPlacesView()
+        view.onPinSelected = { [weak self] place in
+            self?.placeDetailMapView.isHidden = false
+            self?.setPlaceDetails(with: place)
+        }
+        view.onPinDeselected = { [weak self] in
+            self?.placeDetailMapView.isHidden = true
+        }
+        return view
+    }()
+    
+    private lazy var placeDetailMapView: PlaceDetailMapView = {
+        let view = PlaceDetailMapView()
+        view.layer.borderColor = Color.gray100.cgColor
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.layer.borderWidth = 2.0
+        view.isHidden = true
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -153,6 +173,7 @@ class HomeDeliveryView: UIView {
     
     @objc
     func handleToggle() {
+        placeDetailMapView.isHidden = true
         let pageIndex = toggleView.selectedSegmentIndex
         selectViewMode = pageIndex == 0 ? .list : .map
         let offsetX = CGFloat(pageIndex) * scrollView.bounds.width
@@ -183,6 +204,11 @@ class HomeDeliveryView: UIView {
             mapView.filter(by: searchText)
         }
     }
+    
+    private func setPlaceDetails(with place: Place) {
+        self.selectedPlace = place
+        self.placeDetailMapView.setup(place: place)
+    }
 }
 
 extension HomeDeliveryView {
@@ -209,6 +235,7 @@ extension HomeDeliveryView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(searchTextField)
         addSubview(toggleView)
+        addSubview(placeDetailMapView)
         addSubview(loadingView)
         scrollView.addSubview(contentView)
         contentView.addSubview(listView)
@@ -275,6 +302,12 @@ extension HomeDeliveryView: ViewCodeProtocol {
             make.leading.equalTo(listView.snp.trailing)
             make.top.bottom.trailing.equalToSuperview()
             make.width.equalTo(scrollView)
+        }
+        
+        placeDetailMapView.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(HomeViewConstants.margin)
+            make.leading.trailing.equalToSuperview().inset(HomeViewConstants.margin)
+            make.height.equalTo(HomeViewConstants.placeDetailMapHeight)
         }
         
         loadingView.snp.makeConstraints { make in
