@@ -21,8 +21,7 @@ public class DeliveryScenesCoordinator {
 
 extension DeliveryScenesCoordinator: PlaceDetailCoordinatorProtocol {
     public func navigateToPlaceDetail(place: Place) {
-        // Criar a ViewController com factory
-        // navegar para próxima tela com o NavigationController
-        print("Chamando Tela de Detalhes")
+        let viewController = PlaceDetailFactory.make(place: place, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

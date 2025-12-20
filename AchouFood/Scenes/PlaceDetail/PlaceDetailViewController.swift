@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class PlaceDetailViewController: UIViewController {
     
@@ -28,5 +29,21 @@ class PlaceDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buildLayout()
+    }
+}
+
+extension PlaceDetailViewController: ViewCodeProtocol {
+    func setViewHierarchy() {
+        self.view.addSubview(placeDetailView)
+    }
+    
+    func setViewConstraints() {
+        placeDetailView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func setViewConfigs() {
     }
 }

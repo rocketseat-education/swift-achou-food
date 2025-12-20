@@ -30,5 +30,6 @@ extension PlaceDetailView: ViewCodeProtocol {
     }
     
     func setViewConfigs() {
+        backgroundColor = Color.gray100
     }
 }

@@ -144,12 +144,14 @@ class HomeDeliveryView: UIView {
     
     private lazy var placeDetailMapView: PlaceDetailMapView = {
         let view = PlaceDetailMapView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTapped))
         view.layer.borderColor = Color.gray100.cgColor
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view.layer.borderWidth = 2.0
         view.isHidden = true
         view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesture)
         return view
     }()
     
@@ -189,6 +191,11 @@ class HomeDeliveryView: UIView {
     func textDidChange(_ textField: UITextField) {
         searchText = textField.text ?? ""
         filter(by: searchText)
+    }
+    
+    @objc private func handleMapTapped() {
+        guard let place = selectedPlace else { return }
+        onSelectedPlace?(place)
     }
     
     private func showPlaces() {
