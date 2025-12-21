@@ -5,6 +5,6 @@
 //  Created by Arthur Rios on 17/12/25.
 //
 
-public protocol PlaceDetailCoordinatorProtocol: AnyObject {
+public protocol HomeDeliveryCoordinator: AnyObject {
     func navigateToPlaceDetail(place: Place)
 }

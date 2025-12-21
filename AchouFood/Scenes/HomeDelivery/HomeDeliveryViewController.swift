@@ -12,11 +12,11 @@ class HomeDeliveryViewController: UIViewController {
     
     private var homeView: HomeDeliveryView
     private var viewModel: HomeDeliveryViewModel
-    private var coordinator: DeliveryScenesCoordinator
+    private var coordinator: HomeDeliveryCoordinator
     
     public init(viewModel: HomeDeliveryViewModel,
                 homeView: HomeDeliveryView,
-                coordinator: DeliveryScenesCoordinator) {
+                coordinator: HomeDeliveryCoordinator) {
         self.viewModel = viewModel
         self.homeView = homeView
         self.coordinator = coordinator
