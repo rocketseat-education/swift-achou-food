@@ -19,6 +19,7 @@ class PlaceDetailViewController: UIViewController {
                 coordinator: DeliveryScenesCoordinator) {
         self.place = placeModel
         self.placeDetailView = placeDetailView
+        self.placeDetailView.setup(place: place)
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }

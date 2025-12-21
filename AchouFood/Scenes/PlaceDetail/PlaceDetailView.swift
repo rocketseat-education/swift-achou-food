@@ -60,6 +60,14 @@ class PlaceDetailView: UIView {
         return view
     }()
     
+    private lazy var mapView: MKMapView = {
+        let view = MKMapView()
+        view.showsCompass = false
+        view.showsScale = false
+        view.delegate = self
+        return view
+    }()
+    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = Color.gray100
@@ -84,6 +92,15 @@ class PlaceDetailView: UIView {
     private func handleBack() {
         onBackButtonTapped?()
     }
+    
+    private func loadImage(with urlString: String) {
+        if let url = URL(string: urlString) {
+            placeImageView.kf.setImage(with: url,
+                                       placeholder: UIImage(systemName: "photo"),
+                                       options: [.transition(.fade(0.3))]
+            )
+        }
+    }
 }
 
 extension PlaceDetailView: ViewCodeProtocol {
@@ -93,6 +110,7 @@ extension PlaceDetailView: ViewCodeProtocol {
         addSubview(placeImageView)
         addSubview(titleLabel)
         addSubview(descriptionLabel)
+        addSubview(mapView)
     }
     
     func setViewConstraints() {
@@ -122,6 +140,11 @@ extension PlaceDetailView: ViewCodeProtocol {
             make.top.equalTo(titleLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview().inset(20)
         }
+        
+        mapView.snp.makeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
+            make.leading.trailing.bottom.equalToSuperview().inset(20)
+        }
     }
     
     func setViewConfigs() {
@@ -129,5 +152,21 @@ extension PlaceDetailView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.layer.masksToBounds = true
+        mapView.layer.cornerRadius = 20
+        mapView.layer.masksToBounds = true
+    }
+}
+
+extension PlaceDetailView {
+    public func setup(place: Place) {
+        titleLabel.text = place.restaurantName
+        descriptionLabel.text = place.description
+        loadImage(with: place.imageUrl)
+    }
+}
+
+extension PlaceDetailView: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
+        return MKAnnotationView()
     }
 }
