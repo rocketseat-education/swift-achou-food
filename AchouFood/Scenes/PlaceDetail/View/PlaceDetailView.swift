@@ -16,6 +16,13 @@ struct PlaceDetailConstants {
     static let padding = 20.0
     static let backImageSize = 36.0
     static let contentTop = 153.0
+    static let topImagePadding = 93.0
+    static let mapViewTopPadding = 32.0
+    static let mapViewRadius = 20.0
+    static let placeImageSize = 80.0
+    static let buttonsHeight = 162.0
+    static let buttonsRadius = 18.0
+    static let buttonsBorderWidth = 1.5
 }
 
 class PlaceDetailView: UIView {
@@ -68,6 +75,11 @@ class PlaceDetailView: UIView {
         return view
     }()
     
+    let placeDetailButtons: PlaceDetailButtons = {
+        let view = PlaceDetailButtons()
+        return view
+    }()
+    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = Color.gray100
@@ -111,6 +123,7 @@ extension PlaceDetailView: ViewCodeProtocol {
         addSubview(titleLabel)
         addSubview(descriptionLabel)
         addSubview(mapView)
+        addSubview(placeDetailButtons)
     }
     
     func setViewConstraints() {
@@ -126,24 +139,29 @@ extension PlaceDetailView: ViewCodeProtocol {
         }
         
         placeImageView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(93)
-            make.leading.equalToSuperview().inset(20)
-            make.size.equalTo(80)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(PlaceDetailConstants.topImagePadding)
+            make.leading.equalToSuperview().inset(PlaceDetailConstants.mapViewRadius)
+            make.size.equalTo(PlaceDetailConstants.placeImageSize)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(placeImageView.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(placeImageView.snp.bottom).offset(PlaceDetailConstants.mapViewRadius)
+            make.leading.trailing.equalToSuperview().inset(PlaceDetailConstants.mapViewRadius)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(Metrics.small)
+            make.leading.trailing.equalToSuperview().inset(PlaceDetailConstants.mapViewRadius)
         }
         
         mapView.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
-            make.leading.trailing.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(PlaceDetailConstants.mapViewTopPadding)
+            make.leading.trailing.bottom.equalToSuperview().inset(PlaceDetailConstants.mapViewRadius)
+        }
+        
+        placeDetailButtons.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(mapView).inset(Metrics.tiny)
+            make.height.equalTo(PlaceDetailConstants.buttonsHeight)
         }
     }
     
@@ -152,8 +170,12 @@ extension PlaceDetailView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.layer.masksToBounds = true
-        mapView.layer.cornerRadius = 20
+        mapView.layer.cornerRadius = PlaceDetailConstants.mapViewRadius
         mapView.layer.masksToBounds = true
+        placeDetailButtons.layer.masksToBounds = true
+        placeDetailButtons.layer.cornerRadius = PlaceDetailConstants.buttonsRadius
+        placeDetailButtons.layer.borderWidth = PlaceDetailConstants.buttonsBorderWidth
+        placeDetailButtons.layer.borderColor = Color.gray100.cgColor
     }
 }
 
@@ -162,6 +184,7 @@ extension PlaceDetailView {
         titleLabel.text = place.restaurantName
         descriptionLabel.text = place.description
         loadImage(with: place.imageUrl)
+        placeDetailButtons.setup(place: place)
     }
 }
 
