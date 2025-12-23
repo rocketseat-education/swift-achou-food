@@ -113,6 +113,19 @@ class PlaceDetailView: UIView {
             )
         }
     }
+    
+    private func showPlaceOnMap(_ place: Place) {
+        let coords = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
+        let pin = MKPointAnnotation()
+        pin.coordinate = coords
+        pin.title = place.restaurantName
+        mapView.addAnnotation(pin)
+        let region = MKCoordinateRegion(center: coords,
+                                        latitudinalMeters: 1500,
+                                        longitudinalMeters: 1500)
+        mapView.setRegion(region, animated: true)
+        mapView.selectAnnotation(pin, animated: true)
+    }
 }
 
 extension PlaceDetailView: ViewCodeProtocol {
@@ -185,11 +198,16 @@ extension PlaceDetailView {
         descriptionLabel.text = place.description
         loadImage(with: place.imageUrl)
         placeDetailButtons.setup(place: place)
+        showPlaceOnMap(place)
     }
 }
 
 extension PlaceDetailView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-        return MKAnnotationView()
+        let view = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: MapViewConstants.placeId)
+        view.annotation = annotation
+        view.canShowCallout = false
+        view.image = UIImage(named: MapViewConstants.redPin)
+        return view
     }
 }

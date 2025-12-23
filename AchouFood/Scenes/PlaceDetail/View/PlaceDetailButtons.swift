@@ -12,6 +12,12 @@ struct PlaceDetailButtonsConstants {
     static let padding = 20.0
     static let routeImage = "routeIcon"
     static let menuImage = "menuIcon"
+    static let horizontalPadding = 16.0
+    static let bottomPadding = 10.0
+    static let buttonHeight = 44.0
+    static let centerOffset = 8.0
+    static let cornerRadius = 20.0
+    static let borderWidth = 1.0
 }
 
 class PlaceDetailButtons: UIView {
@@ -116,29 +122,29 @@ extension PlaceDetailButtons: ViewCodeProtocol {
         }
         
         routeButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16.0)
-            make.trailing.equalTo(self.snp.centerX).inset(-8)
-            make.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(44.0)
+            make.leading.equalToSuperview().inset(PlaceDetailButtonsConstants.horizontalPadding)
+            make.trailing.equalTo(self.snp.centerX).offset(-PlaceDetailButtonsConstants.centerOffset)
+            make.bottom.equalToSuperview().inset(PlaceDetailButtonsConstants.bottomPadding)
+            make.height.equalTo(PlaceDetailButtonsConstants.buttonHeight)
         }
         
         menuButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16.0)
-            make.leading.equalTo(self.snp.centerX).inset(8)
-            make.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(44.0)
+            make.trailing.equalToSuperview().inset(PlaceDetailButtonsConstants.horizontalPadding)
+            make.leading.equalTo(self.snp.centerX).offset(PlaceDetailButtonsConstants.centerOffset)
+            make.bottom.equalToSuperview().inset(PlaceDetailButtonsConstants.bottomPadding)
+            make.height.equalTo(PlaceDetailButtonsConstants.buttonHeight)
         }
     }
     
     func setViewConfigs() {
         backgroundColor = Color.grayTransparent80p
         routeButton.layer.masksToBounds = true
-        routeButton.layer.cornerRadius = 20.0
-        routeButton.layer.borderWidth = 1.0
+        routeButton.layer.cornerRadius = PlaceDetailButtonsConstants.cornerRadius
+        routeButton.layer.borderWidth = PlaceDetailButtonsConstants.borderWidth
         routeButton.layer.borderColor = Color.gray100.cgColor
         menuButton.layer.masksToBounds = true
-        menuButton.layer.cornerRadius = 20.0
-        menuButton.layer.borderWidth = 1.0
+        menuButton.layer.cornerRadius = PlaceDetailButtonsConstants.cornerRadius
+        menuButton.layer.borderWidth = PlaceDetailButtonsConstants.borderWidth
         menuButton.layer.borderColor = Color.gray100.cgColor
     }
 }
