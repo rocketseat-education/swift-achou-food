@@ -28,6 +28,7 @@ struct PlaceDetailConstants {
 class PlaceDetailView: UIView {
     
     var onBackButtonTapped: (() -> Void)?
+    var presentAlert: (() -> Void)?
     
     private lazy var backButton: UIImageView = {
         let view = UIImageView()
@@ -89,6 +90,7 @@ class PlaceDetailView: UIView {
     public init() {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -125,6 +127,39 @@ class PlaceDetailView: UIView {
                                         longitudinalMeters: 1500)
         mapView.setRegion(region, animated: true)
         mapView.selectAnnotation(pin, animated: true)
+    }
+    
+    private func bindActions() {
+        placeDetailButtons.onTraceRouteTapped = { [weak self] in
+            self?.verifyUserPermission()
+        }
+        
+        placeDetailButtons.onMenuTapped = { [weak self] in
+            print("On menu tapped")
+        }
+    }
+    
+    private func traceRoute() {
+        print("trace route")
+    }
+    
+    private func verifyUserPermission() {
+        let locationManager = CLLocationManager()
+        
+        let status = locationManager.authorizationStatus
+        
+        switch(status) {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse:
+            traceRoute()
+        case .denied, .restricted:
+            // Disparar um alerta
+            presentAlert?()
+        @unknown default:
+            break
+        }
+        
     }
 }
 
