@@ -48,6 +48,14 @@ class PlaceDetailViewController: UIViewController {
         placeDetailView.onBackButtonTapped = { [weak self] in
             self?.coordinator.back()
         }
+        
+        placeDetailView.presentAlert = { [weak self] in
+            self?.coordinator.showAlert()
+        }
+        
+        placeDetailView.onTraceRoute = { [weak self] origin, destination in
+            self?.coordinator.traceRoute(origin, destination)
+        }
     }
 }
 
