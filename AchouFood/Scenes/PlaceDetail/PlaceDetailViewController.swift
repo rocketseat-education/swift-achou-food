@@ -50,21 +50,12 @@ class PlaceDetailViewController: UIViewController {
         }
         
         placeDetailView.presentAlert = { [weak self] in
-            guard let self = self else { return }
-            self.present(self.createAlert(), animated: true, completion: nil)
+            self?.coordinator.showAlert()
         }
-    }
-    
-    private func createAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "Permissão necessária", message: "Para usar esse recurso é necessário permitir acesso à sua localização. Você pode ativar esse recurso em ajustes", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Abrir configurações", style: .default, handler: { _ in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
-        }))
         
-        return alert
+        placeDetailView.onTraceRoute = { [weak self] origin, destination in
+            self?.coordinator.traceRoute(origin, destination)
+        }
     }
 }
 

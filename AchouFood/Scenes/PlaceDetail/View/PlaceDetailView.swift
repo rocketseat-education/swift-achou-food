@@ -5,11 +5,11 @@
 //  Created by Arthur Rios on 17/12/25.
 //
 
-import UIKit
-import SnapKit
-import MapKit
-import Kingfisher
 import CoreLocation
+import Kingfisher
+import MapKit
+import SnapKit
+import UIKit
 
 struct PlaceDetailConstants {
     static let backButtonImage = "backButton"
@@ -29,6 +29,8 @@ class PlaceDetailView: UIView {
     
     var onBackButtonTapped: (() -> Void)?
     var presentAlert: (() -> Void)?
+    var onTraceRoute: ((CLLocationCoordinate2D, CLLocationCoordinate2D) -> Void)?
+    var place: Place?
     
     private lazy var backButton: UIImageView = {
         let view = UIImageView()
@@ -109,9 +111,10 @@ class PlaceDetailView: UIView {
     
     private func loadImage(with urlString: String) {
         if let url = URL(string: urlString) {
-            placeImageView.kf.setImage(with: url,
-                                       placeholder: UIImage(systemName: "photo"),
-                                       options: [.transition(.fade(0.3))]
+            placeImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(systemName: "photo"),
+                options: [.transition(.fade(0.3))]
             )
         }
     }
@@ -122,9 +125,10 @@ class PlaceDetailView: UIView {
         pin.coordinate = coords
         pin.title = place.restaurantName
         mapView.addAnnotation(pin)
-        let region = MKCoordinateRegion(center: coords,
-                                        latitudinalMeters: 1500,
-                                        longitudinalMeters: 1500)
+        let region = MKCoordinateRegion(
+            center: coords,
+            latitudinalMeters: 1500,
+            longitudinalMeters: 1500)
         mapView.setRegion(region, animated: true)
         mapView.selectAnnotation(pin, animated: true)
     }
@@ -140,15 +144,21 @@ class PlaceDetailView: UIView {
     }
     
     private func traceRoute() {
-        print("trace route")
+        guard let place = place else { return }
+        let locationManager = CLLocationManager()
+        let dest = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
+        let source = locationManager.location?.coordinate
+        print(source)
+        if let source = source {
+            onTraceRoute?(source, dest)
+        }
     }
     
     private func verifyUserPermission() {
         let locationManager = CLLocationManager()
-        
         let status = locationManager.authorizationStatus
         
-        switch(status) {
+        switch status {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         case .authorizedAlways, .authorizedWhenInUse:
@@ -229,6 +239,7 @@ extension PlaceDetailView: ViewCodeProtocol {
 
 extension PlaceDetailView {
     public func setup(place: Place) {
+        self.place = place
         titleLabel.text = place.restaurantName
         descriptionLabel.text = place.description
         loadImage(with: place.imageUrl)
@@ -239,7 +250,9 @@ extension PlaceDetailView {
 
 extension PlaceDetailView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
-        let view = mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: MapViewConstants.placeId)
+        let view =
+        mapView.dequeueReusableAnnotationView(withIdentifier: MapViewConstants.placeId)
+        ?? MKAnnotationView(annotation: annotation, reuseIdentifier: MapViewConstants.placeId)
         view.annotation = annotation
         view.canShowCallout = false
         view.image = UIImage(named: MapViewConstants.redPin)
