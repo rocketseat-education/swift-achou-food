@@ -61,6 +61,14 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
     }
     
     public func openMenu(place: Place) {
+        let viewController = PlaceMenuFactory.make(place: place, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+// MARK: - PlaceMenu Coordinator
+extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
+    public func openOrder() {
     }
 }
 

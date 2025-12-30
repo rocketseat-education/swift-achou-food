@@ -56,6 +56,12 @@ class PlaceDetailViewController: UIViewController {
         placeDetailView.onTraceRoute = { [weak self] origin, destination in
             self?.coordinator.traceRoute(origin, destination)
         }
+        
+        placeDetailView.onMenuTapped = { [weak self] in
+            if let place = self?.place {
+                self?.coordinator.openMenu(place: place)
+            }
+        }
     }
 }
 

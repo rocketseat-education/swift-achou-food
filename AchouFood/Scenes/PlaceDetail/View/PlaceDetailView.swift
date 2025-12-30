@@ -30,6 +30,7 @@ class PlaceDetailView: UIView {
     var onBackButtonTapped: (() -> Void)?
     var presentAlert: (() -> Void)?
     var onTraceRoute: ((CLLocationCoordinate2D, CLLocationCoordinate2D) -> Void)?
+    var onMenuTapped: (() -> Void)?
     var place: Place?
     
     private lazy var backButton: UIImageView = {
@@ -139,7 +140,7 @@ class PlaceDetailView: UIView {
         }
         
         placeDetailButtons.onMenuTapped = { [weak self] in
-            print("On menu tapped")
+            self?.onMenuTapped?()
         }
     }
     
@@ -148,7 +149,6 @@ class PlaceDetailView: UIView {
         let locationManager = CLLocationManager()
         let dest = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         let source = locationManager.location?.coordinate
-        print(source)
         if let source = source {
             onTraceRoute?(source, dest)
         }
@@ -164,7 +164,6 @@ class PlaceDetailView: UIView {
         case .authorizedAlways, .authorizedWhenInUse:
             traceRoute()
         case .denied, .restricted:
-            // Disparar um alerta
             presentAlert?()
         @unknown default:
             break
