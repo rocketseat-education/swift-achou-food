@@ -14,6 +14,7 @@ struct PlaceMenuConstants {
     static let imageCorner = 8.0
     static let imageBorder = 1.0
     static let imagePadding = 16.0
+    static let rowHeight = 104.0
 }
 
 class PlaceMenuView: UIView {
@@ -65,11 +66,14 @@ class PlaceMenuView: UIView {
     private lazy var menuSectionView = MenuSectionsView()
     
     private lazy var tableView: UITableView = {
-        let view = UITableView()
+        let view = UITableView(frame: .zero, style: .insetGrouped)
+        view.register(MenuItemCell.self, forCellReuseIdentifier: MenuItemCell.reuseIdentifier)
         view.separatorStyle = .none
         view.delegate = self
         view.dataSource = self
         view.backgroundColor = .clear
+        view.rowHeight = PlaceMenuConstants.rowHeight
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     
@@ -161,7 +165,7 @@ extension PlaceMenuView: ViewCodeProtocol {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(menuSectionView.snp.bottom).offset(20.0)
-            make.leading.trailing.bottom.equalToSuperview().inset(20.0)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -177,16 +181,28 @@ extension PlaceMenuView: ViewCodeProtocol {
 }
 
 extension PlaceMenuView: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return place?.menu?.count ?? 0
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return place?.menu?[section].items.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UILabel()
+        view.font = Typography.labelXs
+        view.textColor = Color.redDark
+        view.text = place?.menu?[section].category.uppercased()
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        cell.selectionStyle = .none
-        cell.textLabel?.text = "teste"
-        cell.backgroundColor = .clear
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.reuseIdentifier, for: indexPath) as? MenuItemCell
+        cell?.setup(place?.menu?[indexPath.section].items[indexPath.row])
+        cell?.backgroundColor = .clear
+        cell?.selectionStyle = .none
+        return cell ?? UITableViewCell()
     }
 }
 

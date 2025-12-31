@@ -115,20 +115,16 @@ private extension MenuSectionsView {
         let index = sender.tag
         guard items.indices.contains(index) else { return }
 
-        // ✅ clicou no mesmo botão selecionado -> toggle off (volta para cinza)
         if selectedIndex == index {
             applyDeselectedStyle(to: sender)
             selectedIndex = nil
             return
         }
-
-        // ✅ se havia outro selecionado, desmarca
         if let previousIndex = selectedIndex,
            let previousButton = stackView.arrangedSubviews[safe: previousIndex] as? UIButton {
             applyDeselectedStyle(to: previousButton)
         }
 
-        // ✅ seleciona o novo
         applySelectedStyle(to: sender)
         selectedIndex = index
 
