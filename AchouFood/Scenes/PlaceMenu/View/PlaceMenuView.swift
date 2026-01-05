@@ -15,12 +15,18 @@ struct PlaceMenuConstants {
     static let imageBorder = 1.0
     static let imagePadding = 16.0
     static let rowHeight = 104.0
+    static let backImageSize = 36.0
+    static let padding = 20.0
+    static let tablePadding = 20.0
+    static let orderViewHeight = 84.0
+    static let bottomPadding = 34.0
 }
 
 class PlaceMenuView: UIView {
     
-    var onBackButtonTapped: (() -> Void)?
-    var place: Place?
+    var onBackButtonTapped: (() -> Void)? = nil
+    var place: Place? = nil
+    var categorySelected: Int? = nil
     
     private lazy var backButton: UIImageView = {
         let view = UIImageView()
@@ -77,9 +83,16 @@ class PlaceMenuView: UIView {
         return view
     }()
     
+    private lazy var orderDetailsView: OrderDetailsView = {
+        let view = OrderDetailsView()
+        view.setup(itens: "0 ITEMS", total: "R$ 0,00")
+        return view
+    }()
+    
     public init() {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -105,6 +118,13 @@ class PlaceMenuView: UIView {
             )
         }
     }
+    
+    private func bindActions() {
+        menuSectionView.itemSelected = { [weak self] itemSelected in
+            self?.categorySelected = itemSelected
+            self?.tableView.reloadData()
+        }
+    }
 }
 
 extension PlaceMenuView {
@@ -126,13 +146,14 @@ extension PlaceMenuView: ViewCodeProtocol {
         addSubview(subTitleLabel)
         contentView.addSubview(menuSectionView)
         contentView.addSubview(tableView)
+        contentView.addSubview(orderDetailsView)
     }
     
     func setViewConstraints() {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(Metrics.medium)
-            make.leading.equalToSuperview().offset(PlaceDetailConstants.padding)
-            make.size.equalTo(PlaceDetailConstants.backImageSize)
+            make.leading.equalToSuperview().offset(PlaceMenuConstants.padding)
+            make.size.equalTo(PlaceMenuConstants.backImageSize)
         }
         
         contentView.snp.makeConstraints { make in
@@ -164,8 +185,14 @@ extension PlaceMenuView: ViewCodeProtocol {
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(menuSectionView.snp.bottom).offset(20.0)
+            make.top.equalTo(menuSectionView.snp.bottom).offset(PlaceMenuConstants.tablePadding)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        orderDetailsView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(PlaceMenuConstants.tablePadding)
+            make.height.equalTo(PlaceMenuConstants.orderViewHeight)
+            make.bottom.equalToSuperview().inset(PlaceMenuConstants.bottomPadding)
         }
     }
     
@@ -177,29 +204,43 @@ extension PlaceMenuView: ViewCodeProtocol {
         placeImageView.layer.cornerRadius = PlaceMenuConstants.imageCorner
         placeImageView.layer.borderWidth = PlaceMenuConstants.imageBorder
         placeImageView.layer.borderColor = Color.gray100.cgColor
+        
+        orderDetailsView.layer.masksToBounds = true
+        orderDetailsView.layer.cornerRadius = 18.0
+        orderDetailsView.layer.borderWidth = 1.5
+        orderDetailsView.layer.borderColor = Color.gray100.cgColor
     }
 }
 
 extension PlaceMenuView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return place?.menu?.count ?? 0
+        return categorySelected != nil ? 1 : (place?.menu?.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return place?.menu?[section].items.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UILabel()
-        view.font = Typography.labelXs
-        view.textColor = Color.redDark
-        view.text = place?.menu?[section].category.uppercased()
-        return view
+        let currentSection = categorySelected != nil ? categorySelected! : section
+        return place?.menu?[currentSection].items.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let currentSection = categorySelected != nil ? categorySelected! : indexPath.section
         let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.reuseIdentifier, for: indexPath) as? MenuItemCell
-        cell?.setup(place?.menu?[indexPath.section].items[indexPath.row])
+        cell?.setup(place?.menu?[currentSection].items[indexPath.row])
+        cell?.handleAddItem =  { [weak self] in
+            guard let self = self else { return }
+            self.place?.menu?[currentSection].items[indexPath.row].selectedCount += 1
+            self.tableView.reloadData()
+            OrderManager.shared.setItem(menuItem: (place?.menu?[currentSection].items[indexPath.row])!)
+            orderDetailsView.setup(itens: OrderManager.shared.qtdItens(), total: OrderManager.shared.totalOrder())
+        }
+        cell?.handleRemoveItem =  { [weak self] in
+            guard let self = self else { return }
+            if (self.place?.menu?[currentSection].items[indexPath.row].selectedCount == 0) { return }
+            self.place?.menu?[currentSection].items[indexPath.row].selectedCount -= 1
+            self.tableView.reloadData()
+            OrderManager.shared.setItem(menuItem: (place?.menu?[currentSection].items[indexPath.row])!)
+            orderDetailsView.setup(itens: OrderManager.shared.qtdItens(), total: OrderManager.shared.totalOrder())
+        }
         cell?.backgroundColor = .clear
         cell?.selectionStyle = .none
         return cell ?? UITableViewCell()
@@ -207,8 +248,13 @@ extension PlaceMenuView: UITableViewDataSource {
 }
 
 extension PlaceMenuView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let currentSection = categorySelected != nil ? categorySelected! : section
+        let view = UILabel()
+        view.font = Typography.labelXs
+        view.textColor = Color.redDark
+        view.text = place?.menu?[currentSection].category.uppercased()
+        return view
     }
 }
 

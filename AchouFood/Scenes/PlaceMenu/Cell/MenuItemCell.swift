@@ -12,11 +12,20 @@ import Kingfisher
 struct MenuItemCellConstants {
     static let iconWidth = 84.0
     static let iconHeight = 84.0
+    static let leadingPadding = 14.0
+    static let trailingPadding = 20.0
+    static let topNameLabel = 20.0
+    static let priceLabelTopPadding = 12.0
+    static let buttonSize = 24.0
+    static let countViewSize = 32.0
+    static let separatorHeight = 1.0
 }
 
 class MenuItemCell: UITableViewCell {
     
     static let reuseIdentifier: String = "MenuItemCell"
+    public var handleAddItem: (() -> Void)?
+    public var handleRemoveItem: (() -> Void)?
 
     private lazy var placeImageView: UIImageView = {
         let view = UIImageView()
@@ -52,6 +61,40 @@ class MenuItemCell: UITableViewCell {
         return view
     }()
     
+    private lazy var countItensView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = Color.gray200.cgColor
+        view.layer.cornerRadius = 8.0
+        return view
+    }()
+    
+    private lazy var countItensLabel: UILabel = {
+        let view = UILabel()
+        view.font = Typography.labelXs
+        view.textColor = Color.gray400
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private lazy var addItem: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.setImage(UIImage(named: "add"), for: .normal)
+        view.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        view.titleLabel?.font = Typography.labelXs
+        return view
+    }()
+    
+    private lazy var removeItemButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.setImage(UIImage(named: "remove"), for: .normal)
+        view.addTarget(self, action: #selector(handleRemove), for: .touchUpInside)
+        view.titleLabel?.font = Typography.labelXs
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         buildLayout()
@@ -69,13 +112,26 @@ class MenuItemCell: UITableViewCell {
             )
         }
     }
+    
+    @objc
+    private func handleAdd() {
+        handleAddItem?()
+    }
+    
+    @objc
+    private func handleRemove() {
+        handleRemoveItem?()
+    }
 }
 
 extension MenuItemCell {
     func setup(_ menuItem: MenuItem?) {
-        itemNameLabel.text = menuItem?.name ?? ""
-        itemPriceLabel.text = "R$ \(menuItem?.price ?? 0.0)"
-        loadImage(with: menuItem?.imageUrl ?? "")
+        if let menuItem = menuItem {
+            countItensLabel.text = "\(menuItem.selectedCount)"
+            itemNameLabel.text = menuItem.name
+            itemPriceLabel.text = "\(menuItem.price)"
+            loadImage(with: menuItem.imageUrl)
+        }
     }
 }
 
@@ -85,6 +141,10 @@ extension MenuItemCell: ViewCodeProtocol {
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(itemPriceLabel)
         contentView.addSubview(separatorView)
+        contentView.addSubview(removeItemButton)
+        contentView.addSubview(countItensView)
+        contentView.addSubview(addItem)
+        countItensView.addSubview(countItensLabel)
     }
     
     func setViewConstraints() {
@@ -95,20 +155,42 @@ extension MenuItemCell: ViewCodeProtocol {
         }
         
         itemNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(CellConstants.topMarginPlaceName)
-            make.leading.equalTo(placeImageView.snp.trailing).offset(CellConstants.leftMargin)
-            make.trailing.equalToSuperview().offset(-CellConstants.cellMargin)
+            make.top.equalToSuperview().offset(MenuItemCellConstants.topNameLabel)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(MenuItemCellConstants.leadingPadding)
+            make.trailing.equalToSuperview().offset(-MenuItemCellConstants.trailingPadding)
         }
         
         itemPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(itemNameLabel.snp.bottom).offset(4.0)
-            make.leading.equalTo(placeImageView.snp.trailing).offset(CellConstants.leftMargin)
-            make.trailing.equalToSuperview().offset(-CellConstants.cellMargin)
+            make.top.equalTo(itemNameLabel.snp.bottom).offset(MenuItemCellConstants.topNameLabel)
+            make.leading.equalTo(placeImageView.snp.trailing).offset(MenuItemCellConstants.leadingPadding)
+            make.trailing.equalTo(addItem.snp.leading).offset(-MenuItemCellConstants.trailingPadding)
+        }
+        
+        removeItemButton.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.buttonSize)
+            make.trailing.equalToSuperview()
+        }
+        
+        countItensView.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.countViewSize)
+            make.trailing.equalTo(removeItemButton.snp.leading).offset(-Metrics.nano)
+        }
+        
+        countItensLabel.snp.makeConstraints { make in
+            make.center.equalTo(countItensView)
+        }
+        
+        addItem.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.buttonSize)
+            make.trailing.equalTo(countItensView.snp.leading).offset(-Metrics.nano)
         }
         
         separatorView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(1.0)
+            make.height.equalTo(MenuItemCellConstants.separatorHeight)
         }
     }
     

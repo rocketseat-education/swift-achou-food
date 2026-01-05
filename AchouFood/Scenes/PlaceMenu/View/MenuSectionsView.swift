@@ -8,10 +8,16 @@
 import UIKit
 import SnapKit
 
+struct MenuSectionsConstants {
+    static let sectionHeight = 26.0
+    static let hoizontalPadding = 16.0
+}
+
 final class MenuSectionsView: UIView {
 
     private var items: [MenuCategory] = []
-    private var selectedIndex: Int? // ✅ controla seleção (pode ser nil)
+    private var selectedIndex: Int? = nil
+    var itemSelected: ((Int?) -> Void)? = nil
 
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -72,27 +78,21 @@ private extension MenuSectionsView {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
 
-        // Fonte
         button.titleLabel?.font = Typography.label2Xs
         button.titleLabel?.textColor = Color.gray400
 
-        // "pill"
         button.layer.cornerRadius = 12
         button.layer.borderWidth = 1
         button.clipsToBounds = true
 
-        // padding interno
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
 
-        // Altura fixa para ficar consistente
         button.snp.makeConstraints { make in
-            make.height.equalTo(26)
+            make.height.equalTo(MenuSectionsConstants.sectionHeight)
         }
 
-        // Estado inicial (desselecionado)
         applyDeselectedStyle(to: button)
 
-        // Ação
         button.tag = index
         button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
 
@@ -118,8 +118,10 @@ private extension MenuSectionsView {
         if selectedIndex == index {
             applyDeselectedStyle(to: sender)
             selectedIndex = nil
+            itemSelected?(selectedIndex)
             return
         }
+        
         if let previousIndex = selectedIndex,
            let previousButton = stackView.arrangedSubviews[safe: previousIndex] as? UIButton {
             applyDeselectedStyle(to: previousButton)
@@ -127,8 +129,7 @@ private extension MenuSectionsView {
 
         applySelectedStyle(to: sender)
         selectedIndex = index
-
-        print("Selecionado:", index)
+        itemSelected?(selectedIndex)
     }
 }
 
@@ -144,20 +145,17 @@ extension MenuSectionsView: ViewCodeProtocol {
     func setViewConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(26) // altura do componente (ajuste se quiser)
+            make.height.equalTo(MenuSectionsConstants.sectionHeight)
         }
-
-        // Conteúdo do scroll
+        
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(scrollView) // ✅ scroll horizontal: altura travada
+            make.height.equalTo(scrollView)
         }
 
-        // Stack com padding lateral
         stackView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().inset(16) // ✅ define o contentSize horizontal
+            make.leading.trailing.equalToSuperview().offset(MenuSectionsConstants.hoizontalPadding)
         }
     }
 
