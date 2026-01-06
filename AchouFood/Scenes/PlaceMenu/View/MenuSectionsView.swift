@@ -5,39 +5,43 @@
 //  Created by Silvano Malfatti on 29/12/25.
 //
 
+//
+//  MenuSectionsView.swift
+//  AchouFood
+//
+
 import UIKit
 import SnapKit
 
 struct MenuSectionsConstants {
     static let sectionHeight = 26.0
-    static let hoizontalPadding = 16.0
+    static let horizontalPadding = 16.0
 }
 
 final class MenuSectionsView: UIView {
 
     private var items: [MenuCategory] = []
-    private var selectedIndex: Int? = nil
-    var itemSelected: ((Int?) -> Void)? = nil
+    private var selectedIndex: Int? = nil   // ✅ começa nil pra aplicar o primeiro highlight
+
+    var itemSelected: ((Int) -> Void)?
 
     private lazy var scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.showsHorizontalScrollIndicator = false
-        sv.alwaysBounceHorizontal = true
-        sv.backgroundColor = .clear
-        return sv
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceHorizontal = true
+        scrollView.backgroundColor = .clear
+        return scrollView
     }()
 
-    private lazy var contentView: UIView = {
-        UIView()
-    }()
+    private lazy var contentView = UIView()
 
     private lazy var stackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .horizontal
-        sv.alignment = .fill
-        sv.distribution = .fill
-        sv.spacing = 8 // ✅ distância entre os botões
-        return sv
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        return stackView
     }()
 
     init() {
@@ -55,19 +59,41 @@ extension MenuSectionsView {
 
     func setup(menuItens: [MenuCategory]) {
         self.items = menuItens
-        self.selectedIndex = nil // ✅ inicia sem seleção
 
-        // Limpa botões anteriores (reuso seguro)
         stackView.arrangedSubviews.forEach { view in
             stackView.removeArrangedSubview(view)
             view.removeFromSuperview()
         }
 
-        // Cria botões
+        guard !menuItens.isEmpty else { return }
+
         for (index, item) in menuItens.enumerated() {
             let button = makeButton(title: item.category, index: index)
             stackView.addArrangedSubview(button)
         }
+
+        // ✅ estado inicial: primeiro selecionado (sem disparar callback)
+        setSelected(index: 0, notify: false, animated: false)
+    }
+
+    func setSelected(index: Int, notify: Bool = true, animated: Bool = true) {
+        guard items.indices.contains(index) else { return }
+        guard selectedIndex != index else { return }
+
+        if let previous = selectedIndex,
+           let previousButton = stackView.arrangedSubviews[safe: previous] as? UIButton {
+            applyDeselectedStyle(to: previousButton)
+        }
+
+        if let currentButton = stackView.arrangedSubviews[safe: index] as? UIButton {
+            applySelectedStyle(to: currentButton)
+
+            let rect = currentButton.convert(currentButton.bounds, to: scrollView)
+            scrollView.scrollRectToVisible(rect.insetBy(dx: -16, dy: 0), animated: animated)
+        }
+
+        selectedIndex = index
+        if notify { itemSelected?(index) }
     }
 }
 
@@ -79,13 +105,12 @@ private extension MenuSectionsView {
         button.setTitle(title, for: .normal)
 
         button.titleLabel?.font = Typography.label2Xs
-        button.titleLabel?.textColor = Color.gray400
-
         button.layer.cornerRadius = 12
         button.layer.borderWidth = 1
         button.clipsToBounds = true
 
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        // altura é 26, então padding pequeno
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
 
         button.snp.makeConstraints { make in
             make.height.equalTo(MenuSectionsConstants.sectionHeight)
@@ -95,7 +120,6 @@ private extension MenuSectionsView {
 
         button.tag = index
         button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
-
         return button
     }
 
@@ -107,29 +131,14 @@ private extension MenuSectionsView {
 
     func applyDeselectedStyle(to button: UIButton) {
         button.backgroundColor = .clear
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(Color.gray400, for: .normal)
         button.layer.borderColor = Color.gray200.cgColor
     }
 
     @objc func didTapButton(_ sender: UIButton) {
         let index = sender.tag
         guard items.indices.contains(index) else { return }
-
-        if selectedIndex == index {
-            applyDeselectedStyle(to: sender)
-            selectedIndex = nil
-            itemSelected?(selectedIndex)
-            return
-        }
-        
-        if let previousIndex = selectedIndex,
-           let previousButton = stackView.arrangedSubviews[safe: previousIndex] as? UIButton {
-            applyDeselectedStyle(to: previousButton)
-        }
-
-        applySelectedStyle(to: sender)
-        selectedIndex = index
-        itemSelected?(selectedIndex)
+        setSelected(index: index, notify: true, animated: true)
     }
 }
 
@@ -145,9 +154,9 @@ extension MenuSectionsView: ViewCodeProtocol {
     func setViewConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(MenuSectionsConstants.sectionHeight)
+            make.height.equalTo(MenuSectionsConstants.sectionHeight) // ✅ garante visível
         }
-        
+
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.height.equalTo(scrollView)
@@ -155,7 +164,7 @@ extension MenuSectionsView: ViewCodeProtocol {
 
         stackView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.leading.trailing.equalToSuperview().offset(MenuSectionsConstants.hoizontalPadding)
+            make.leading.trailing.equalToSuperview().inset(MenuSectionsConstants.horizontalPadding)
         }
     }
 
@@ -170,5 +179,8 @@ private extension Collection {
         indices.contains(index) ? self[index] : nil
     }
 }
+
+
+
 
 

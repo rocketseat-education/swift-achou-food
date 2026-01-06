@@ -133,6 +133,10 @@ extension MenuItemCell {
             loadImage(with: menuItem.imageUrl)
         }
     }
+    
+    func updateCount(_ count: Int) {
+        countItensLabel.text = "\(count)"
+    }
 }
 
 extension MenuItemCell: ViewCodeProtocol {
