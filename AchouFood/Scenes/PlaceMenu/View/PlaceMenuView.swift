@@ -139,7 +139,7 @@ class PlaceMenuView: UIView {
     }
 
     private func bindActions() {
-        menuSectionView.itemSelected = { [weak self] section in
+        menuSectionView.scrollTableTo = { [weak self] section in
             self?.scrollToSection(section)
         }
     }
@@ -158,7 +158,7 @@ extension PlaceMenuView {
 
         // estado inicial: topo + primeiro selecionado
         currentHighlightedSection = 0
-        menuSectionView.setSelected(index: 0, notify: false, animated: false)
+        menuSectionView.setSelected(index: 0, needToScroll: false, animated: false)
         tableView.setContentOffset(.zero, animated: false)
 
         // evita que conteúdo fique atrás do orderDetailsView
@@ -177,7 +177,7 @@ private extension PlaceMenuView {
         currentHighlightedSection = section
 
         // mantém highlight do menu sem disparar callback
-        menuSectionView.setSelected(index: section, notify: false, animated: true)
+        menuSectionView.setSelected(index: section, needToScroll: false, animated: true)
 
         let indexPath = IndexPath(row: 0, section: section)
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
@@ -207,7 +207,7 @@ private extension PlaceMenuView {
     func setHighlightedSection(_ section: Int) {
         guard section != currentHighlightedSection else { return }
         currentHighlightedSection = section
-        menuSectionView.setSelected(index: section, notify: false, animated: true)
+        menuSectionView.setSelected(index: section, needToScroll: false, animated: true)
     }
 
     func sectionAtTop(yPosition y: CGFloat) -> Int {
@@ -378,15 +378,7 @@ extension PlaceMenuView: UITableViewDelegate {
         guard scrollView === tableView else { return }
         updateHighlightedSectionFromScroll()
     }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 32
-    }
-
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 32
-    }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.font = Typography.labelXs
