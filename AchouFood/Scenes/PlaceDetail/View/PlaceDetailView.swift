@@ -30,6 +30,7 @@ class PlaceDetailView: UIView {
     var onBackButtonTapped: (() -> Void)?
     var presentAlert: (() -> Void)?
     var onTraceRoute: ((CLLocationCoordinate2D, CLLocationCoordinate2D) -> Void)?
+    var onMenuTapped: (() -> Void)?
     var place: Place?
     
     private lazy var backButton: UIImageView = {
@@ -139,7 +140,7 @@ class PlaceDetailView: UIView {
         }
         
         placeDetailButtons.onMenuTapped = { [weak self] in
-            print("On menu tapped")
+            self?.onMenuTapped?()
         }
     }
     
