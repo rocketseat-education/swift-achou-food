@@ -18,6 +18,7 @@ struct PlaceMenuConstants {
     static let placeImagePadding = 16.0
     static let placeImageSize = 36.0
     static let title = "placeMenu.title".localized
+    static let sectionViewHeight = 26.0
 }
 
 class PlaceMenuView: UIView {
@@ -67,6 +68,8 @@ class PlaceMenuView: UIView {
         return view
     }()
     
+    private lazy var menuSections = MenuSectionsView()
+    
     public init() {
         super.init(frame: .zero)
         buildLayout()
@@ -102,6 +105,7 @@ extension PlaceMenuView {
         self.place = place
         self.subTitleLabel.text = place.restaurantName
         loadImage(with: place.imageUrl)
+        menuSections.setup(menuItems: place.menu ?? [])
     }
 }
 
@@ -112,6 +116,7 @@ extension PlaceMenuView: ViewCodeProtocol {
         addSubview(titleLabel)
         addSubview(subTitleLabel)
         addSubview(contentView)
+        contentView.addSubview(menuSections)
     }
     
     func setViewConstraints() {
@@ -142,6 +147,12 @@ extension PlaceMenuView: ViewCodeProtocol {
         contentView.snp.makeConstraints { make in
             make.top.equalTo(placeImageView.snp.bottom).offset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        menuSections.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Metrics.medium)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(PlaceMenuConstants.sectionViewHeight)
         }
     }
     

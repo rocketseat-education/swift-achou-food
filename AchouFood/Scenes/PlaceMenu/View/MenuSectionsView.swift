@@ -35,7 +35,7 @@ final class MenuSectionsView: UIView {
         stackView.spacing = MenuSectionsConstants.buttonsSpacing
         return stackView
     }()
-    
+        
     init() {
         super.init(frame: .zero)
         buildLayout()
@@ -44,12 +44,48 @@ final class MenuSectionsView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func createButtons() {
+        for (index, item) in items.enumerated() {
+            let button = makeButton(title: item.category, index: index)
+            stackView.addArrangedSubview(button)
+        }
+    }
+    
+    private func makeButton(title: String, index: Int) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = Typography.label2Xs
+        button.layer.cornerRadius = 12.0
+        button.layer.borderWidth = 1.0
+        button.clipsToBounds = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 6.0, left: 12.0, bottom: 6.0, right: 12.0)
+        button.tag = index
+        button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
+        return button
+    }
+    
+    private func applySelectedStyle(to button: UIButton) {
+        button.backgroundColor = Color.redDark
+        button.setTitleColor(Color.gray200, for: .normal)
+    }
+    
+    private func applyDeselectedStyle(to button: UIButton) {
+        button.backgroundColor = .clear
+        button.setTitleColor(Color.gray400, for: .normal)
+    }
+    
+    @objc
+    private func didTapButton(_ sender: UIButton) {
+        print(sender.tag)
+    }
 }
 
 extension MenuSectionsView {
     func setup(menuItems: [MenuCategory]) {
         if menuItems.isEmpty { return }
         self.items = menuItems
+        createButtons()
     }
 }
 
