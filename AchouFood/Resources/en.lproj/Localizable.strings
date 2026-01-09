@@ -13,3 +13,4 @@
 "alert.message" = "Para usar esse recurso é necessário permitir acesso à sua localização. Você pode ativar esse recurso em ajustes";
 "alert.cancel" = "Cancelar";
 "alert.settings" = "Abrir configurações";
+"placeMenu.title" = "CARDÁPIO";

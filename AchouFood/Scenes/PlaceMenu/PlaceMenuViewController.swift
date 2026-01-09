@@ -13,10 +13,12 @@ class PlaceMenuViewController: UIViewController {
     private var placeMenuView: PlaceMenuView
     private var coordinator: PlaceMenuCoordinator
     
-    public init(placeMenuView: PlaceMenuView,
+    public init(place: Place,
+                placeMenuView: PlaceMenuView,
                 coordinator: PlaceMenuCoordinator
     ) {
         self.placeMenuView = placeMenuView
+        self.placeMenuView.setup(place: place)
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,6 +30,7 @@ class PlaceMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        bindActions()
     }
     
     override func viewWillAppear(_ animated: Bool) {

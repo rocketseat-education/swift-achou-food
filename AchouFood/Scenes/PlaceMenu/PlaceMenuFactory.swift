@@ -8,8 +8,10 @@
 import UIKit
 
 final class PlaceMenuFactory {
-    static func make() -> UIViewController {
+    static func make(place: Place, coordinator: PlaceMenuCoordinator) -> UIViewController {
         let view = PlaceMenuView()
-        return PlaceMenuViewController(placeMenuView: view)
+        return PlaceMenuViewController(place: place,
+                                       placeMenuView: view,
+                                       coordinator: coordinator)
     }
 }
