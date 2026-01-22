@@ -73,6 +73,7 @@ class PlaceMenuView: UIView {
     public init() {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -96,6 +97,12 @@ class PlaceMenuView: UIView {
                 placeholder: UIImage(systemName: "photo"),
                 options: [.transition(.fade(0.3))]
             )
+        }
+    }
+    
+    private func bindActions() {
+        menuSections.scrollTableTo = { [weak self] section in
+            print("Nova seção selecionada")
         }
     }
 }
