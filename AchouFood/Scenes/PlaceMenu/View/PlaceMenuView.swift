@@ -19,6 +19,8 @@ struct PlaceMenuConstants {
     static let placeImageSize = 36.0
     static let title = "placeMenu.title".localized
     static let sectionViewHeight = 26.0
+    static let tablePadding = 20.0
+    static let tableSectionHeight = 17.0
 }
 
 class PlaceMenuView: UIView {
@@ -69,6 +71,19 @@ class PlaceMenuView: UIView {
     }()
     
     private lazy var menuSections = MenuSectionsView()
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .insetGrouped)
+        view.register(MenuItemCell.self, forCellReuseIdentifier: MenuItemCell.identifier)
+        view.separatorStyle = .none
+        view.dataSource = self
+        view.delegate = self
+        view.backgroundColor = .clear
+        view.showsVerticalScrollIndicator = false
+        view.sectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
+        view.estimatedSectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
+        return view
+    }()
     
     public init() {
         super.init(frame: .zero)
@@ -124,6 +139,7 @@ extension PlaceMenuView: ViewCodeProtocol {
         addSubview(subTitleLabel)
         addSubview(contentView)
         contentView.addSubview(menuSections)
+        contentView.addSubview(tableView)
     }
     
     func setViewConstraints() {
@@ -161,6 +177,11 @@ extension PlaceMenuView: ViewCodeProtocol {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(PlaceMenuConstants.sectionViewHeight)
         }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(menuSections.snp.bottom).offset(PlaceMenuConstants.tablePadding)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     func setViewConfigs() {
@@ -173,5 +194,33 @@ extension PlaceMenuView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
+    }
+}
+
+extension PlaceMenuView: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return place?.menu?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return place?.menu?[section].items.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}
+
+extension PlaceMenuView: UITableViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.font = Typography.labelXs
+        label.textColor = Color.redDark
+        label.text = place?.menu?[section].category.uppercased()
+        return label
     }
 }
