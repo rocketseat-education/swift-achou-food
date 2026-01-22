@@ -21,6 +21,7 @@ struct PlaceMenuConstants {
     static let sectionViewHeight = 26.0
     static let tablePadding = 20.0
     static let tableSectionHeight = 17.0
+    static let rowHeight = 104.0
 }
 
 class PlaceMenuView: UIView {
@@ -82,6 +83,7 @@ class PlaceMenuView: UIView {
         view.showsVerticalScrollIndicator = false
         view.sectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
         view.estimatedSectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
+        view.rowHeight = PlaceMenuConstants.rowHeight
         return view
     }()
     
@@ -208,7 +210,15 @@ extension PlaceMenuView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.identifier, for: indexPath) as? MenuItemCell
+        
+        cell?.setup(place?.menu?[section].items[row])
+        
+        cell?.selectionStyle = .none
+        return cell ?? UITableViewCell()
     }
 }
 
