@@ -15,6 +15,9 @@ struct MenuItemCellConstants {
     static let titleTopPadding = 32.0
     static let priceLeadingPadding = 14.0
     static let separatorHeight = 1.0
+    static let priceTopPadding = 20.0
+    static let buttonSize = 20.0
+    static let countViewSize = 32.0
 }
 
 class MenuItemCell: UITableViewCell {
@@ -52,6 +55,39 @@ class MenuItemCell: UITableViewCell {
         return view
     }()
     
+    private lazy var countItemsView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = Color.gray200.cgColor
+        view.layer.cornerRadius = 8.0
+        return view
+    }()
+    
+    private lazy var countItemsLabel: UILabel = {
+        let view = UILabel()
+        view.font = Typography.labelXs
+        view.textColor = Color.gray400
+        return view
+    }()
+    
+    private lazy var addItem: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.setImage(UIImage(named: "add"), for: .normal)
+        view.titleLabel?.font = Typography.labelXs
+        view.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var removeItem: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        view.setImage(UIImage(named: "remove"), for: .normal)
+        view.titleLabel?.font = Typography.labelXs
+        view.addTarget(self, action: #selector(handleRemove), for: .touchUpInside)
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         buildLayout()
@@ -70,11 +106,22 @@ class MenuItemCell: UITableViewCell {
             )
         }
     }
+    
+    @objc
+    private func handleAdd() {
+        
+    }
+    
+    @objc
+    private func handleRemove() {
+        
+    }
 }
 
 extension MenuItemCell {
     func setup(_ menuItem: MenuItem?) {
         guard let menuItem = menuItem else { return }
+        countItemsLabel.text = "\(menuItem.selectedCount)"
         itemNameLabel.text = menuItem.name
         itemPriceLabel.text = "R$ \(menuItem.price)"
         loadImage(with: menuItem.imageUrl)
@@ -87,6 +134,10 @@ extension MenuItemCell: ViewCodeProtocol {
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(itemPriceLabel)
         contentView.addSubview(separatorView)
+        contentView.addSubview(addItem)
+        contentView.addSubview(countItemsView)
+        contentView.addSubview(removeItem)
+        countItemsView.addSubview(countItemsLabel)
     }
     
     func setViewConstraints() {
@@ -103,7 +154,7 @@ extension MenuItemCell: ViewCodeProtocol {
         }
         
         itemPriceLabel.snp.makeConstraints { make in
-            make.top.equalTo(itemNameLabel.snp.bottom).offset(Metrics.nano)
+            make.top.equalTo(itemNameLabel.snp.bottom).offset(MenuItemCellConstants.priceTopPadding)
             make.leading.equalTo(placeImageView.snp.trailing).offset(MenuItemCellConstants.priceLeadingPadding)
             make.trailing.equalToSuperview()
         }
@@ -111,6 +162,28 @@ extension MenuItemCell: ViewCodeProtocol {
         separatorView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(MenuItemCellConstants.separatorHeight)
+        }
+        
+        addItem.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.buttonSize)
+            make.trailing.equalToSuperview()
+        }
+        
+        countItemsView.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.countViewSize)
+            make.trailing.equalTo(addItem.snp.leading).offset(-Metrics.nano)
+        }
+        
+        countItemsLabel.snp.makeConstraints { make in
+            make.center.equalTo(countItemsView)
+        }
+        
+        removeItem.snp.makeConstraints { make in
+            make.centerY.equalTo(itemPriceLabel)
+            make.size.equalTo(MenuItemCellConstants.buttonSize)
+            make.trailing.equalTo(countItemsView.snp.leading).offset(-Metrics.nano)
         }
     }
     
