@@ -22,6 +22,8 @@ struct PlaceMenuConstants {
     static let tablePadding = 20.0
     static let tableSectionHeight = 17.0
     static let rowHeight = 104.0
+    static let orderDetailsHeight = 84.0
+    static let orderBottomPadding = 34.0
 }
 
 class PlaceMenuView: UIView {
@@ -87,6 +89,12 @@ class PlaceMenuView: UIView {
         return view
     }()
     
+    private lazy var orderDetailsView: OrderDetailsView = {
+        let view = OrderDetailsView()
+        view.setup(items: "0 ITENS", total: "R$ 0,00")
+        return view
+    }()
+    
     public init() {
         super.init(frame: .zero)
         buildLayout()
@@ -142,6 +150,7 @@ extension PlaceMenuView: ViewCodeProtocol {
         addSubview(contentView)
         contentView.addSubview(menuSections)
         contentView.addSubview(tableView)
+        contentView.addSubview(orderDetailsView)
     }
     
     func setViewConstraints() {
@@ -184,6 +193,12 @@ extension PlaceMenuView: ViewCodeProtocol {
             make.top.equalTo(menuSections.snp.bottom).offset(PlaceMenuConstants.tablePadding)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        orderDetailsView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(PlaceMenuConstants.padding)
+            make.height.equalTo(PlaceMenuConstants.orderDetailsHeight)
+            make.bottom.equalToSuperview().inset(PlaceMenuConstants.orderBottomPadding)
+        }
     }
     
     func setViewConfigs() {
@@ -196,6 +211,11 @@ extension PlaceMenuView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
+        
+        orderDetailsView.layer.masksToBounds = true
+        orderDetailsView.layer.cornerRadius = 18.0
+        orderDetailsView.layer.borderWidth = 1.5
+        orderDetailsView.layer.borderColor = Color.gray100.cgColor
     }
 }
 
