@@ -10,13 +10,36 @@ import MapKit
 
 public class DeliveryScenesCoordinator {
     private var navigationController: UINavigationController?
+    private var tabBarController: UITabBarController?
     
     // MARK: - Start
-    func start() -> UINavigationController? {
-        let homeDeliveryViewController = HomeDeliveryFactory.make(coordinator: self)
-        self.navigationController = homeDeliveryViewController
-        
-        return self.navigationController
+    func start() -> UITabBarController? {
+        return createTabBar()
+    }
+    
+    private func createTabBar() -> UITabBarController {
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = Color.redBase
+        tabBarController.tabBar.unselectedItemTintColor = Color.gray500
+
+        let homeNav = HomeDeliveryFactory.make(coordinator: self)
+        navigationController = homeNav
+        homeNav.tabBarItem = UITabBarItem(
+            title: nil,
+            image: UIImage(named: "menu"),
+            selectedImage: UIImage(named: "menu")
+        )
+
+        let orderVC = OrderViewController()
+        let orderNav = UINavigationController(rootViewController: orderVC)
+        orderNav.tabBarItem = UITabBarItem(
+            title: nil,
+            image: UIImage(named: "order"),
+            selectedImage: UIImage(named: "order")
+        )
+
+        tabBarController.viewControllers = [homeNav, orderNav]
+        return tabBarController
     }
 }
 
@@ -69,6 +92,7 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
 // MARK: - PlaceMenu Coordinator
 extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
     public func openOrder() {
+        tabBarController?.selectedIndex = 1
     }
 }
 
