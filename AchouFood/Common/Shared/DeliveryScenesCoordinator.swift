@@ -61,8 +61,7 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
     }
     
     public func openMenu(place: Place) {
-        let viewController = PlaceMenuFactory.make(place: place,
-                                                   coordinator: self)
+        let viewController = PlaceMenuFactory.make(place: place, coordinator: self)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -72,3 +71,6 @@ extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
     public func openOrder() {
     }
 }
+
+
+

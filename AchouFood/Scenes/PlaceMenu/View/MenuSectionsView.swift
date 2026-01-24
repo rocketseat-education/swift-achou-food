@@ -17,6 +17,9 @@ struct MenuSectionsConstants {
 final class MenuSectionsView: UIView {
     
     private var items: [MenuCategory] = []
+    var scrollTableTo: ((Int) -> Void)?
+    var currentSelecteButton: Int = 0
+    var firstTime = true
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -49,6 +52,7 @@ final class MenuSectionsView: UIView {
         for (index, item) in items.enumerated() {
             let button = makeButton(title: item.category, index: index)
             stackView.addArrangedSubview(button)
+            applyDeselectedStyle(to: button)
         }
     }
     
@@ -68,16 +72,20 @@ final class MenuSectionsView: UIView {
     private func applySelectedStyle(to button: UIButton) {
         button.backgroundColor = Color.redDark
         button.setTitleColor(Color.gray200, for: .normal)
+        button.layer.borderColor = Color.gray200.cgColor
     }
     
     private func applyDeselectedStyle(to button: UIButton) {
         button.backgroundColor = .clear
         button.setTitleColor(Color.gray400, for: .normal)
+        button.layer.borderColor = Color.gray200.cgColor
     }
     
     @objc
     private func didTapButton(_ sender: UIButton) {
-        print(sender.tag)
+        let index = sender.tag
+        guard items.indices.contains(index) else { return }
+        setSelected(selectedIndex: index, needToScroll: true)
     }
 }
 
@@ -86,6 +94,37 @@ extension MenuSectionsView {
         if menuItems.isEmpty { return }
         self.items = menuItems
         createButtons()
+        setSelected(selectedIndex: 0, needToScroll: false)
+    }
+    
+    func setSelected(selectedIndex: Int, needToScroll: Bool) {
+        guard items.indices.contains(selectedIndex) else { return }
+        
+        swapButtons(selectedIndex: selectedIndex)
+        
+        if needToScroll {
+            scrollTableTo?(selectedIndex)
+        }
+    }
+    
+    func swapButtons(selectedIndex: Int) {
+        
+        if !firstTime && currentSelecteButton == selectedIndex {
+            firstTime = false
+            return
+        }
+        
+        if let previousButton = stackView.arrangedSubviews[currentSelecteButton] as? UIButton {
+            applyDeselectedStyle(to: previousButton)
+        }
+        
+        if let currentButton = stackView.arrangedSubviews[selectedIndex] as? UIButton {
+            applySelectedStyle(to: currentButton)
+            let rect = currentButton.convert(currentButton.bounds, to: scrollView)
+            scrollView.scrollRectToVisible(rect.insetBy(dx: -20, dy: 0), animated: true)
+        }
+        
+        currentSelecteButton = selectedIndex
     }
 }
 

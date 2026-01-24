@@ -17,16 +17,23 @@ public struct Place: Decodable {
     let longitude: Double
     let imageUrl: String
     let description: String
-    let menu: [MenuCategory]?
+    var menu: [MenuCategory]?
 }
 
 struct MenuCategory: Decodable {
     let category: String
-    let items: [MenuItem]
+    var items: [MenuItem]
 }
 
 struct MenuItem: Decodable {
     let name: String
     let price: Double
     let imageUrl: String
+    var selectedCount: Int = 0
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case price
+        case imageUrl
+    }
 }
