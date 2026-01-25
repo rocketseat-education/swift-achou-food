@@ -10,8 +10,11 @@ import SnapKit
 
 class OrderViewController: UIViewController {
     
+    let orderView = OrderView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        buildLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -21,5 +24,17 @@ class OrderViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+}
+
+extension OrderViewController: ViewCodeProtocol {
+    func setViewHierarchy() {
+        view.addSubview(orderView)
+    }
+    
+    func setViewConstraints() {
+        orderView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
