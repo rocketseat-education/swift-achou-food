@@ -237,6 +237,53 @@ extension PlaceMenuView: UITableViewDataSource {
         
         cell?.setup(place?.menu?[section].items[row])
         
+        cell?.handleAddItem = { [weak self] in
+            guard let self else { return }
+            
+            self.place?.menu?[section].items[row].selectedCount += 1
+                        
+            if let item = self.place?.menu?[section].items[row] {
+                OrderManager.shared.setItem(menuItem: item)
+            }
+            
+            let newCount = self.place?.menu?[section].items[row].selectedCount ?? 0
+            
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updateCount(newCount)
+            }
+            
+            self.orderDetailsView.setup(items: OrderManager.shared.qttItems(),
+                                        total: OrderManager.shared.totalOrder()
+            )
+        }
+        
+        cell?.handleRemoveItem = { [weak self] in
+            guard let self else { return }
+            
+            guard (self.place?.menu?[section].items[row].selectedCount ?? 0) > 0 else {
+                if let item = self.place?.menu?[section].items[row] {
+                    OrderManager.shared.setItem(menuItem: item)
+                }
+                return
+            }
+            
+            self.place?.menu?[section].items[row].selectedCount -= 1
+            
+            if let item = self.place?.menu?[section].items[row] {
+                OrderManager.shared.setItem(menuItem: item)
+            }
+            
+            let newCount = self.place?.menu?[section].items[row].selectedCount ?? 0
+            
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updateCount(newCount)
+            }
+            
+            self.orderDetailsView.setup(items: OrderManager.shared.qttItems(),
+                                        total: OrderManager.shared.totalOrder()
+            )
+        }
+        
         cell?.selectionStyle = .none
         return cell ?? UITableViewCell()
     }
