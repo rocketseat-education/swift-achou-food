@@ -23,6 +23,8 @@ struct MenuItemCellConstants {
 class MenuItemCell: UITableViewCell {
     
     static let identifier: String = "MenuItemCell"
+    public var handleAddItem: (() -> Void)?
+    public var handleRemoveItem: (() -> Void)?
     
     private lazy var placeImageView: UIImageView = {
         let view = UIImageView()
@@ -109,12 +111,12 @@ class MenuItemCell: UITableViewCell {
     
     @objc
     private func handleAdd() {
-        
+        handleAddItem?()
     }
     
     @objc
     private func handleRemove() {
-        
+        handleRemoveItem?()
     }
 }
 
@@ -125,6 +127,10 @@ extension MenuItemCell {
         itemNameLabel.text = menuItem.name
         itemPriceLabel.text = "R$ \(menuItem.price)"
         loadImage(with: menuItem.imageUrl)
+    }
+    
+    func updtateCount(_ count: Int) {
+        countItensLabel.text = "\(count)"
     }
 }
 
