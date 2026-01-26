@@ -19,6 +19,8 @@ struct OrderDetaisConstants {
 
 class OrderDetailsView: UIView {
     
+    var orderButtonTapped: (() -> Void)?
+    
     private lazy var itensLabel: UILabel = {
         let view = UILabel()
         view.font = Typography.label2Xs
@@ -55,7 +57,7 @@ class OrderDetailsView: UIView {
     
     @objc
     private func handleOrder() {
-        print("Tela de pedido")
+        orderButtonTapped?()
     }
 }
 

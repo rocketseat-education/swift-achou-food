@@ -21,6 +21,8 @@ struct OrderConstants {
 
 class OrderView: UIView {
     
+    var emptyOrderButtonTapped: (() -> Void)?
+    
     private lazy var placeImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
@@ -74,7 +76,6 @@ class OrderView: UIView {
         view.axis = .vertical
         view.spacing = 12
         view.alignment = .center
-        view.isHidden = false
         return view
     }()
     
@@ -105,7 +106,13 @@ class OrderView: UIView {
     
     @objc
     private func handleEmptyOrder() {
-        
+        emptyOrderButtonTapped?()
+    }
+}
+
+extension OrderView {
+    public func setup() {
+        emptyOrderStack.isHidden = !OrderManager.shared.isEmpty()
     }
 }
 

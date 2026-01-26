@@ -18,9 +18,9 @@ public class DeliveryScenesCoordinator {
     }
     
     private func createTabBar() -> UITabBarController {
-        let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = Color.redBase
-        tabBarController.tabBar.unselectedItemTintColor = Color.gray500
+        tabBarController = UITabBarController()
+        tabBarController?.tabBar.tintColor = Color.redBase
+        tabBarController?.tabBar.unselectedItemTintColor = Color.gray500
 
         let homeNav = HomeDeliveryFactory.make(coordinator: self)
         navigationController = homeNav
@@ -30,7 +30,7 @@ public class DeliveryScenesCoordinator {
             selectedImage: UIImage(named: "menu")
         )
 
-        let orderVC = OrderViewController()
+        let orderVC = OrderFactory.make(coordinator: self)
         let orderNav = UINavigationController(rootViewController: orderVC)
         orderNav.tabBarItem = UITabBarItem(
             title: nil,
@@ -38,8 +38,8 @@ public class DeliveryScenesCoordinator {
             selectedImage: UIImage(named: "order")
         )
 
-        tabBarController.viewControllers = [homeNav, orderNav]
-        return tabBarController
+        tabBarController?.viewControllers = [homeNav, orderNav]
+        return tabBarController ??  UITabBarController()
     }
 }
 
@@ -93,6 +93,19 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
 extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
     public func openOrder() {
         tabBarController?.selectedIndex = 1
+    }
+}
+
+// MARK: - Order Coordinator
+extension DeliveryScenesCoordinator: OrderCoordinator {
+    public func openMenu(place: Place?) {
+        if place != nil {
+            let orderController = tabBarController?.viewControllers?[1] as? OrderViewController
+            if orderController != nil {
+                orderController?.place = place
+            }
+        }
+        tabBarController?.selectedIndex = 0
     }
 }
 

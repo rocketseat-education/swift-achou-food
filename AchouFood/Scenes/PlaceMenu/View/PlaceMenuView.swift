@@ -29,6 +29,7 @@ struct PlaceMenuConstants {
 class PlaceMenuView: UIView {
     
     var onBackButtonTapped: (() -> Void)?
+    var showOrder: (() -> Void)?
     var place: Place?
     
     private lazy var backButton: UIImageView = {
@@ -128,6 +129,10 @@ class PlaceMenuView: UIView {
     private func bindActions() {
         menuSections.scrollTableTo = { [weak self] section in
             print("Nova secao selecionada")
+        }
+        
+        orderDetailsView.orderButtonTapped = { [weak self] in
+            self?.showOrder?()
         }
     }
 }
@@ -237,6 +242,50 @@ extension PlaceMenuView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.identifier, for: indexPath) as? MenuItemCell
         
         cell?.setup(place?.menu?[section].items[row])
+        
+        cell?.handleAddItem = { [weak self] in
+            guard let self = self else { return }
+            
+            self.place?.menu?[section].items[row].selectedCount += 1
+            
+            if let item  = self.place?.menu?[section].items[row] {
+                OrderManager.shared.setItem(menuItem: item)
+            }
+            
+            let newCount = self.place?.menu?[section].items[row].selectedCount ?? 0
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updtateCount(newCount)
+            }
+            
+            self.orderDetailsView.setup(itens: OrderManager.shared.qtdItens(),
+                                        total: OrderManager.shared.totalOrder())
+        }
+        
+        cell?.handleRemoveItem = { [weak self] in
+            guard let self = self else { return }
+            
+            guard (self.place?.menu?[section].items[row].selectedCount ?? 0) > 0 else {
+                if let item  = self.place?.menu?[section].items[row] {
+                    OrderManager.shared.setItem(menuItem: item)
+                }
+                return
+            }
+            
+            self.place?.menu?[section].items[row].selectedCount -= 1
+            
+            if let item  = self.place?.menu?[section].items[row] {
+                OrderManager.shared.setItem(menuItem: item)
+            }
+            
+            let newCount = self.place?.menu?[section].items[row].selectedCount ?? 0
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updtateCount(newCount)
+            }
+            
+            self.orderDetailsView.setup(itens: OrderManager.shared.qtdItens(),
+                                        total: OrderManager.shared.totalOrder())
+            
+        }
         
         cell?.selectionStyle = .none
         return cell ?? UITableViewCell()

@@ -36,17 +36,21 @@ class PlaceMenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        tabBarController?.tabBar.isHidden = true
     }
     
     private func bindActions() {
         placeMenuView.onBackButtonTapped = { [weak self] in
             self?.coordinator.back()
+        }
+        
+        placeMenuView.showOrder = { [weak self] in
+            self?.coordinator.openOrder()
         }
     }
 }
