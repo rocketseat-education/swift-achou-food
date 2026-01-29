@@ -46,38 +46,7 @@ class OrderView: UIView {
         return view
     }()
     
-    private lazy var emptyOrderIcon: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "receipt"))
-        view.tintColor = Color.redBase
-        return view
-    }()
-    
-    private lazy var emptyOrderLabel: UILabel = {
-        let view = UILabel()
-        view.font = Typography.bodySm
-        view.textColor = Color.gray500
-        view.text = "Você ainda não adicionou items"
-        return view
-    }()
-    
-    private lazy var emptyOrderButton: UIButton = {
-        let view  = UIButton()
-        view.backgroundColor = Color.grayTransparent80p
-        view.setTitle("EXPLORAR", for: .normal)
-        view.setTitleColor(Color.gray500, for: .normal)
-        view.titleLabel?.font = Typography.labelXs
-        view.addTarget(self, action: #selector(handleEmptyOrder), for: .touchUpInside)
-        view.setImage(UIImage(named: "menu"), for: .normal)
-        return view
-    }()
-    
-    private lazy var emptyOrderStack: UIStackView = {
-        let view  = UIStackView()
-        view.axis = .vertical
-        view.spacing = 12
-        view.alignment = .center
-        return view
-    }()
+    private lazy var emptyOrderView = EmptyOrderView()
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -88,6 +57,7 @@ class OrderView: UIView {
     public init() {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
@@ -104,15 +74,16 @@ class OrderView: UIView {
         }
     }
     
-    @objc
-    private func handleEmptyOrder() {
-        emptyOrderButtonTapped?()
+    private func bindActions() {
+        emptyOrderView.emptyOrderButtonTapped = { [weak self] in
+            self?.emptyOrderButtonTapped?()
+        }
     }
 }
 
 extension OrderView {
     public func setup() {
-        emptyOrderStack.isHidden = !OrderManager.shared.isEmpty()
+        emptyOrderView.isHidden = !OrderManager.shared.isEmpty()
     }
 }
 
@@ -122,10 +93,7 @@ extension OrderView: ViewCodeProtocol {
         addSubview(titleLabel)
         addSubview(subTitleLabel)
         addSubview(contentView)
-        contentView.addSubview(emptyOrderStack)
-        emptyOrderStack.addArrangedSubview(emptyOrderIcon)
-        emptyOrderStack.addArrangedSubview(emptyOrderLabel)
-        emptyOrderStack.addArrangedSubview(emptyOrderButton)
+        contentView.addSubview(emptyOrderView)
     }
     
     func setViewConstraints() {
@@ -153,18 +121,10 @@ extension OrderView: ViewCodeProtocol {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        emptyOrderStack.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(68.0)
+        emptyOrderView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20.0)
             make.leading.trailing.equalToSuperview().inset(20.0)
-        }
-        
-        emptyOrderButton.snp.makeConstraints { make in
-            make.width.equalTo(130.0)
-        }
-        
-        emptyOrderIcon.snp.makeConstraints { make in
-            make.width.equalTo(36)
-            make.height.equalTo(36)
+            make.height.equalTo(220.0)
         }
     }
     
@@ -178,10 +138,5 @@ extension OrderView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
-        
-        emptyOrderButton.clipsToBounds = true
-        emptyOrderButton.layer.cornerRadius = OrderDetaisConstants.buttonRadius
-        emptyOrderButton.layer.borderWidth = OrderDetaisConstants.buttonBorder
-        emptyOrderButton.layer.borderColor = Color.gray100.cgColor
     }
 }
