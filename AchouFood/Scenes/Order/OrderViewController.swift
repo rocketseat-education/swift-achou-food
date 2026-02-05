@@ -36,6 +36,7 @@ final class OrderViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        orderView.setup(with: place)
     }
     
     func bindActions() {

@@ -88,6 +88,12 @@ final class OrderView: UIView {
     }
 }
 
+extension OrderView {
+    func setup(with place: Place?) {
+        openOrderView.setup(with: place)
+    }
+}
+
 extension OrderView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(placeView)
@@ -152,7 +158,8 @@ extension OrderView: ViewCodeProtocol {
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
         
-        openOrderView.isHidden = true
+        emptyOrderView.isHidden = true
+        openOrderView.isHidden = false
         closedOrderView.isHidden = true
     }
 }
