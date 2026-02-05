@@ -28,6 +28,8 @@ struct PlaceMenuConstants {
 
 class PlaceMenuView: UIView {
     
+    private var isProgrammaticScroll = false
+    private var currentSection: Int = 0
     var onBackButtonTapped: (() -> Void)?
     var place: Place?
     
@@ -127,8 +129,52 @@ class PlaceMenuView: UIView {
     
     private func bindActions() {
         menuSections.scrollTableTo = { [weak self] section in
-            print("Nova seção selecionada")
+            self?.scrollToSection(section)
         }
+    }
+    
+    private func scrollToSection(_ section: Int) {
+        
+        isProgrammaticScroll = true
+        currentSection = section
+        
+        menuSections.setSelected(selectedIndex: section, needToScroll: false)
+        
+        let indexPath = IndexPath(row: 0, section: section)
+        
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            self?.isProgrammaticScroll = false
+        }
+    }
+    
+    private func updateMenuSections() {
+        guard !isProgrammaticScroll else { return }
+        
+        let posY = tableView.contentOffset.y + tableView.adjustedContentInset.top + 1
+        let point = CGPoint(x: 8, y: posY)
+        
+        if let indexPath = tableView.indexPathForRow(at: point) {
+            currentSection = indexPath.section
+            menuSections.setSelected(selectedIndex: currentSection, needToScroll: false)
+            return
+        }
+        
+        currentSection = sectionAtTop(y: posY)
+        menuSections.setSelected(selectedIndex: currentSection, needToScroll: false)
+    }
+    
+    private func sectionAtTop(y: CGFloat) -> Int {
+        guard let countSections = place?.menu?.count else { return 0 }
+        
+        for section in 0..<countSections {
+            let rect = tableView.rect(forSection: section)
+            if y >= rect.minY && y < rect.maxY {
+                return section
+            }
+        }
+        return 0
     }
 }
 
@@ -191,7 +237,8 @@ extension PlaceMenuView: ViewCodeProtocol {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(menuSections.snp.bottom).offset(PlaceMenuConstants.tablePadding)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(orderDetailsView.snp.top).offset(-12)
         }
         
         orderDetailsView.snp.makeConstraints { make in
@@ -291,6 +338,7 @@ extension PlaceMenuView: UITableViewDataSource {
 
 extension PlaceMenuView: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateMenuSections()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
