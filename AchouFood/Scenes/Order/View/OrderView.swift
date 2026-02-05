@@ -16,6 +16,7 @@ struct OrderConstants {
     static let placeImageViewSize = 22.0
     static let placeViewRadius = 8.0
     static let placeViewBorderWidth = 1.0
+    static let emptyOrderHeight = 220.0
 }
 
 final class OrderView: UIView {
@@ -64,6 +65,10 @@ final class OrderView: UIView {
         return view
     }()
     
+    private lazy var emptyOrderView = EmptyOrderView()
+    private lazy var openOrderView = OpenOrderView()
+    private lazy var closedOrderView = ClosedOrderView()
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         buildLayout()
@@ -78,10 +83,11 @@ extension OrderView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(placeView)
         addSubview(textStackView)
-//        addSubview(titleLabel)
-//        addSubview(subtitleLabel)
         addSubview(contentView)
         placeView.addSubview(placeImageView)
+        contentView.addSubview(emptyOrderView)
+        contentView.addSubview(closedOrderView)
+        contentView.addSubview(openOrderView)
     }
     
     func setViewConstraints() {
@@ -103,20 +109,23 @@ extension OrderView: ViewCodeProtocol {
             make.trailing.equalToSuperview().inset(Metrics.medium)
         }
         
-//        titleLabel.snp.makeConstraints { make in
-//            make.top.equalTo(placeImageView)
-//            make.leading.equalTo(placeView.snp.trailing).offset(Metrics.small)
-//            make.trailing.equalToSuperview().inset(Metrics.medium)
-//        }
-//        
-//        subtitleLabel.snp.makeConstraints { make in
-//            make.top.equalTo(titleLabel.snp.bottom)
-//            make.leading.equalTo(placeView.snp.trailing).offset(Metrics.small)
-//            make.trailing.equalToSuperview().inset(Metrics.medium)
-//        }
-        
         contentView.snp.makeConstraints { make in
             make.top.equalTo(placeView.snp.bottom).offset(Metrics.medium)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        emptyOrderView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview().inset(Metrics.medium)
+            make.height.equalTo(OrderConstants.emptyOrderHeight)
+        }
+        
+        openOrderView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Metrics.medium)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        closedOrderView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
