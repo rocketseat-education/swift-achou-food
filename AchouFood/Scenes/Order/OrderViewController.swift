@@ -31,6 +31,11 @@ final class OrderViewController: UIViewController {
         super.viewDidLoad()
         buildLayout()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
 }
 
 extension OrderViewController: ViewCodeProtocol {

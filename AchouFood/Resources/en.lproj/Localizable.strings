@@ -15,3 +15,5 @@
 "alert.settings" = "Abrir configurações";
 "placeMenu.title" = "CARDÁPIO";
 "placeMenu.order.buttonTitle" = "VER PEDIDO";
+"order.title" = "PEDIDO";
+"order.subtitle" = "Acompanhe seu pedido";
