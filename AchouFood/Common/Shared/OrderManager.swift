@@ -46,4 +46,8 @@ class OrderManager {
     public func clear() {
         items.removeAll()
     }
+    
+    public func getItems() -> [MenuItem] {
+        return items.values.sorted { $0.name < $1.name }
+    }
 }

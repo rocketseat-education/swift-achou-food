@@ -16,6 +16,7 @@ final class OpenOrderView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(HeaderOrderCell.self, forCellReuseIdentifier: HeaderOrderCell.reuseIdentifier)
+        tableView.register(MenuItemCell.self, forCellReuseIdentifier: MenuItemCell.reuseIdentifier)
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
@@ -83,7 +84,46 @@ extension OpenOrderView: UITableViewDataSource {
             }
         }
         
-        return UITableViewCell()
+        if indexPath.section == 2 {
+            return UITableViewCell()
+        }
+        
+        let items = OrderManager.shared.getItems()
+        var item = items[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.reuseIdentifier, for: indexPath) as? MenuItemCell
+        
+        cell?.setup(item)
+        
+        cell?.handleAddItem = { [weak self] in
+            guard let self = self else { return }
+            
+            item.selectedCount += 1
+            OrderManager.shared.setItem(menuItem: item)
+            
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updateCount(item.selectedCount)
+            }
+        }
+        
+        cell?.handleRemoveItem = { [weak self] in
+            guard let self = self else { return }
+            
+            guard item.selectedCount > 0 else {
+                OrderManager.shared.setItem(menuItem: item)
+                return
+            }
+            
+            item.selectedCount -= 1
+            OrderManager.shared.setItem(menuItem: item)
+            
+            if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
+                currentCell.updateCount(item.selectedCount)
+            }
+        }
+        
+        cell?.selectionStyle = .none
+        return cell ?? UITableViewCell()
     }
 }
 
