@@ -48,6 +48,10 @@ class PlaceMenuViewController: UIViewController {
         placeMenuView.onBackButtonTapped = { [weak self] in
             self?.coordinator.back()
         }
+        
+        placeMenuView.showOrder = { [weak self] in
+            self?.coordinator.openOrder()
+        }
     }
 }
 

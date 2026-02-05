@@ -93,11 +93,13 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
 // MARK: - PlaceMenu Coordinator
 extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
     public func openOrder() {
+        tabBarController?.selectedIndex = 1
     }
 }
 
 // MARK: - Order Coordinator
 extension DeliveryScenesCoordinator: OrderCoordinator {
     public func openMenu() {
+        tabBarController?.selectedIndex = 0
     }
 }

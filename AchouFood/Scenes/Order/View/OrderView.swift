@@ -21,6 +21,8 @@ struct OrderConstants {
 
 final class OrderView: UIView {
     
+    var emptyOrderButtonTapped: (() -> Void)?
+    
     private lazy var placeView: UIView = {
         let view = UIView()
         view.backgroundColor = Color.gray300
@@ -72,10 +74,17 @@ final class OrderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func bindActions() {
+        emptyOrderView.emptyOrderButtonTapped = { [weak self] in
+            self?.emptyOrderButtonTapped?()
+        }
     }
 }
 
@@ -115,17 +124,18 @@ extension OrderView: ViewCodeProtocol {
         }
         
         emptyOrderView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview().inset(Metrics.medium)
+            make.top.equalToSuperview().offset(Metrics.medium)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(OrderConstants.emptyOrderHeight)
         }
         
         openOrderView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Metrics.medium)
+            make.top.equalToSuperview().offset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
         closedOrderView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Metrics.medium)
+            make.top.equalToSuperview().offset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -141,5 +151,8 @@ extension OrderView: ViewCodeProtocol {
         contentView.layer.cornerRadius = Metrics.medium
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
+        
+        openOrderView.isHidden = true
+        closedOrderView.isHidden = true
     }
 }

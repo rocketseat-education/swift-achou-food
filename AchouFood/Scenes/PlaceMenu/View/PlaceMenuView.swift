@@ -31,6 +31,7 @@ class PlaceMenuView: UIView {
     private var isProgrammaticScroll = false
     private var currentSection: Int = 0
     var onBackButtonTapped: (() -> Void)?
+    var showOrder: (() -> Void)?
     var place: Place?
     
     private lazy var backButton: UIImageView = {
@@ -130,6 +131,10 @@ class PlaceMenuView: UIView {
     private func bindActions() {
         menuSections.scrollTableTo = { [weak self] section in
             self?.scrollToSection(section)
+        }
+        
+        orderDetailsView.onOrderButtonTapped = { [weak self] in
+            self?.showOrder?()
         }
     }
     

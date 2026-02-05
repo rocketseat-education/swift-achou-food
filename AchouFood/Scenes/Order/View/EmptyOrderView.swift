@@ -10,6 +10,12 @@ import SnapKit
 
 struct EmptyOrderConstants {
     static let noItems = "order.title.empty".localized
+    static let explore = "order.title.explore".localized
+    static let stackTop = 48.0
+    static let emptyOrderButtonWidth = 130.0
+    static let orderIconSize = 36.0
+    static let buttonRadius = 22.0
+    static let buttonBorderWidth = 1.0
 }
 
 final class EmptyOrderView: UIView {
@@ -35,7 +41,7 @@ final class EmptyOrderView: UIView {
     private lazy var emptyOrderButton: UIButton = {
         var config = UIButton.Configuration.plain()
         
-        var titleAttr = AttributedString("EXPLORAR")
+        var titleAttr = AttributedString(EmptyOrderConstants.explore)
         titleAttr.font = Typography.labelXs
         config.attributedTitle = titleAttr
         
@@ -44,7 +50,7 @@ final class EmptyOrderView: UIView {
         config.baseForegroundColor = Color.gray500
         config.background.backgroundColor = Color.grayTransparent80p
         
-        config.background.cornerRadius = 22
+        config.background.cornerRadius = EmptyOrderConstants.buttonRadius
         config.cornerStyle = .capsule
         
         let button = UIButton(configuration: config)
@@ -85,17 +91,17 @@ extension EmptyOrderView: ViewCodeProtocol {
     
     func setViewConstraints() {
         emptyOrderStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(48.0)
+            make.top.equalToSuperview().inset(EmptyOrderConstants.stackTop)
             make.leading.trailing.equalToSuperview()
         }
         
         emptyOrderButton.snp.makeConstraints { make in
-            make.width.equalTo(130.0)
+            make.width.equalTo(EmptyOrderConstants.emptyOrderButtonWidth)
             make.height.equalTo(44.0)
         }
         
         emptyOrderIcon.snp.makeConstraints { make in
-            make.size.equalTo(36.0)
+            make.size.equalTo(EmptyOrderConstants.orderIconSize)
         }
     }
     
@@ -109,7 +115,7 @@ extension EmptyOrderView: ViewCodeProtocol {
         emptyOrderButton.layer.shadowOffset = CGSize(width: 2, height: 4)
         emptyOrderButton.layer.shadowRadius = 8.0
 
-        emptyOrderButton.layer.borderWidth = 1.0
+        emptyOrderButton.layer.borderWidth = EmptyOrderConstants.buttonBorderWidth
         emptyOrderButton.layer.borderColor = Color.gray100.cgColor
     }
 }

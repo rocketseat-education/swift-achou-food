@@ -18,3 +18,4 @@
 "order.title" = "PEDIDO";
 "order.subtitle" = "Acompanhe seu pedido";
 "order.title.empty" = "Você ainda não adicionou itens";
+"order.title.explore" = "EXPLORAR";
