@@ -60,3 +60,9 @@ extension OrderViewController: ViewCodeProtocol {
     func setViewConfigs() {
     }
 }
+
+extension OrderViewController {
+    public func setPlace(place: Place?) {
+        self.place = place
+    }
+}

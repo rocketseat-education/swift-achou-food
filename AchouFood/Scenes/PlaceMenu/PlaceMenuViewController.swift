@@ -12,11 +12,13 @@ class PlaceMenuViewController: UIViewController {
     
     private var placeMenuView: PlaceMenuView
     private var coordinator: PlaceMenuCoordinator
+    private var place: Place?
     
     public init(place: Place,
                 placeMenuView: PlaceMenuView,
                 coordinator: PlaceMenuCoordinator
     ) {
+        self.place = place
         self.placeMenuView = placeMenuView
         self.placeMenuView.setup(place: place)
         self.coordinator = coordinator
@@ -50,7 +52,7 @@ class PlaceMenuViewController: UIViewController {
         }
         
         placeMenuView.showOrder = { [weak self] in
-            self?.coordinator.openOrder()
+            self?.coordinator.openOrder(place: self?.place)
         }
     }
 }
