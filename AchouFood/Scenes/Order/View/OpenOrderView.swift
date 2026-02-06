@@ -85,7 +85,9 @@ extension OpenOrderView: UITableViewDataSource {
         }
         
         if indexPath.section == 2 {
-            return UITableViewCell()
+            let inputCell = tableView.dequeueReusableCell(withIdentifier: OrderInputCell.reuseIdentifier, for: indexPath) as! OrderInputCell
+            
+            return inputCell
         }
         
         let items = OrderManager.shared.getItems()
