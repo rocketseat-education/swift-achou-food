@@ -22,6 +22,7 @@ struct OrderConstants {
 final class OrderView: UIView {
     
     var emptyOrderButtonTapped: (() -> Void)?
+    private var place: Place?
     
     private lazy var placeView: UIView = {
         let view = UIView()
@@ -90,7 +91,10 @@ final class OrderView: UIView {
 
 extension OrderView {
     func setup(with place: Place?) {
+        guard let place = place else { return }
+        self.place = place
         openOrderView.setup(with: place)
+        closedOrderView.setup(place: place)
     }
 }
 
@@ -159,7 +163,7 @@ extension OrderView: ViewCodeProtocol {
         contentView.clipsToBounds = true
         
         emptyOrderView.isHidden = true
-        openOrderView.isHidden = false
-        closedOrderView.isHidden = true
+        openOrderView.isHidden = true
+        closedOrderView.isHidden = false
     }
 }
