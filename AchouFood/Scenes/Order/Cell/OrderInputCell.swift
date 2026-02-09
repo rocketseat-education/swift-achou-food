@@ -8,6 +8,11 @@
 import UIKit
 import SnapKit
 
+struct OrderInputCellConstants {
+    static let containerHeight = 160.0
+    static let padding = 18.0
+}
+
 final class OrderInputCell: UITableViewCell {
     
     var onTextChanged: ((String) -> Void)?
@@ -85,7 +90,7 @@ extension OrderInputCell: ViewCodeProtocol {
     func setViewConstraints() {
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Metrics.tiny)
-            make.height.greaterThanOrEqualTo(160)
+            make.height.greaterThanOrEqualTo(OrderInputCellConstants.containerHeight)
         }
         
         textView.snp.makeConstraints { make in
@@ -93,9 +98,9 @@ extension OrderInputCell: ViewCodeProtocol {
         }
         
         placeholderLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(18)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-28)
+            make.top.equalToSuperview().offset(OrderInputCellConstants.padding)
+            make.leading.equalToSuperview().offset(OrderInputCellConstants.padding)
+            make.trailing.equalToSuperview().offset(OrderInputCellConstants.padding)
         }
     }
     
