@@ -12,11 +12,13 @@ class PlaceMenuViewController: UIViewController {
     
     private var placeMenuView: PlaceMenuView
     private var coordinator: PlaceMenuCoordinator
+    private var place: Place?
     
     public init(place: Place,
                 placeMenuView: PlaceMenuView,
                 coordinator: PlaceMenuCoordinator
     ) {
+        self.place = place
         self.placeMenuView = placeMenuView
         self.placeMenuView.setup(place: place)
         self.coordinator = coordinator
@@ -36,6 +38,8 @@ class PlaceMenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+        tabBarController?.tabBar.isHidden = true
+        placeMenuView.resetMenu()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,6 +51,10 @@ class PlaceMenuViewController: UIViewController {
         placeMenuView.onBackButtonTapped = { [weak self] in
             self?.coordinator.back()
         }
+        
+        placeMenuView.showOrder = { [weak self] in
+            self?.coordinator.openOrder(place: self?.place)
+        }
     }
 }
 
@@ -56,6 +64,8 @@ extension PlaceMenuViewController: ViewCodeProtocol {
     }
     
     func setViewConstraints() {
+        
+        
         placeMenuView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

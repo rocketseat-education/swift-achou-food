@@ -31,6 +31,7 @@ class PlaceMenuView: UIView {
     private var isProgrammaticScroll = false
     private var currentSection: Int = 0
     var onBackButtonTapped: (() -> Void)?
+    var showOrder: (() -> Void)?
     var place: Place?
     
     private lazy var backButton: UIImageView = {
@@ -79,7 +80,7 @@ class PlaceMenuView: UIView {
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
-        view.register(MenuItemCell.self, forCellReuseIdentifier: MenuItemCell.identifier)
+        view.register(MenuItemCell.self, forCellReuseIdentifier: MenuItemCell.reuseIdentifier)
         view.separatorStyle = .none
         view.dataSource = self
         view.delegate = self
@@ -130,6 +131,10 @@ class PlaceMenuView: UIView {
     private func bindActions() {
         menuSections.scrollTableTo = { [weak self] section in
             self?.scrollToSection(section)
+        }
+        
+        orderDetailsView.orderButtonTapped = { [weak self] in
+            self?.showOrder?()
         }
     }
     
@@ -185,6 +190,12 @@ extension PlaceMenuView {
         self.subTitleLabel.text = place.restaurantName
         loadImage(with: place.imageUrl)
         menuSections.setup(menuItems: place.menu ?? [])
+    }
+    
+    func resetMenu() {
+        place?.resetSelectedItemsCount()
+        OrderManager.shared.clear()
+        tableView.reloadData()
     }
 }
 
@@ -282,7 +293,7 @@ extension PlaceMenuView: UITableViewDataSource {
         let section = indexPath.section
         let row = indexPath.row
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.identifier, for: indexPath) as? MenuItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuItemCell.reuseIdentifier, for: indexPath) as? MenuItemCell
         
         cell?.setup(place?.menu?[section].items[row])
         

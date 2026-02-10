@@ -1,15 +1,16 @@
 //
-//  OrderDetailsView.swift
+//  ConfirmOrderDetailsView.swift
 //  AchouFood
 //
-//  Created by Silvano Malfatti on 23/01/26.
+//  Created by Silvano Malfatti on 07/02/26.
 //
+
 
 import UIKit
 import SnapKit
 
 
-struct OrderDetaisConstants {
+struct ConfirmOrderDetailsConstants {
     static let orderTitleButton = "placeMenu.order.buttonTitle".localized
     static let buttonPadding = 20.0
     static let buttonWidth = 140.0
@@ -17,7 +18,7 @@ struct OrderDetaisConstants {
     static let buttonBorder = 1.0
 }
 
-class OrderDetailsView: UIView {
+class ConfirmOrderDetailsView: UIView {
     
     var orderButtonTapped: (() -> Void)?
     
@@ -38,11 +39,10 @@ class OrderDetailsView: UIView {
     private lazy var orderButton: UIButton = {
         let view  = UIButton()
         view.backgroundColor = Color.grayTransparent80p
-        view.setTitle(OrderDetaisConstants.orderTitleButton, for: .normal)
-        view.setTitleColor(Color.gray500, for: .normal)
+        view.setTitle("CONFIRMAR PEDIDO", for: .normal)
+        view.setTitleColor(Color.redBase, for: .normal)
         view.titleLabel?.font = Typography.labelXs
         view.addTarget(self, action: #selector(handleOrder), for: .touchUpInside)
-        view.setImage(UIImage(named: "order"), for: .normal)
         return view
     }()
     
@@ -61,14 +61,14 @@ class OrderDetailsView: UIView {
     }
 }
 
-extension OrderDetailsView {
+extension ConfirmOrderDetailsView {
     func setup(itens: String, total: String) {
         itensLabel.text = itens
         totalLabel.text = total
     }
 }
 
-extension OrderDetailsView: ViewCodeProtocol {
+extension ConfirmOrderDetailsView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(orderButton)
         addSubview(itensLabel)

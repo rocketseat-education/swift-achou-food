@@ -38,7 +38,15 @@ class OrderManager {
         return String(format: "R$ %.2f", total)
     }
     
+    public func size() -> Int {
+        return items.count
+    }
+    
     public func clear() {
         items.removeAll()
+    }
+    
+    public func getItems() -> [MenuItem] {
+        return items.values.sorted { $0.name < $1.name }
     }
 }

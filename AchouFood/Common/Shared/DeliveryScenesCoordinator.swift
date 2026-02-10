@@ -10,13 +10,34 @@ import MapKit
 
 public class DeliveryScenesCoordinator {
     private var navigationController: UINavigationController?
+    private var tabBarController: UITabBarController?
     
     // MARK: - Start
-    func start() -> UINavigationController? {
-        let homeDeliveryViewController = HomeDeliveryFactory.make(coordinator: self)
-        self.navigationController = homeDeliveryViewController
+    func start() -> UITabBarController? {
+        return createTabBar()
+    }
+    
+    private func createTabBar() -> UITabBarController? {
+        tabBarController = UITabBarController()
+        tabBarController?.tabBar.tintColor = Color.redBase
+        tabBarController?.tabBar.unselectedItemTintColor = Color.gray500
         
-        return self.navigationController
+        navigationController = HomeDeliveryFactory.make(coordinator: self)
+        let orderViewController = OrderFactory.make(coordinator: self)
+        
+        navigationController?.tabBarItem = UITabBarItem(
+            title: nil,
+            image: UIImage(named: "menu"),
+            selectedImage: UIImage(named: "menu"))
+            
+            orderViewController.tabBarItem = UITabBarItem(
+                                title: nil,
+                                image: UIImage(named: "order"),
+                                selectedImage: UIImage(named: "order"))
+            
+        tabBarController?.viewControllers = [navigationController!, orderViewController]
+        
+        return tabBarController
     }
 }
 
@@ -68,7 +89,19 @@ extension DeliveryScenesCoordinator: PlaceDetailCoordinator {
 
 // MARK: - PlaceMenu Coordinator
 extension DeliveryScenesCoordinator: PlaceMenuCoordinator {
-    public func openOrder() {
+    public func openOrder(place: Place?) {
+        tabBarController?.selectedIndex = 1
+        if let orderViewController = tabBarController?.viewControllers?[1] as? OrderViewController {
+            orderViewController.setPlace(place: place)
+            tabBarController?.selectedIndex = 1
+        }
+    }
+}
+
+// MARK: - Order Coordinator
+extension DeliveryScenesCoordinator: OrderCoordinator {
+    public func openMenu() {
+        tabBarController?.selectedIndex = 0
     }
 }
 
