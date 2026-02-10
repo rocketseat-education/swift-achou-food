@@ -43,3 +43,14 @@ struct MenuItem: Decodable {
         selectedCount = 0
     }
 }
+
+extension Place {
+    mutating func resetSelectedItemsCount() {
+        guard menu != nil else { return }
+        for categoryIndex in menu!.indices {
+            for itemIndex in menu![categoryIndex].items.indices {
+                menu![categoryIndex].items[itemIndex].selectedCount = 0
+            }
+        }
+    }
+}

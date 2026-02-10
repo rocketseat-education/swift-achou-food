@@ -12,6 +12,7 @@ final class OpenOrderView: UIView {
     
     private var sections = ["PEDIDOS DE", "ITENS", "OBSERVAÇÃO"]
     private var place: Place?
+    var orderButtonTapped: (() -> Void)?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -38,10 +39,17 @@ final class OpenOrderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         buildLayout()
+        bindActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bindActions() {
+        confirmOrderDetailsView.onOrderButtonTapped = { [weak self] in
+            self?.orderButtonTapped?()
+        }
     }
 }
 
@@ -86,7 +94,7 @@ extension OpenOrderView: ViewCodeProtocol {
 
 extension OpenOrderView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return place == nil ? 0 : sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

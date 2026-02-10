@@ -190,6 +190,12 @@ extension PlaceMenuView {
         loadImage(with: place.imageUrl)
         menuSections.setup(menuItems: place.menu ?? [])
     }
+    
+    func resetMenu() {
+        place?.resetSelectedItemsCount()
+        OrderManager.shared.clear()
+        tableView.reloadData()
+    }
 }
 
 extension PlaceMenuView: ViewCodeProtocol {

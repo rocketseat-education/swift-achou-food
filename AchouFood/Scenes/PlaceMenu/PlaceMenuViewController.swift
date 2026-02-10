@@ -39,6 +39,7 @@ class PlaceMenuViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
         tabBarController?.tabBar.isHidden = true
+        placeMenuView.resetMenu()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

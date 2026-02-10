@@ -86,6 +86,15 @@ final class OrderView: UIView {
         emptyOrderView.emptyOrderButtonTapped = { [weak self] in
             self?.emptyOrderButtonTapped?()
         }
+        
+        openOrderView.orderButtonTapped = { [weak self] in
+            guard let self = self else { return }
+            if let place = place {
+                self.openOrderView.isHidden = true
+                self.closedOrderView.isHidden = false
+                self.closedOrderView.setup(place: place)
+            }
+        }
     }
 }
 
@@ -93,7 +102,15 @@ extension OrderView {
     func setup(with place: Place?) {
         guard let place = place else { return }
         self.place = place
-        openOrderView.setup(with: place)
+        
+        if OrderManager.shared.getItems().isEmpty {
+            emptyOrderView.isHidden = false
+        } else {
+            emptyOrderView.isHidden = true
+            openOrderView.isHidden = false
+            openOrderView.setup(with: place)
+        }
+        
         closedOrderView.setup(place: place)
     }
 }
@@ -162,8 +179,8 @@ extension OrderView: ViewCodeProtocol {
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
         
-        emptyOrderView.isHidden = true
+        emptyOrderView.isHidden = false
         openOrderView.isHidden = true
-        closedOrderView.isHidden = false
+        closedOrderView.isHidden = true
     }
 }
