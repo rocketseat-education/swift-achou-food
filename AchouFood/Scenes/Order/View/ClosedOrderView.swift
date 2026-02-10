@@ -14,23 +14,15 @@ final class ClosedOrderView: UIView {
     
     private lazy var orderSuccess = OrderSuccessBanner()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = Typography.label2Xs
-        label.textColor = Color.gray500
-        label.text = "EM ANDAMENTO"
-        return label
-    }()
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(TotalOrderCell.self, forCellReuseIdentifier: TotalOrderCell.reuseIdentifier)
+        tableView.register(OrderItemCell.self, forCellReuseIdentifier: OrderItemCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
-        tableView.rowHeight = 80.0
         return tableView
     }()
     
@@ -54,7 +46,6 @@ extension ClosedOrderView {
 extension ClosedOrderView: ViewCodeProtocol {
     func setViewHierarchy() {
         addSubview(orderSuccess)
-        addSubview(titleLabel)
         addSubview(tableView)
     }
     
@@ -65,13 +56,8 @@ extension ClosedOrderView: ViewCodeProtocol {
             make.height.equalTo(96.0)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(orderSuccess.snp.bottom).offset(Metrics.medium)
-            make.leading.trailing.equalToSuperview().inset(Metrics.medium)
-        }
-        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(orderSuccess.snp.bottom).offset(Metrics.medium)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -85,7 +71,35 @@ extension ClosedOrderView: ViewCodeProtocol {
 }
 
 extension ClosedOrderView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.section == 0 ? 80 : 60
+    }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0) {
+            return 14.0
+        }
+        return 0.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if (section == 0) {
+            let label = UILabel()
+            label.font = Typography.label2Xs
+            label.textColor = Color.gray500
+            label.text = "EM ANDAMENTO"
+            return label
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return nil
+    }
 }
 
 extension ClosedOrderView: UITableViewDataSource {
@@ -111,6 +125,12 @@ extension ClosedOrderView: UITableViewDataSource {
             return cell ?? UITableViewCell()
         }
         
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: OrderItemCell.reuseIdentifier, for: indexPath) as? OrderItemCell
+        
+        let items = OrderManager.shared.getItems()
+        
+        cell?.setup(with: items[indexPath.row])
+        
+        return cell ?? UITableViewCell()
     }
 }
