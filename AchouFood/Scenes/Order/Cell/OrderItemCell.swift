@@ -51,16 +51,6 @@ class OrderItemCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func loadImage(with urlString: String) {
-        if let url = URL(string: urlString) {
-            itemImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(systemName: "photo"),
-                options: [.transition(.fade(0.3))]
-            )
-        }
-    }
 }
 
 extension OrderItemCell {
@@ -68,7 +58,7 @@ extension OrderItemCell {
         itemNameLabel.text = item.name
         qtdItemsLabel.text = "\(item.selectedCount) " + (item.selectedCount > 1 ? "unidades" : "unidade")
         totalItemLabel.text = "R$ \(item.price)"
-        loadImage(with: item.imageUrl)
+        itemImageView.loadImage(from: item.imageUrl)
     }
 }
 

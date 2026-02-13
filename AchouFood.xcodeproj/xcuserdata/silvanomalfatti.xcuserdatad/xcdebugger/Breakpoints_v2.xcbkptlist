@@ -14,9 +14,9 @@
             filePath = "AchouFood/Scenes/PlaceMenu/View/PlaceMenuView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "scrollToSection(_:)"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "bindActions()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -71,22 +71,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E54AC166-91C3-446E-BCD7-639435F30697"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AchouFood/Scenes/PlaceDetail/View/PlaceDetailView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "showPlaceOnMap(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "136A9C78-7629-4280-A678-ADD01E334B10"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -103,32 +87,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FE0882FF-A272-4EFF-81D3-91269A3CA989"
+            uuid = "3AA66982-CBCD-4EAF-A5CD-22695514E13D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AchouFood/Scenes/Order/View/OpenOrderView.swift"
+            filePath = "AchouFood/Scenes/Order/Cell/OrderItemCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "setup(item:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "35807AE5-57C4-46AD-A4EF-6D667A022468"
+            uuid = "15ACAC04-8D77-4FE7-A2ED-A8779DFBF63C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AchouFood/Scenes/Order/View/OrderView.swift"
+            filePath = "AchouFood/Scenes/PlaceMenu/Cell/MenuItemCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "setup(place:)"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "setup(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

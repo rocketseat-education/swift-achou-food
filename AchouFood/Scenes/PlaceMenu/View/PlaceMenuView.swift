@@ -118,16 +118,6 @@ class PlaceMenuView: UIView {
         onBackButtonTapped?()
     }
     
-    private func loadImage(with urlString: String) {
-        if let url = URL(string: urlString) {
-            placeImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(systemName: "photo"),
-                options: [.transition(.fade(0.3))]
-            )
-        }
-    }
-    
     private func bindActions() {
         menuSections.scrollTableTo = { [weak self] section in
             self?.scrollToSection(section)
@@ -188,7 +178,7 @@ extension PlaceMenuView {
     func setup(place: Place) {
         self.place = place
         self.subTitleLabel.text = place.restaurantName
-        loadImage(with: place.imageUrl)
+        placeImageView.loadImage(from: place.imageUrl)
         menuSections.setup(menuItems: place.menu ?? [])
     }
     

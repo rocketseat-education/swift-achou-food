@@ -55,6 +55,7 @@ class PlaceDetailButtons: UIView {
         view.titleLabel?.font = Typography.labelXs
         view.addTarget(self, action: #selector(handleTraceRoute), for: .touchUpInside)
         view.setImage(UIImage(named: PlaceDetailButtonsConstants.routeImage), for: .normal)
+        view.titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -8.0)
         return view
     }()
     
@@ -66,6 +67,7 @@ class PlaceDetailButtons: UIView {
         view.titleLabel?.font = Typography.labelXs
         view.addTarget(self, action: #selector(handleOpenMenu), for: .touchUpInside)
         view.setImage(UIImage(named: PlaceDetailButtonsConstants.menuImage), for: .normal)
+        view.titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -8.0)
         return view
     }()
     

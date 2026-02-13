@@ -110,16 +110,6 @@ class PlaceDetailView: UIView {
         onBackButtonTapped?()
     }
     
-    private func loadImage(with urlString: String) {
-        if let url = URL(string: urlString) {
-            placeImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(systemName: "photo"),
-                options: [.transition(.fade(0.3))]
-            )
-        }
-    }
-    
     private func showPlaceOnMap(_ place: Place) {
         let coords = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         let pin = MKPointAnnotation()
@@ -243,7 +233,7 @@ extension PlaceDetailView {
         self.place = place
         titleLabel.text = place.restaurantName
         descriptionLabel.text = place.description
-        loadImage(with: place.imageUrl)
+        placeImageView.loadImage(from: place.imageUrl)
         placeDetailButtons.setup(place: place)
         showPlaceOnMap(place)
     }

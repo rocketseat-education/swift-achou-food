@@ -49,22 +49,13 @@ class PlaceDetailMapView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func loadImage(with urlString: String) {
-        if let url = URL(string: urlString) {
-            placeImageView.kf.setImage(with: url,
-                                       placeholder: UIImage(systemName: "photo"),
-                                       options: [.transition(.fade(0.3))]
-            )
-        }
-    }
 }
 
 extension PlaceDetailMapView {
     func setup(place: Place) {
         placeNameLabel.text = place.restaurantName
         placeAddressLabel.text = place.address
-        loadImage(with: place.imageUrl)
+        placeImageView.loadImage(from: place.imageUrl)
     }
 }
 
