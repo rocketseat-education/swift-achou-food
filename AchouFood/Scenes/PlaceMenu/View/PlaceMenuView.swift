@@ -89,6 +89,7 @@ class PlaceMenuView: UIView {
         view.sectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
         view.estimatedSectionHeaderHeight = PlaceMenuConstants.tableSectionHeight
         view.rowHeight = PlaceMenuConstants.rowHeight
+        view.contentInset.bottom = 300.0
         return view
     }()
     
@@ -186,6 +187,8 @@ extension PlaceMenuView {
         place?.resetSelectedItemsCount()
         OrderManager.shared.clear()
         tableView.reloadData()
+        self.orderDetailsView.setup(itens: OrderManager.shared.qtdItens(),
+                                    total: OrderManager.shared.totalOrder())
     }
 }
 
@@ -240,7 +243,7 @@ extension PlaceMenuView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(menuSections.snp.bottom).offset(PlaceMenuConstants.tablePading)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(orderDetailsView.snp.top).offset(-12)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
         orderDetailsView.snp.makeConstraints { make in
@@ -262,6 +265,12 @@ extension PlaceMenuView: ViewCodeProtocol {
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.clipsToBounds = true
         
+        orderDetailsView.clipsToBounds = false
+        orderDetailsView.layer.masksToBounds = false
+        orderDetailsView.layer.shadowColor = UIColor.black.cgColor
+        orderDetailsView.layer.shadowOpacity = 0.08
+        orderDetailsView.layer.shadowOffset = CGSize(width: 2, height: 4)
+        orderDetailsView.layer.shadowRadius = 8.0
         orderDetailsView.layer.masksToBounds = true
         orderDetailsView.layer.cornerRadius = 18.0
         orderDetailsView.layer.borderWidth = 1.5

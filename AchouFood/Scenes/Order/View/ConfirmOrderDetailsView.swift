@@ -66,6 +66,11 @@ extension ConfirmOrderDetailsView {
         itensLabel.text = itens
         totalLabel.text = total
     }
+    
+    func setButtonEnable(_ isEnabled: Bool) {
+        self.orderButton.isEnabled = isEnabled
+        orderButton.setTitleColor(isEnabled ? Color.redBase : Color.gray400, for: .normal)
+    }
 }
 
 extension ConfirmOrderDetailsView: ViewCodeProtocol {

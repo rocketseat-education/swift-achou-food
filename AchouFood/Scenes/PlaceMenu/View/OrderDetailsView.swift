@@ -95,7 +95,12 @@ extension OrderDetailsView: ViewCodeProtocol {
     
     func setViewConfigs() {
         backgroundColor = Color.grayTransparent80p
-        orderButton.clipsToBounds = true
+        orderButton.clipsToBounds = false
+        orderButton.layer.masksToBounds = false
+        orderButton.layer.shadowColor = UIColor.black.cgColor
+        orderButton.layer.shadowOpacity = 0.08
+        orderButton.layer.shadowOffset = CGSize(width: 2, height: 4)
+        orderButton.layer.shadowRadius = 8.0
         orderButton.layer.cornerRadius = OrderDetaisConstants.buttonRadius
         orderButton.layer.borderWidth = OrderDetaisConstants.buttonBorder
         orderButton.layer.borderColor = Color.gray100.cgColor

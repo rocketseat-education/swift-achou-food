@@ -132,6 +132,8 @@ extension OpenOrderView: UITableViewDataSource {
             item.selectedCount += 1
             OrderManager.shared.setItem(menuItem: item)
             
+            confirmOrderDetailsView.setButtonEnable(true)
+            
             if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
                 currentCell.updtateCount(item.selectedCount)
             }
@@ -150,6 +152,7 @@ extension OpenOrderView: UITableViewDataSource {
             
             item.selectedCount -= 1
             OrderManager.shared.setItem(menuItem: item)
+            confirmOrderDetailsView.setButtonEnable(OrderManager.shared.size() > 0)
             
             if let currentCell = self.tableView.cellForRow(at: indexPath) as? MenuItemCell {
                 currentCell.updtateCount(item.selectedCount)
